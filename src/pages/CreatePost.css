@@ -1,0 +1,55 @@
+.create-post-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 20px;
+  text-align: center;
+}
+
+.create-post-container h2 {
+  margin-bottom: 15px;
+}
+
+.create-post-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.create-post-container input,
+.create-post-container textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+}
+
+.create-post-container button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: 0.3s ease;
+}
+
+.create-post-container button:hover {
+  background-color: #0056b3;
+}
+
+.create-post-btn {
+  background-color: #28a745;
+  color: white;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 5px;
+  border: none;
+  transition: 0.3s ease;
+  display: block;
+  margin: 20px auto;
+}
+
+.create-post-btn:hover {
+  background-color: #218838;
+}

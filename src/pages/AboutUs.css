@@ -1,0 +1,124 @@
+.aboutus-container {
+  text-align: center;
+  padding: 60px 20px;
+  background: #f8f9fa;
+}
+
+/* Mission & Vision */
+.mission-vision {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  margin: 40px auto;
+  flex-wrap: wrap;
+}
+
+.mission,
+.vision,
+.values,
+.approach,
+.commitment,
+.growth {
+  max-width: 300px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mission h3,
+.vision h3,
+.values h3,
+.approach h3,
+.commitment h3,
+.growth h3 {
+  color: #2c3e50;
+}
+
+/* Founders Section */
+.founders {
+  margin-top: 40px;
+}
+
+.founders h3 {
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.founder-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  flex-wrap: wrap;
+}
+
+.founder-card {
+  width: 250px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  padding: 20px;
+}
+
+.founder-card img {
+  width: 200px;
+  height: 250px;
+  margin-bottom: 10px;
+}
+
+.founder-card h4 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.founder-card p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* Community Impact */
+.community-impact {
+  margin-top: 50px;
+}
+
+.impact-stats {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 20px;
+}
+
+.stat {
+  text-align: center;
+}
+
+.stat h4 {
+  font-size: 30px;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+.stat p {
+  font-size: 16px;
+  color: #666;
+}
+
+/* Call to Action */
+.about-buttons {
+  margin-top: 40px;
+}
+
+.primary-btn {
+  background-color: black;
+  color: white;
+  padding: 12px 25px;
+  font-size: 18px;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.primary-btn:hover {
+  background-color: #333;
+}
