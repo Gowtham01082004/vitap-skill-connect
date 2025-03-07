@@ -20,41 +20,42 @@ const RequestsInbox = () => {
   const [processingRequestId, setProcessingRequestId] = useState(null);
 
   useEffect(() => {
-    let isMounted = true; // ✅ Prevents updates on unmounted component
+    if (!user) return;
 
     const fetchRequests = async () => {
       if (!user) return;
       try {
         setLoading(true);
         const requestCollection = collection(db, "requests");
+
         const q = query(requestCollection, where("receiver", "==", user.email));
         const snapshot = await getDocs(q);
 
-        if (isMounted) {
-          setRequests(
-            snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
-          );
-        }
+        console.log(
+          "Fetched Requests:",
+          snapshot.docs.map((doc) => doc.data())
+        ); // ✅ Debugging Log
+
+        setRequests(
+          snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
+        );
       } catch (error) {
         console.error("Error fetching requests:", error);
       } finally {
-        if (isMounted) setLoading(false);
+        setLoading(false);
       }
     };
 
     fetchRequests();
-
-    return () => {
-      isMounted = false; // ✅ Cleanup function to prevent memory leaks
-    };
   }, [user]);
 
   // 🔹 Accept Request & Send Notification
   const handleAccept = async (request) => {
     if (!user) return;
-    setProcessingRequestId(request.id); // ✅ Prevent multiple clicks
+    setProcessingRequestId(request.id);
 
     try {
+      // ✅ Ensure post exists before updating
       const postRef = doc(db, "posts", request.postId);
       const postDoc = await getDoc(postRef);
 
@@ -65,6 +66,7 @@ const RequestsInbox = () => {
         });
       }
 
+      // ✅ Update the request status (Fix: Uses `request.id` correctly)
       await updateDoc(doc(db, "requests", request.id), { status: "accepted" });
 
       // ✅ Send Notification to Requesting User
@@ -86,10 +88,9 @@ const RequestsInbox = () => {
     }
   };
 
-  // 🔹 Decline Request & Send Notification
   const handleDecline = async (request) => {
     if (!user) return;
-    setProcessingRequestId(request.id); // ✅ Prevent multiple clicks
+    setProcessingRequestId(request.id);
 
     try {
       await updateDoc(doc(db, "requests", request.id), { status: "declined" });
@@ -126,7 +127,7 @@ const RequestsInbox = () => {
           {requests.map((req) => (
             <div key={req.id} className="request-card">
               <p>
-                <strong>{req.sender}</strong> wants to collaborate on{" "}
+                <strong>{req.senderEmail}</strong> wants to collaborate on{" "}
                 <strong>{req.postTitle}</strong>
               </p>
               <div className="request-actions">

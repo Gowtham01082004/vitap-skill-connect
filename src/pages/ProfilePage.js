@@ -4,6 +4,7 @@ import {
   collection,
   getDocs,
   query,
+  where,
   orderBy,
   doc,
   deleteDoc,
@@ -15,10 +16,9 @@ import "./ProfilePage.css";
 
 const ProfilePage = () => {
   const { user } = useAuth();
-  const [userPosts, setUserPosts] = useState([]);
-  const [userName, setUserName] = useState("");
-  const [newName, setNewName] = useState("");
+  const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
+  const [userPosts, setUserPosts] = useState([]);
 
   useEffect(() => {
     if (!user) return;
@@ -29,13 +29,11 @@ const ProfilePage = () => {
         const userDoc = await getDoc(userRef);
 
         if (userDoc.exists()) {
-          setUserName(userDoc.data().name || "No Name Set");
-          setNewName(userDoc.data().name || "");
+          setUserData(userDoc.data());
         } else {
           console.warn("User document does not exist. Creating one...");
-          await setDoc(userRef, { name: user.displayName || "New User" });
-          setUserName(user.displayName || "New User");
-          setNewName(user.displayName || "New User");
+          await setDoc(userRef, { email: user.email, createdAt: new Date() });
+          setUserData({ email: user.email });
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -44,12 +42,25 @@ const ProfilePage = () => {
 
     const fetchUserPosts = async () => {
       try {
+        if (!user) return;
+
+        console.log("Fetching posts for user:", user.email); // ✅ Debugging
+
         const postsCollection = collection(db, "posts");
-        const q = query(postsCollection, orderBy("timestamp", "desc"));
+        const q = query(
+          postsCollection,
+          where("userEmail", "==", user.email), // ✅ Ensure field name is correct
+          orderBy("timestamp", "desc")
+        );
+
         const snapshot = await getDocs(q);
-        const userPostsData = snapshot.docs
-          .map((doc) => ({ id: doc.id, ...doc.data() }))
-          .filter((post) => post.user === user.email);
+        console.log("Posts fetched:", snapshot.docs.length); // ✅ Check if any posts are retrieved
+
+        const userPostsData = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
         setUserPosts(userPostsData);
       } catch (error) {
         console.error("Error fetching user posts:", error);
@@ -75,18 +86,17 @@ const ProfilePage = () => {
     }
   };
 
-  // 🔹 Handle Update Name
-  const handleUpdateName = async () => {
-    if (!user || newName.trim() === "") return;
+  // 🔹 Handle Update User Details
+  const handleUpdateProfile = async () => {
+    if (!user) return;
     try {
       const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, { name: newName }, { merge: true }); // ✅ `setDoc` ensures the document exists
-      setUserName(newName);
+      await setDoc(userRef, userData, { merge: true }); // ✅ Merge changes
       setEditing(false);
-      alert("Name updated successfully! ✅");
+      alert("Profile updated successfully! ✅");
     } catch (error) {
-      console.error("Error updating name:", error);
-      alert("Failed to update name. ❌");
+      console.error("Error updating profile:", error);
+      alert("Failed to update profile. ❌");
     }
   };
 
@@ -94,31 +104,113 @@ const ProfilePage = () => {
     <div className="profile-page-container">
       <div className="profile-content">
         <h2>User Profile</h2>
-        <p>
-          <strong>Email:</strong> {user?.email}
-        </p>
-        <p>
-          <strong>Name:</strong>{" "}
-          {editing ? (
-            <>
-              <input
-                type="text"
-                value={newName}
-                onChange={(e) => setNewName(e.target.value)}
-              />
-              <button onClick={handleUpdateName}>Save</button>
-              <button onClick={() => setEditing(false)}>Cancel</button>
-            </>
-          ) : (
-            <>
-              {userName}{" "}
-              <button onClick={() => setEditing(true)}>✏️ Edit</button>
-            </>
-          )}
-        </p>
-        <p>
-          <strong>Total Posts:</strong> {userPosts.length}
-        </p>
+
+        {editing ? (
+          <div className="edit-profile-form">
+            <input
+              type="text"
+              placeholder="Full Name"
+              value={userData.name || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, name: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Username"
+              value={userData.username || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, username: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Student ID"
+              value={userData.studentID || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, studentID: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Department"
+              value={userData.department || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, department: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Year of Study"
+              value={userData.year || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, year: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Primary Skills"
+              value={userData.primarySkills || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, primarySkills: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Secondary Skills"
+              value={userData.secondarySkills || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, secondarySkills: e.target.value })
+              }
+            />
+            <input
+              type="text"
+              placeholder="Preferred Project Categories"
+              value={userData.projectCategories || ""}
+              onChange={(e) =>
+                setUserData({ ...userData, projectCategories: e.target.value })
+              }
+            />
+            <button onClick={handleUpdateProfile}>Save Changes</button>
+            <button onClick={() => setEditing(false)}>Cancel</button>
+          </div>
+        ) : (
+          <>
+            <p>
+              <strong>Email:</strong> {userData.email}
+            </p>
+            <p>
+              <strong>Name:</strong> {userData.name || "Not Provided"}
+            </p>
+            <p>
+              <strong>Username:</strong> {userData.username || "Not Provided"}
+            </p>
+            <p>
+              <strong>Student ID:</strong>{" "}
+              {userData.studentID || "Not Provided"}
+            </p>
+            <p>
+              <strong>Department:</strong>{" "}
+              {userData.department || "Not Provided"}
+            </p>
+            <p>
+              <strong>Year of Study:</strong> {userData.year || "Not Provided"}
+            </p>
+            <p>
+              <strong>Primary Skills:</strong>{" "}
+              {userData.primarySkills || "Not Provided"}
+            </p>
+            <p>
+              <strong>Secondary Skills:</strong>{" "}
+              {userData.secondarySkills || "Not Provided"}
+            </p>
+            <p>
+              <strong>Preferred Project Categories:</strong>{" "}
+              {userData.projectCategories || "Not Provided"}
+            </p>
+            <button onClick={() => setEditing(true)}>✏️ Edit Profile</button>
+          </>
+        )}
 
         <h3>Your Posts</h3>
         {userPosts.length === 0 ? (

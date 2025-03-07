@@ -1,8 +1,13 @@
 import React, { useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import PrivateRoute from "./components/PrivateRoute";
-import chatbotIcon from "./assets/images/chatbot-icon.png"; // ✅ Corrected import
+import chatbotIcon from "./assets/images/chatbot-icon.png";
 
 import Navbar from "./components/Navbar";
 import LoggedNavbar from "./components/LoggedNavbar";
@@ -19,7 +24,8 @@ import PostDetails from "./pages/PostDetails";
 import RequestsInbox from "./pages/RequestsInbox";
 import CreatePost from "./pages/CreatePost";
 import Notifications from "./pages/Notifications";
-import Chatbot from "./components/Chatbot"; // ✅ Correct path
+import Chatbot from "./components/Chatbot";
+import ProfileDetails from "./pages/ProfileDetails"; // ✅ Import ProfileDetails
 
 function App() {
   return (
@@ -33,25 +39,25 @@ function App() {
 
 // ✅ Handles Navbar & Routes Properly
 const MainLayout = () => {
-  const { user } = useAuth(); // ✅ Get logged-in user
+  const { user } = useAuth();
   const [chatOpen, setChatOpen] = useState(false);
+  const location = useLocation();
+
+  const hideNavbar = location.pathname === "/auth"; // ✅ Hide Navbar on AuthPage
 
   return (
     <>
-      {user ? <LoggedNavbar /> : <Navbar />} {/* ✅ Show Navbar Dynamically */}
+      {!hideNavbar && (user ? <LoggedNavbar /> : <Navbar />)}
       <Routes>
-        {/* ✅ Default Route is Home */}
         <Route path="/" element={<Home />} />
-
-        {/* Public Pages */}
         <Route path="/how-it-works" element={<HowItWorks />} />
         <Route path="/about" element={<AboutUs />} />
         <Route path="/faq" element={<FAQ />} />
-
-        {/* ✅ Login & Signup Page */}
         <Route path="/auth" element={<AuthPage />} />
 
-        {/* 🔒 Protected Routes */}
+        {/* ✅ New Route for Profile Setup */}
+        <Route path="/profile-setup" element={<ProfileDetails />} />
+
         <Route
           path="/logged-homepage"
           element={
@@ -100,13 +106,9 @@ const MainLayout = () => {
             </PrivateRoute>
           }
         />
-
-        {/* ✅ Chatbot Page */}
         <Route path="/chatbot" element={<Chatbot />} />
       </Routes>
-      {/* ✅ Hide Footer when user is logged in */}
-      {!user && <Footer />}
-      {/* ✅ Floating Chatbot Icon on All Pages */}
+      {!user && !hideNavbar && <Footer />}
       <div
         style={{
           position: "fixed",
@@ -124,7 +126,7 @@ const MainLayout = () => {
           }}
         >
           <img
-            src={chatbotIcon} // ✅ Corrected import
+            src={chatbotIcon}
             alt="Chatbot Icon"
             style={{ width: "50px", height: "50px" }}
           />

@@ -7,19 +7,21 @@ const Home = () => {
     <>
       <div className="home">
         <section className="hero">
-          <h1>Connect, Learn & Grow Together</h1>
+          <h1>
+            Empower Your Learning with <span>VITAssist</span>
+          </h1>
           <p>
-            AI-powered platform for students to showcase skills, find peers, and
-            collaborate on projects.
+            AI-driven platform for students to access resources, collaborate on
+            projects, and get instant university assistance.
           </p>
           <div className="hero-buttons">
-            <button className="primary-btn">Get Started</button>
-            <button className="secondary-btn">Learn More</button>
+            <button className="cta-primary">Get Started</button>
+            <button className="cta-secondary">Learn More</button>
           </div>
         </section>
       </div>
 
-      {/* Features Component */}
+      {/* Features Section */}
       <Features />
     </>
   );

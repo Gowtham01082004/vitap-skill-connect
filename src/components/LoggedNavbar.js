@@ -9,11 +9,10 @@ const LoggedNavbar = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // 🔹 Handle Logout (Prevent Concurrent Updates)
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/auth", { replace: true }); // ✅ Fix: Redirect to /auth
+      navigate("/auth", { replace: true }); // ✅ Redirect to login page after logout
     } catch (error) {
       console.error("Error logging out:", error);
     }
@@ -36,13 +35,9 @@ const LoggedNavbar = () => {
           Notifications
         </Link>
       </div>
-
-      {/* ✅ Fix: Only show user email if user exists */}
       {user?.email && (
         <span className="user-info">Logged in as: {user.email}</span>
       )}
-
-      {/* ✅ Fix: Add aria-label for accessibility */}
       <button className="logout-btn" onClick={handleLogout} aria-label="Logout">
         Logout
       </button>

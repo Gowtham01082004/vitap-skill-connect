@@ -1,6 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { db } from "../config/firebaseConfig";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./CreatePost.css";
@@ -12,24 +18,51 @@ const CreatePost = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [fullDescription, setFullDescription] = useState("");
   const [roles, setRoles] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ Add loading state
+  const [loading, setLoading] = useState(false);
+  const [userData, setUserData] = useState(null); // ✅ Store user details
+
+  // 🔹 Fetch User Details from Firestore
+  useEffect(() => {
+    if (!user) return;
+
+    const fetchUserData = async () => {
+      try {
+        const userRef = doc(db, "users", user.uid);
+        const userSnap = await getDoc(userRef);
+
+        if (userSnap.exists()) {
+          setUserData(userSnap.data()); // ✅ Store user details
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+
+    fetchUserData();
+  }, [user]);
 
   // 🔹 Handle Post Submission
   const handlePostSubmit = async (e) => {
     e.preventDefault();
+
     if (
       !title.trim() ||
       !shortDescription.trim() ||
       !fullDescription.trim() ||
       !roles.trim()
-    )
+    ) {
+      alert("All fields are required!");
       return;
+    }
 
-    setLoading(true); // ✅ Start loading
+    setLoading(true);
 
     try {
+      // ✅ Ensure `userId` and `userEmail` are stored correctly
       await addDoc(collection(db, "posts"), {
-        user: user.email,
+        userId: user.uid, // ✅ Ensure UID is stored
+        userEmail: user.email, // ✅ Store email separately
+        userName: userData?.name || "Unknown", // ✅ Store user's name
         title,
         shortDescription,
         fullDescription,
@@ -37,11 +70,8 @@ const CreatePost = () => {
         timestamp: serverTimestamp(),
       });
 
-      // ✅ Redirect to home page AFTER state update
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/logged-homepage");
-      }, 500);
+      setLoading(false);
+      navigate("/logged-homepage"); // ✅ Redirect after post creation
     } catch (error) {
       console.error("Error adding post:", error);
       setLoading(false);

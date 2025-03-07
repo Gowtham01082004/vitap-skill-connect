@@ -10,14 +10,16 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState("");
-  const [loading, setLoading] = useState(true); // ✅ Manages loading state
+  const [loading, setLoading] = useState(true);
 
   // 🔄 Monitor authentication changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
+      console.log("Auth state changed. Current user:", currentUser);
 
       if (currentUser) {
+        setUser(currentUser);
+
         try {
           const userRef = doc(db, "users", currentUser.uid);
           const userDoc = await getDoc(userRef);
@@ -28,15 +30,17 @@ export const AuthProvider = ({ children }) => {
         } catch (error) {
           console.error("Error fetching user data:", error);
         }
+      } else {
+        setUser(null);
+        setUserName("");
       }
 
-      setLoading(false); // ✅ Ensure loading state is updated
+      setLoading(false);
     });
 
     return () => unsubscribe();
   }, []);
 
-  // 🚪 Logout function
   const logout = async () => {
     try {
       await signOut(auth);
@@ -49,8 +53,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, userName, loading, logout }}>
-      {!loading && children}{" "}
-      {/* ✅ Prevent rendering until loading completes */}
+      {loading ? <p>Loading authentication...</p> : children}
     </AuthContext.Provider>
   );
 };

@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth, db } from "../config/firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
+  sendEmailVerification,
+  onAuthStateChanged,
 } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import "./AuthPage.css";
@@ -17,18 +19,38 @@ const AuthPage = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
+  const [verificationPopup, setVerificationPopup] = useState(false);
   const navigate = useNavigate();
 
-  // Toggle between Sign In and Sign Up
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const checkVerification = setInterval(async () => {
+          await user.reload(); // ✅ Refresh user data from Firebase
+          if (user.emailVerified) {
+            clearInterval(checkVerification);
+            navigate("/profile-setup", {
+              state: { uid: user.uid, email: user.email },
+            });
+          }
+        }, 3000); // ✅ Poll every 3 seconds for verification update
+
+        return () => clearInterval(checkVerification);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [navigate]);
+
   const handleToggle = () => {
-    setIsSignUp(!isSignUp);
+    setIsSignUp((prev) => !prev);
     setEmail("");
     setPassword("");
     setName("");
     setError("");
   };
 
-  // Get user-friendly error messages
   const getErrorMessage = (code) => {
     const messages = {
       "auth/email-already-in-use": "This email is already registered.",
@@ -40,7 +62,6 @@ const AuthPage = () => {
     return messages[code] || "An error occurred. Please try again.";
   };
 
-  // Handle Sign Up & Sign In
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
@@ -59,14 +80,30 @@ const AuthPage = () => {
           email,
           password
         );
-        await setDoc(doc(db, "users", userCredential.user.uid), {
+        const user = userCredential.user;
+
+        // Send email verification and open the verification popup
+        await sendEmailVerification(user);
+        setEmailSent(true);
+        setVerificationPopup(true);
+
+        // Save user details in Firestore
+        await setDoc(doc(db, "users", user.uid), {
           name,
           email,
           createdAt: new Date(),
+          emailVerified: false,
         });
-        navigate("/logged-homepage");
       } else {
-        await signInWithEmailAndPassword(auth, email, password);
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          email,
+          password
+        );
+        if (!userCredential.user.emailVerified) {
+          setError("Please verify your email before logging in.");
+          return;
+        }
         navigate("/logged-homepage");
       }
     } catch (err) {
@@ -76,7 +113,6 @@ const AuthPage = () => {
     }
   };
 
-  // Handle Forgot Password
   const handleForgotPassword = async () => {
     if (!email) {
       setError("Enter your email to reset password.");
@@ -93,12 +129,16 @@ const AuthPage = () => {
 
   return (
     <div className="auth-container">
-      <div
-        className={`container ${isSignUp ? "right-panel-active" : ""}`}
-        id="container"
-      >
-        {/* Sign Up Form */}
-        {isSignUp ? (
+      <div className={`container ${isSignUp ? "right-panel-active" : ""}`}>
+        {emailSent ? (
+          <div className="email-verification-container">
+            <h2>Check Your Email</h2>
+            <p>
+              A verification email has been sent to <strong>{email}</strong>.
+            </p>
+            <p>Please verify your email before logging in.</p>
+          </div>
+        ) : isSignUp ? (
           <div className="form-container sign-up-container">
             <form onSubmit={handleSubmit}>
               <h1>Create Account</h1>
@@ -174,17 +214,19 @@ const AuthPage = () => {
           </div>
         )}
 
-        {/* Overlay */}
+        {/* ✅ Overlay to toggle between Sign In and Sign Up */}
         <div className="overlay-container">
           <div className="overlay">
             <div className="overlay-panel overlay-left">
               <h1>Welcome Back!</h1>
+              <p>If you already have an account, sign in here</p>
               <button className="ghost" onClick={handleToggle}>
                 Sign In
               </button>
             </div>
             <div className="overlay-panel overlay-right">
               <h1>Hello, Friend!</h1>
+              <p>Enter your details and start your journey with us</p>
               <button className="ghost" onClick={handleToggle}>
                 Sign Up
               </button>
@@ -192,6 +234,22 @@ const AuthPage = () => {
           </div>
         </div>
       </div>
+
+      {/* ✅ Verification Popup (appears above everything) */}
+      {verificationPopup && (
+        <>
+          <div className="verification-overlay"></div>{" "}
+          {/* Background overlay */}
+          <div className="verification-popup">
+            <h3>Email Verification Required</h3>
+            <p>
+              We've sent a verification email to <strong>{email}</strong>.
+              Please check your inbox and verify your email.
+            </p>
+            <p>Once verified, you will be redirected automatically.</p>
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -8,7 +8,7 @@ import {
   query,
   where,
   getDocs,
-  serverTimestamp, // ✅ Import serverTimestamp correctly
+  serverTimestamp,
 } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import { useParams } from "react-router-dom";
@@ -19,32 +19,64 @@ const PostDetails = () => {
   const { user } = useAuth();
   const [post, setPost] = useState(null);
   const [requestSent, setRequestSent] = useState(false);
+  const [ownerName, setOwnerName] = useState("Loading...");
 
   useEffect(() => {
     const fetchPostDetails = async () => {
       try {
-        const postDoc = await getDoc(doc(db, "posts", id));
+        const postDocRef = doc(db, "posts", id);
+        const postDoc = await getDoc(postDocRef);
+
         if (postDoc.exists()) {
-          setPost({ id: postDoc.id, ...postDoc.data() });
+          const postData = postDoc.data();
+          setPost({ id: postDoc.id, ...postData });
+
+          if (postData.userId) {
+            await fetchOwnerName(postData.userId);
+          } else {
+            console.warn("Missing userId in post data:", postData);
+            setOwnerName("Unknown User");
+          }
+        } else {
+          console.error(`No post found for postId: ${id}`);
         }
       } catch (error) {
         console.error("Error fetching post details:", error);
       }
     };
 
-    // 🔹 Check if request has already been sent
-    const checkExistingRequest = async () => {
-      if (!user) return; // ✅ Prevent fetching if user is not logged in
+    const fetchOwnerName = async (userId) => {
+      try {
+        const userRef = doc(db, "users", userId);
+        const userDoc = await getDoc(userRef);
 
-      const requestsRef = collection(db, "requests");
-      const q = query(
-        requestsRef,
-        where("postId", "==", id),
-        where("sender", "==", user.email)
-      );
-      const querySnapshot = await getDocs(q);
-      if (!querySnapshot.empty) {
-        setRequestSent(true); // ✅ Request already sent
+        if (userDoc.exists()) {
+          setOwnerName(userDoc.data().userName || "Unknown User");
+        } else {
+          console.warn(`No user found for userId: ${userId}`);
+          setOwnerName("Unknown User");
+        }
+      } catch (error) {
+        console.error(`Error fetching user data for userId: ${userId}`, error);
+        setOwnerName("Unknown User");
+      }
+    };
+
+    const checkExistingRequest = async () => {
+      if (!user) return;
+      try {
+        const requestsRef = collection(db, "requests");
+        const q = query(
+          requestsRef,
+          where("postId", "==", id),
+          where("sender", "==", user.email)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          setRequestSent(true);
+        }
+      } catch (error) {
+        console.error("Error checking request status:", error);
       }
     };
 
@@ -52,14 +84,12 @@ const PostDetails = () => {
     checkExistingRequest();
   }, [id, user]);
 
-  // 🔹 Handle Send Request
   const handleSendRequest = async () => {
-    if (!user || !post?.user) return; // ✅ Ensure both user & post owner exist
-
+    if (!user || !post?.userEmail) return;
     try {
       await addDoc(collection(db, "requests"), {
-        sender: user.email, // ✅ Request sender (logged-in user)
-        receiver: post.user || "unknown", // ✅ Ensure receiver is always defined
+        sender: user.email, // ✅ Store sender's email
+        receiver: post.userEmail, // ✅ Store receiver's email
         postId: post.id,
         postTitle: post.title,
         status: "sent",
@@ -77,19 +107,21 @@ const PostDetails = () => {
       {post ? (
         <>
           <h2>{post.title}</h2>
-          <p>{post.description}</p>
+          <p>{post.fullDescription}</p>
           <p>
-            <strong>Posted by:</strong> {post.owner}
+            <strong>Posted by:</strong> {ownerName}
           </p>
 
-          {/* 🔹 Send Request Button */}
-          <button
-            className="send-request-btn"
-            onClick={handleSendRequest}
-            disabled={requestSent} // ✅ Disable if already sent
-          >
-            {requestSent ? "Request Sent ✅" : "Send Request"}
-          </button>
+          {/* ✅ Show "Collaborate" button ONLY if the logged-in user is NOT the post owner */}
+          {post.userEmail !== user?.email && (
+            <button
+              className="send-request-btn"
+              onClick={handleSendRequest}
+              disabled={requestSent}
+            >
+              {requestSent ? "Request Sent ✅" : "Collaborate"}
+            </button>
+          )}
         </>
       ) : (
         <p>Loading post details...</p>

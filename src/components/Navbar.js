@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Navbar.css";
-import logo from "../assets/images/logo.png"; // Adjust path accordingly
+import logo from "../assets/images/logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { user, logout } = useAuth(); // Authentication state
+  const { user, logout } = useAuth();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,26 +34,30 @@ const Navbar = () => {
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         {/* 📌 Logo Section */}
-        <div className="navbar-logo-container">
-          <Link to="/">
-            <img src={logo} alt="Skill Connect Logo" className="logo-image" />
-          </Link>
+        <div className="navbar-logo-container" onClick={() => navigate("/")}>
+          <img src={logo} alt="Logo" className="logo-image" />
         </div>
 
         {/* 📍 Navigation Links */}
         <div className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
-          <Link to="/" className="nav-link">
+          <span className="nav-link" onClick={() => navigate("/")}>
             Home
-          </Link>
-          <Link to="/how-it-works" className="nav-link">
+          </span>
+          <span className="nav-link" onClick={() => navigate("/how-it-works")}>
             How It Works
-          </Link>
-          <Link to="/faq" className="nav-link">
+          </span>
+          <span className="nav-link" onClick={() => navigate("/faq")}>
             FAQs
-          </Link>
-          <Link to="/about" className="nav-link">
+          </span>
+          <span className="nav-link" onClick={() => navigate("/about")}>
             About Us
-          </Link>
+          </span>
+          <span
+            className="nav-link ai-chatbot-link"
+            onClick={() => navigate("/chatbot")}
+          >
+            AI Chatbot
+          </span>
 
           {/* 🔑 Auth Section */}
           {user ? (
@@ -64,12 +69,13 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="auth-buttons">
-              <Link to="/login" className="login-btn">
+              {/* ✅ Redirects to `/auth` page completely */}
+              <button className="login-btn" onClick={() => navigate("/auth")}>
                 Login
-              </Link>
-              <Link to="/signup" className="signup-btn">
+              </button>
+              <button className="signup-btn" onClick={() => navigate("/auth")}>
                 Sign Up
-              </Link>
+              </button>
             </div>
           )}
         </div>
