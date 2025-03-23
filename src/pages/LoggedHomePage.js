@@ -26,12 +26,9 @@ const LoggedHomePage = () => {
     let isMounted = true;
 
     const fetchPosts = async () => {
-      try {
-        if (!user) {
-          console.warn("User not authenticated, skipping post fetch.");
-          return;
-        }
+      if (!user) return;
 
+      try {
         setPostsLoading(true);
         const postsCollection = collection(db, "posts");
         const q = query(postsCollection, orderBy("timestamp", "desc"));
@@ -43,50 +40,35 @@ const LoggedHomePage = () => {
             ...doc.data(),
           }));
 
-          console.log("Fetched posts:", postsData);
-
           setPosts(postsData);
           setPostsLoading(false);
 
-          await fetchUserNames(postsData);
-          await fetchRequestStatus(postsData);
+          fetchUserNames(postsData);
+          fetchRequestStatus(postsData);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
-        if (isMounted) setPostsLoading(false);
+        setPostsLoading(false);
       }
     };
 
     const fetchUserNames = async (posts) => {
-      try {
-        const uniqueUserIds = [...new Set(posts.map((post) => post.userId))];
-        const userMap = {};
-
-        for (const userId of uniqueUserIds) {
-          if (!userId) continue;
-
-          const userRef = doc(db, "users", userId);
-          const userDoc = await getDoc(userRef);
-
-          if (userDoc.exists()) {
-            userMap[userId] = userDoc.data().name || "Unknown User";
-          } else {
-            console.warn(`User document not found for userId: ${userId}`);
-            userMap[userId] = "Unknown User";
-          }
-        }
-
-        setUserNames(userMap);
-      } catch (error) {
-        console.error("Error fetching user names:", error);
+      const userMap = {};
+      for (const post of posts) {
+        const userRef = doc(db, "users", post.userId);
+        const userDoc = await getDoc(userRef);
+        userMap[post.userId] = userDoc.exists()
+          ? userDoc.data().name || "Unknown User"
+          : "Unknown User";
       }
+      setUserNames(userMap);
     };
 
-    const fetchRequestStatus = async (fetchedPosts) => {
+    const fetchRequestStatus = async (posts) => {
       if (!user) return;
       const requestStatusMap = {};
 
-      for (const post of fetchedPosts) {
+      for (const post of posts) {
         const requestsRef = collection(db, "requests");
         const requestQuery = query(
           requestsRef,
@@ -96,8 +78,7 @@ const LoggedHomePage = () => {
         const requestSnapshot = await getDocs(requestQuery);
 
         if (!requestSnapshot.empty) {
-          const request = requestSnapshot.docs[0].data();
-          requestStatusMap[post.id] = request.status;
+          requestStatusMap[post.id] = requestSnapshot.docs[0].data().status;
         }
       }
 
@@ -111,13 +92,8 @@ const LoggedHomePage = () => {
     };
   }, [user]);
 
-  if (loading) {
-    return <p>Loading authentication...</p>;
-  }
-
-  if (!user) {
-    return <p>You are not logged in. Please log in first.</p>;
-  }
+  if (loading) return <p>Loading authentication...</p>;
+  if (!user) return <p>You are not logged in. Please log in first.</p>;
 
   return (
     <div className="logged-home-container">
@@ -130,7 +106,7 @@ const LoggedHomePage = () => {
         ➕ Create New Post
       </button>
 
-      {postsLoading ? <p>Loading posts...</p> : null}
+      {postsLoading && <p>Loading posts...</p>}
 
       <div className="posts">
         {posts.length === 0 && !postsLoading ? (

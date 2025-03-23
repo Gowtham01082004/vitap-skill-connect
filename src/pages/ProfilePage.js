@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { db } from "../config/firebaseConfig";
 import {
   collection,
@@ -9,230 +9,349 @@ import {
   doc,
   deleteDoc,
   getDoc,
-  setDoc, // ✅ Use setDoc to create if missing
+  setDoc,
 } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
 import "./ProfilePage.css";
+
+const predefinedCategories = [
+  "AI/ML",
+  "Fullstack",
+  "Blockchain",
+  "App Dev",
+  "Cloud",
+  "Cybersecurity",
+];
+
+const getRandomColor = () => {
+  const colors = [
+    "#00e5ff",
+    "#6c5ce7",
+    "#ff1744",
+    "#00c853",
+    "#ff9100",
+    "#f50057",
+    "#8e24aa",
+    "#43a047",
+    "#3949ab",
+    "#e53935",
+  ];
+  return colors[Math.floor(Math.random() * colors.length)];
+};
 
 const ProfilePage = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
+  const [customSkillInput, setCustomSkillInput] = useState("");
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
   useEffect(() => {
     if (!user) return;
 
     const fetchUserData = async () => {
-      try {
-        const userRef = doc(db, "users", user.uid);
-        const userDoc = await getDoc(userRef);
+      const userRef = doc(db, "users", user.uid);
+      const userDoc = await getDoc(userRef);
 
-        if (userDoc.exists()) {
-          setUserData(userDoc.data());
-        } else {
-          console.warn("User document does not exist. Creating one...");
-          await setDoc(userRef, { email: user.email, createdAt: new Date() });
-          setUserData({ email: user.email });
-        }
-      } catch (error) {
-        console.error("Error fetching user data:", error);
+      if (userDoc.exists()) {
+        const data = userDoc.data();
+        setUserData({
+          ...data,
+          primarySkills:
+            data.primarySkills?.split(",").map((s) => s.trim()) || [],
+          projectCategories:
+            data.projectCategories?.split(",").map((c) => c.trim()) || [],
+        });
+        setSelectedCategories(
+          data.projectCategories?.split(",").map((c) => c.trim()) || []
+        );
+      } else {
+        await setDoc(userRef, { email: user.email, createdAt: new Date() });
+        setUserData({ email: user.email });
       }
     };
 
     const fetchUserPosts = async () => {
-      try {
-        if (!user) return;
-
-        console.log("Fetching posts for user:", user.email); // ✅ Debugging
-
-        const postsCollection = collection(db, "posts");
-        const q = query(
-          postsCollection,
-          where("userEmail", "==", user.email), // ✅ Ensure field name is correct
-          orderBy("timestamp", "desc")
-        );
-
-        const snapshot = await getDocs(q);
-        console.log("Posts fetched:", snapshot.docs.length); // ✅ Check if any posts are retrieved
-
-        const userPostsData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-
-        setUserPosts(userPostsData);
-      } catch (error) {
-        console.error("Error fetching user posts:", error);
-      }
+      const q = query(
+        collection(db, "posts"),
+        where("userEmail", "==", user.email),
+        orderBy("timestamp", "desc")
+      );
+      const snapshot = await getDocs(q);
+      setUserPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
     };
 
     fetchUserData();
     fetchUserPosts();
   }, [user]);
 
-  // 🔹 Handle Delete Post
   const handleDeletePost = async (postId) => {
-    if (!user) return;
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      try {
-        await deleteDoc(doc(db, "posts", postId));
-        setUserPosts(userPosts.filter((post) => post.id !== postId));
-        alert("Post deleted successfully! ✅");
-      } catch (error) {
-        console.error("Error deleting post:", error);
-        alert("Failed to delete post. ❌ Check Firestore security rules.");
-      }
-    }
+    await deleteDoc(doc(db, "posts", postId));
+    setUserPosts(userPosts.filter((post) => post.id !== postId));
   };
 
-  // 🔹 Handle Update User Details
   const handleUpdateProfile = async () => {
-    if (!user) return;
-    try {
-      const userRef = doc(db, "users", user.uid);
-      await setDoc(userRef, userData, { merge: true }); // ✅ Merge changes
-      setEditing(false);
-      alert("Profile updated successfully! ✅");
-    } catch (error) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile. ❌");
+    const updatedData = {
+      ...userData,
+      primarySkills: userData.primarySkills?.join(", "),
+      projectCategories: selectedCategories.join(", "),
+    };
+    await setDoc(doc(db, "users", user.uid), updatedData, { merge: true });
+    setEditing(false);
+    alert("Profile updated successfully!");
+  };
+
+  const addCustomSkill = () => {
+    const trimmed = customSkillInput.trim();
+    if (
+      trimmed &&
+      !userData.primarySkills.includes(trimmed) &&
+      trimmed.length <= 20
+    ) {
+      setUserData({
+        ...userData,
+        primarySkills: [...userData.primarySkills, trimmed],
+      });
     }
+    setCustomSkillInput("");
+  };
+
+  const removeSkill = (skill) => {
+    setUserData({
+      ...userData,
+      primarySkills: userData.primarySkills.filter((s) => s !== skill),
+    });
+  };
+
+  const toggleCategory = (cat) => {
+    const updated = selectedCategories.includes(cat)
+      ? selectedCategories.filter((c) => c !== cat)
+      : [...selectedCategories, cat];
+    setSelectedCategories(updated);
   };
 
   return (
-    <div className="profile-page-container">
-      <div className="profile-content">
-        <h2>User Profile</h2>
-
-        {editing ? (
-          <div className="edit-profile-form">
-            <input
-              type="text"
-              placeholder="Full Name"
-              value={userData.name || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, name: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Username"
-              value={userData.username || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, username: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Student ID"
-              value={userData.studentID || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, studentID: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Department"
-              value={userData.department || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, department: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Year of Study"
-              value={userData.year || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, year: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Primary Skills"
-              value={userData.primarySkills || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, primarySkills: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Secondary Skills"
-              value={userData.secondarySkills || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, secondarySkills: e.target.value })
-              }
-            />
-            <input
-              type="text"
-              placeholder="Preferred Project Categories"
-              value={userData.projectCategories || ""}
-              onChange={(e) =>
-                setUserData({ ...userData, projectCategories: e.target.value })
-              }
-            />
-            <button onClick={handleUpdateProfile}>Save Changes</button>
-            <button onClick={() => setEditing(false)}>Cancel</button>
+    <div className="profile-dashboard-container">
+      <div className="profile-grid">
+        {/* Left Panel */}
+        <div className="profile-card">
+          <div className="profile-banner">
+            <div className="profile-avatar">
+              {userData.name?.charAt(0).toUpperCase() || "U"}
+            </div>
           </div>
-        ) : (
-          <>
-            <p>
-              <strong>Email:</strong> {userData.email}
-            </p>
-            <p>
-              <strong>Name:</strong> {userData.name || "Not Provided"}
-            </p>
-            <p>
-              <strong>Username:</strong> {userData.username || "Not Provided"}
-            </p>
-            <p>
-              <strong>Student ID:</strong>{" "}
-              {userData.studentID || "Not Provided"}
-            </p>
-            <p>
-              <strong>Department:</strong>{" "}
-              {userData.department || "Not Provided"}
-            </p>
-            <p>
-              <strong>Year of Study:</strong> {userData.year || "Not Provided"}
-            </p>
-            <p>
-              <strong>Primary Skills:</strong>{" "}
-              {userData.primarySkills || "Not Provided"}
-            </p>
-            <p>
-              <strong>Secondary Skills:</strong>{" "}
-              {userData.secondarySkills || "Not Provided"}
-            </p>
-            <p>
-              <strong>Preferred Project Categories:</strong>{" "}
-              {userData.projectCategories || "Not Provided"}
-            </p>
-            <button onClick={() => setEditing(true)}>✏️ Edit Profile</button>
-          </>
-        )}
+          <div className="profile-body">
+            {editing ? (
+              <>
+                <label className="input-label">
+                  Name
+                  <input
+                    type="text"
+                    value={userData.name || ""}
+                    onChange={(e) =>
+                      setUserData({ ...userData, name: e.target.value })
+                    }
+                    className="edit-input"
+                  />
+                </label>
+                <label className="input-label">
+                  Username (not editable)
+                  <input
+                    type="text"
+                    value={userData.username || ""}
+                    className="edit-input"
+                    disabled
+                  />
+                </label>
+                <label className="input-label">
+                  Student ID
+                  <input
+                    type="text"
+                    value={userData.studentID || ""}
+                    onChange={(e) =>
+                      setUserData({ ...userData, studentID: e.target.value })
+                    }
+                    className="edit-input"
+                  />
+                </label>
+                <label className="input-label">
+                  Department
+                  <input
+                    type="text"
+                    value={userData.department || ""}
+                    onChange={(e) =>
+                      setUserData({ ...userData, department: e.target.value })
+                    }
+                    className="edit-input"
+                  />
+                </label>
+                <label className="input-label">
+                  Year of Study
+                  <input
+                    type="text"
+                    value={userData.year || ""}
+                    onChange={(e) =>
+                      setUserData({ ...userData, year: e.target.value })
+                    }
+                    className="edit-input"
+                  />
+                </label>
 
-        <h3>Your Posts</h3>
-        {userPosts.length === 0 ? (
-          <p>No posts yet.</p>
-        ) : (
-          <ul className="user-posts-list">
-            {userPosts.map((post) => (
-              <li key={post.id} className="post-item">
-                <p>
-                  <strong>{post.title}</strong>
-                </p>
-                <p>{post.description}</p>
-                <button
-                  className="delete-btn"
-                  onClick={() => handleDeletePost(post.id)}
-                >
-                  🗑 Delete
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+                <label className="input-label">Primary Skills</label>
+                <div className="pill-container">
+                  {userData.primarySkills?.map((skill, i) => (
+                    <span
+                      key={i}
+                      className="pill selected"
+                      style={{ backgroundColor: getRandomColor() }}
+                      onClick={() => removeSkill(skill)}
+                    >
+                      {skill} &times;
+                    </span>
+                  ))}
+                </div>
+                <div className="custom-skill-input-row">
+                  <input
+                    type="text"
+                    placeholder="Add custom skill"
+                    value={customSkillInput}
+                    onChange={(e) => setCustomSkillInput(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && addCustomSkill()}
+                    className="edit-input"
+                  />
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={addCustomSkill}
+                  >
+                    Add
+                  </button>
+                </div>
+
+                <label className="input-label">Preferred Categories</label>
+                <div className="pill-container">
+                  {predefinedCategories.map((cat, i) => (
+                    <span
+                      key={i}
+                      className={`pill ${
+                        selectedCategories.includes(cat) ? "selected" : ""
+                      }`}
+                      onClick={() => toggleCategory(cat)}
+                    >
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="button-group">
+                  <button
+                    onClick={handleUpdateProfile}
+                    className="btn btn-primary"
+                  >
+                    Save
+                  </button>
+                  <button
+                    onClick={() => setEditing(false)}
+                    className="btn btn-secondary"
+                  >
+                    Cancel
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <h2>{userData.name || "Your Name"}</h2>
+                <p className="subtext">Computer Science Student</p>
+                <div className="details">
+                  <div className="detail-group">
+                    <label>Email</label>
+                    <p>{userData.email || user?.email}</p>
+                  </div>
+                  <div className="detail-group">
+                    <label>Username</label>
+                    <p>{userData.username || "Not Provided"}</p>
+                  </div>
+                  <div className="detail-group">
+                    <label>Student ID</label>
+                    <p>{userData.studentID || "Not Provided"}</p>
+                  </div>
+                </div>
+                <div className="button-group">
+                  <button
+                    onClick={() => setEditing(true)}
+                    className="btn btn-primary"
+                  >
+                    Edit Profile
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+
+        {/* Right Panel */}
+        <div className="info-section">
+          <div className="info-card">
+            <h3>Academic Information</h3>
+            <div className="info-columns">
+              <div>
+                <p className="label">Department</p>
+                <p className="value">{userData.department || "Not Provided"}</p>
+              </div>
+              <div>
+                <p className="label">Year of Study</p>
+                <p className="value">{userData.year || "Not Provided"}</p>
+              </div>
+            </div>
+            <div className="info-columns">
+              <div>
+                <p className="label">Primary Skills</p>
+                <div className="tag-container">
+                  {userData.primarySkills?.map((skill, i) => (
+                    <span className="tag" key={i}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="label">Preferred Categories</p>
+                <div className="tag-container">
+                  {selectedCategories?.map((cat, i) => (
+                    <span className="tag" key={i}>
+                      {cat}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="info-card">
+            <h3>My Projects</h3>
+            {userPosts.length === 0 ? (
+              <p className="subtext">No posts yet.</p>
+            ) : (
+              <ul className="user-posts-list">
+                {userPosts.map((post) => (
+                  <li className="post-item" key={post.id}>
+                    <p>
+                      <strong>{post.title}</strong>
+                    </p>
+                    <p>{post.description}</p>
+                    <button
+                      className="btn btn-danger"
+                      onClick={() => handleDeletePost(post.id)}
+                    >
+                      🗑 Delete
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   );

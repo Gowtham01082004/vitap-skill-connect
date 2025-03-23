@@ -1,117 +1,81 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import { FaPaperPlane } from "react-icons/fa";
+import "./Chatbot.css";
 
 const Chatbot = () => {
-  const [messages, setMessages] = useState([
-    { text: "Hello! How can I assist you today?", sender: "bot" },
-  ]);
+  const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isTyping, setIsTyping] = useState(false); // 👈 NEW
+  const chatboxRef = useRef(null);
+
+  useEffect(() => {
+    chatboxRef.current?.scrollTo(0, chatboxRef.current.scrollHeight);
+  }, [messages, isTyping]);
 
   const sendMessage = async () => {
-    console.log("DeepSeek API Key:", process.env.REACT_APP_DEEPSEEK_API_KEY); // Debugging
-
     if (!input.trim()) return;
 
-    const newMessages = [...messages, { text: input, sender: "user" }];
-    setMessages(newMessages);
-    setInput("");
-    setLoading(true);
+    const userMessage = { sender: "user", text: input };
+    setMessages((prev) => [...prev, userMessage]);
+    setIsTyping(true); // 👈 Show typing indicator
 
     try {
-      const response = await axios.post(
-        "https://api.deepseek.com/v1/chat/completions",
-        {
-          model: "deepseek-chat",
-          messages: [{ role: "user", content: input }],
-          max_tokens: 200,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${process.env.REACT_APP_DEEPSEEK_API_KEY}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const response = await axios.post("http://127.0.0.1:5000/chat", {
+        message: input,
+      });
 
-      setMessages([
-        ...newMessages,
-        {
-          text: response.data.choices?.[0]?.message?.content || "No response",
-          sender: "bot",
-        },
-      ]);
+      const botMessage = { sender: "bot", text: response.data.response };
+      setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
-      console.error("DeepSeek API Error:", error);
-      setMessages([
-        ...newMessages,
-        { text: "Error fetching response.", sender: "bot" },
+      console.error("Error connecting to chatbot API", error);
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "bot",
+          text: "I'm having trouble responding. Try again later.",
+        },
       ]);
     }
-    setLoading(false);
+
+    setInput("");
+    setIsTyping(false); // 👈 Hide typing indicator
   };
 
   return (
-    <div
-      className="chat-container"
-      style={{
-        maxWidth: "400px",
-        margin: "auto",
-        padding: "20px",
-        border: "1px solid #ccc",
-        borderRadius: "8px",
-      }}
-    >
-      <div
-        className="chat-box"
-        style={{
-          height: "300px",
-          overflowY: "auto",
-          marginBottom: "10px",
-          padding: "10px",
-          background: "#f9f9f9",
-          borderRadius: "5px",
-        }}
-      >
+    <div className="chat-container">
+      <div className="chat-header">💬 Chatbot</div>
+
+      <div ref={chatboxRef} className="chat-box">
         {messages.map((msg, index) => (
           <div
             key={index}
-            style={{
-              textAlign: msg.sender === "user" ? "right" : "left",
-              margin: "5px 0",
-            }}
+            className={msg.sender === "user" ? "user-message" : "bot-message"}
           >
-            <span
-              style={{
-                display: "inline-block",
-                padding: "8px",
-                borderRadius: "5px",
-                background: msg.sender === "user" ? "#007bff" : "#e0e0e0",
-                color: msg.sender === "user" ? "white" : "black",
-              }}
-            >
-              {msg.text}
-            </span>
+            {msg.text}
           </div>
         ))}
-        {loading && <p style={{ textAlign: "center" }}>Typing...</p>}
+
+        {isTyping && (
+          <div className="bot-message typing-indicator">
+            <span className="dot"></span>
+            <span className="dot"></span>
+            <span className="dot"></span>
+          </div>
+        )}
       </div>
 
-      <div style={{ display: "flex", alignItems: "center" }}>
+      <div className="chat-input">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
-          style={{ flex: 1, padding: "10px" }}
           placeholder="Type a message..."
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
         />
-        <button
-          onClick={sendMessage}
-          style={{ padding: "10px", marginLeft: "5px", cursor: "pointer" }}
-        >
-          <FaPaperPlane />
+        <button onClick={sendMessage}>
+          <svg viewBox="0 0 24 24">
+            <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z" />
+          </svg>
         </button>
       </div>
     </div>

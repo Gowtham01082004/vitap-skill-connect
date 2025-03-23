@@ -8,7 +8,7 @@ import {
   sendEmailVerification,
   onAuthStateChanged,
 } from "firebase/auth";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import "./AuthPage.css";
 
 const AuthPage = () => {
@@ -24,22 +24,30 @@ const AuthPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
         const checkVerification = setInterval(async () => {
-          await user.reload(); // ✅ Refresh user data from Firebase
+          await user.reload();
           if (user.emailVerified) {
             clearInterval(checkVerification);
-            navigate("/profile-setup", {
-              state: { uid: user.uid, email: user.email },
-            });
-          }
-        }, 3000); // ✅ Poll every 3 seconds for verification update
 
+            // Only redirect to profile-setup after signup
+            const userDoc = await getDoc(doc(db, "users", user.uid));
+            if (userDoc.exists()) {
+              const data = userDoc.data();
+              if (!data.isProfileComplete) {
+                navigate("/profile-setup", {
+                  state: { uid: user.uid, email: user.email },
+                });
+              } else {
+                navigate("/dashboard");
+              }
+            }
+          }
+        }, 3000);
         return () => clearInterval(checkVerification);
       }
     });
-
     return () => unsubscribe();
   }, [navigate]);
 
@@ -82,17 +90,16 @@ const AuthPage = () => {
         );
         const user = userCredential.user;
 
-        // Send email verification and open the verification popup
         await sendEmailVerification(user);
         setEmailSent(true);
         setVerificationPopup(true);
 
-        // Save user details in Firestore
         await setDoc(doc(db, "users", user.uid), {
           name,
           email,
           createdAt: new Date(),
           emailVerified: false,
+          isProfileComplete: false,
         });
       } else {
         const userCredential = await signInWithEmailAndPassword(
@@ -100,11 +107,25 @@ const AuthPage = () => {
           email,
           password
         );
+
         if (!userCredential.user.emailVerified) {
           setError("Please verify your email before logging in.");
           return;
         }
-        navigate("/logged-homepage");
+
+        const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
+        const data = userDoc.data();
+
+        if (!data.isProfileComplete) {
+          navigate("/profile-setup", {
+            state: {
+              uid: userCredential.user.uid,
+              email: userCredential.user.email,
+            },
+          });
+        } else {
+          navigate("/dashboard");
+        }
       }
     } catch (err) {
       setError(getErrorMessage(err.code));
@@ -129,102 +150,104 @@ const AuthPage = () => {
 
   return (
     <div className="auth-container">
-      <div className={`container ${isSignUp ? "right-panel-active" : ""}`}>
+      <div className={`auth-wrapper ${isSignUp ? "right-panel-active" : ""}`}>
         {emailSent ? (
-          <div className="email-verification-container">
+          <div className="auth-email-verification-container">
             <h2>Check Your Email</h2>
             <p>
               A verification email has been sent to <strong>{email}</strong>.
             </p>
             <p>Please verify your email before logging in.</p>
           </div>
-        ) : isSignUp ? (
-          <div className="form-container sign-up-container">
-            <form onSubmit={handleSubmit}>
-              <h1>Create Account</h1>
-              <input
-                type="text"
-                placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <div className="password-container">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? "🙈 Hide" : "👁️ Show"}
-                </button>
-              </div>
-              {error && <p className="error">{error}</p>}
-              <button type="submit" disabled={loading}>
-                {loading ? "Processing..." : "Sign Up"}
-              </button>
-            </form>
-          </div>
         ) : (
-          <div className="form-container sign-in-container">
-            <form onSubmit={handleSubmit}>
-              <h1>Sign in</h1>
-              <input
-                type="email"
-                placeholder="Email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-              />
-              <div className="password-container">
+          <>
+            <div className="auth-form-container auth-sign-in-container">
+              <form onSubmit={handleSubmit}>
+                <h1>Sign In</h1>
                 <input
-                  type={showPassword ? "text" : "password"}
-                  placeholder="Password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                >
-                  {showPassword ? "🙈 Hide" : "👁️ Show"}
+                <div className="password-container">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "🙈 Hide" : "👁️ Show"}
+                  </button>
+                </div>
+                <p className="forgot-password" onClick={handleForgotPassword}>
+                  Forgot Password?
+                </p>
+                {error && <p className="error">{error}</p>}
+                <button type="submit" disabled={loading}>
+                  {loading ? "Signing In..." : "Sign In"}
                 </button>
-              </div>
-              <p className="forgot-password" onClick={handleForgotPassword}>
-                Forgot Password?
-              </p>
-              {error && <p className="error">{error}</p>}
-              <button type="submit" disabled={loading}>
-                {loading ? "Processing..." : "Sign In"}
-              </button>
-            </form>
-          </div>
+              </form>
+            </div>
+
+            <div className="auth-form-container auth-sign-up-container">
+              <form onSubmit={handleSubmit}>
+                <h1>Create Account</h1>
+                <input
+                  type="text"
+                  placeholder="Full Name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  required
+                />
+                <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                />
+                <div className="password-container">
+                  <input
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? "🙈 Hide" : "👁️ Show"}
+                  </button>
+                </div>
+                {error && <p className="error">{error}</p>}
+                <button type="submit" disabled={loading}>
+                  {loading ? "Creating..." : "Sign Up"}
+                </button>
+              </form>
+            </div>
+          </>
         )}
 
-        {/* ✅ Overlay to toggle between Sign In and Sign Up */}
-        <div className="overlay-container">
-          <div className="overlay">
-            <div className="overlay-panel overlay-left">
+        {/* Overlay Panel */}
+        <div className="auth-overlay-container">
+          <div className="auth-overlay">
+            <div className="auth-overlay-panel auth-overlay-left">
               <h1>Welcome Back!</h1>
               <p>If you already have an account, sign in here</p>
               <button className="ghost" onClick={handleToggle}>
                 Sign In
               </button>
             </div>
-            <div className="overlay-panel overlay-right">
+            <div className="auth-overlay-panel auth-overlay-right">
               <h1>Hello, Friend!</h1>
               <p>Enter your details and start your journey with us</p>
               <button className="ghost" onClick={handleToggle}>
@@ -235,12 +258,10 @@ const AuthPage = () => {
         </div>
       </div>
 
-      {/* ✅ Verification Popup (appears above everything) */}
       {verificationPopup && (
         <>
-          <div className="verification-overlay"></div>{" "}
-          {/* Background overlay */}
-          <div className="verification-popup">
+          <div className="auth-verification-overlay"></div>
+          <div className="auth-verification-popup">
             <h3>Email Verification Required</h3>
             <p>
               We've sent a verification email to <strong>{email}</strong>.

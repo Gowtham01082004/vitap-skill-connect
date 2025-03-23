@@ -1,65 +1,69 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import "./Navbar.css";
-import logo from "../assets/images/logo.png";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false);
-      }
+      if (window.innerWidth >= 768) setIsMobileMenuOpen(false);
     };
 
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
-
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
 
+  const isActive = (path) => location.pathname === path;
+
   return (
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
-        {/* 📌 Logo Section */}
         <div className="navbar-logo-container" onClick={() => navigate("/")}>
-          <img src={logo} alt="Logo" className="logo-image" />
+          <span className="logo-icon" role="img" aria-label="logo">
+            🎓
+          </span>
+          <h1 className="logo-text">
+            VIT<span className="highlight">Assist</span>
+          </h1>
         </div>
 
-        {/* 📍 Navigation Links */}
         <div className={`nav-links ${isMobileMenuOpen ? "active" : ""}`}>
-          <span className="nav-link" onClick={() => navigate("/")}>
+          <span
+            className={`nav-link ${isActive("/") ? "active" : ""}`}
+            onClick={() => navigate("/")}
+          >
             Home
           </span>
-          <span className="nav-link" onClick={() => navigate("/how-it-works")}>
+          <span
+            className={`nav-link ${isActive("/how-it-works") ? "active" : ""}`}
+            onClick={() => navigate("/how-it-works")}
+          >
             How It Works
           </span>
-          <span className="nav-link" onClick={() => navigate("/faq")}>
+          <span
+            className={`nav-link ${isActive("/faq") ? "active" : ""}`}
+            onClick={() => navigate("/faq")}
+          >
             FAQs
           </span>
-          <span className="nav-link" onClick={() => navigate("/about")}>
+          <span
+            className={`nav-link ${isActive("/about") ? "active" : ""}`}
+            onClick={() => navigate("/about")}
+          >
             About Us
           </span>
-          <span
-            className="nav-link ai-chatbot-link"
-            onClick={() => navigate("/chatbot")}
-          >
-            AI Chatbot
-          </span>
 
-          {/* 🔑 Auth Section */}
           {user ? (
             <div className="user-section">
               <span className="user-name">👤 {user.email}</span>
@@ -69,7 +73,6 @@ const Navbar = () => {
             </div>
           ) : (
             <div className="auth-buttons">
-              {/* ✅ Redirects to `/auth` page completely */}
               <button className="login-btn" onClick={() => navigate("/auth")}>
                 Login
               </button>
@@ -80,7 +83,6 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* 📱 Mobile Menu Button */}
         <button
           className="mobile-menu-button"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}

@@ -88,8 +88,8 @@ const PostDetails = () => {
     if (!user || !post?.userEmail) return;
     try {
       await addDoc(collection(db, "requests"), {
-        sender: user.email, // ✅ Store sender's email
-        receiver: post.userEmail, // ✅ Store receiver's email
+        sender: user.email,
+        receiver: post.userEmail,
         postId: post.id,
         postTitle: post.title,
         status: "sent",
@@ -105,26 +105,38 @@ const PostDetails = () => {
   return (
     <div className="post-details-container">
       {post ? (
-        <>
-          <h2>{post.title}</h2>
-          <p>{post.fullDescription}</p>
-          <p>
+        <div className="post-card">
+          <h2 className="post-title">{post.title}</h2>
+          <p className="post-description">{post.fullDescription}</p>
+          <p className="post-owner">
             <strong>Posted by:</strong> {ownerName}
           </p>
 
-          {/* ✅ Show "Collaborate" button ONLY if the logged-in user is NOT the post owner */}
+          {post.roles && (
+            <div className="roles-section">
+              <h3>Looking For:</h3>
+              <ul className="roles-list">
+                {post.roles.map((role, index) => (
+                  <li key={index} className="role-tag">
+                    {role}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
           {post.userEmail !== user?.email && (
             <button
-              className="send-request-btn"
+              className={`send-request-btn ${requestSent ? "sent" : ""}`}
               onClick={handleSendRequest}
               disabled={requestSent}
             >
               {requestSent ? "Request Sent ✅" : "Collaborate"}
             </button>
           )}
-        </>
+        </div>
       ) : (
-        <p>Loading post details...</p>
+        <p className="loading-text">Loading post details...</p>
       )}
     </div>
   );

@@ -1,56 +1,99 @@
-.post-details-wrapper {
-  max-width: 800px;
-  margin: auto;
+/* 🔹 Post Details Wrapper */
+.post-details-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #f4f7fc;
   padding: 20px;
-  text-align: left;
 }
 
-.post-content-box {
-  background: #f9f9f9;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+/* 🏆 Main Post Card */
+.post-card {
+  background: linear-gradient(135deg, #ffffff, #eef1f8);
+  border-radius: 12px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
+  padding: 30px;
+  width: 600px;
+  text-align: center;
+  transition: 0.3s ease-in-out;
 }
 
+.post-card:hover {
+  transform: translateY(-5px);
+}
+
+/* 🏷️ Post Title */
 .post-title {
   color: #2563eb;
+  font-size: 24px;
+  font-weight: bold;
 }
 
-.project-summary {
-  background: #e0e0e0;
+/* 📌 Post Description */
+.post-description {
+  color: #555;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 15px 0;
+}
+
+/* 👤 Owner Info */
+.post-owner {
+  font-size: 15px;
+  font-weight: bold;
+  color: #333;
+}
+
+/* 🎯 Roles Section */
+.roles-section {
+  background: #edf4ff;
   padding: 15px;
-  border-radius: 5px;
+  border-radius: 8px;
+  margin-top: 20px;
 }
 
-.post-list {
+.roles-list {
   list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
   padding: 0;
 }
 
-.post-list-item {
-  background: white;
-  margin: 5px 0;
-  padding: 10px;
+.role-tag {
+  background: #2563eb;
+  color: white;
+  padding: 5px 10px;
   border-radius: 5px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: 14px;
 }
 
-.request-btn {
-  background-color: #007bff;
+/* 🚀 Collaborate Button */
+.send-request-btn {
+  background: #007bff;
   color: white;
   border: none;
-  padding: 10px 15px;
+  padding: 12px 18px;
   font-size: 16px;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 6px;
+  font-weight: bold;
   transition: 0.3s ease;
+  margin-top: 20px;
 }
 
-.request-btn:hover {
-  background-color: #0056b3;
+.send-request-btn:hover {
+  background: #0056b3;
 }
 
-.request-btn:disabled {
-  background-color: gray;
+.send-request-btn.sent {
+  background: #28a745;
   cursor: not-allowed;
+}
+
+/* ⏳ Loading Text */
+.loading-text {
+  font-size: 18px;
+  color: #555;
 }

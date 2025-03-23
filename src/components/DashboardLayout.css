@@ -1,0 +1,12 @@
+.dashboard-layout {
+  display: flex;
+  min-height: calc(100vh - 70px); /* Navbar height = 70px */
+  background-color: #121212;
+  color: white;
+}
+
+.dashboard-main {
+  flex: 1;
+  padding: 30px;
+  overflow-y: auto;
+}

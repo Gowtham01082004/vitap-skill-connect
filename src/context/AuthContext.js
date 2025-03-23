@@ -2,21 +2,17 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth, db } from "../config/firebaseConfig";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
+import LoadingScreen from "../components/LoadingScreen"; // ✅ Import here
 
-// 🔹 Create Authentication Context
 const AuthContext = createContext();
 
-// 🚀 Authentication Provider
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
 
-  // 🔄 Monitor authentication changes
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log("Auth state changed. Current user:", currentUser);
-
       if (currentUser) {
         setUser(currentUser);
 
@@ -53,10 +49,9 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider value={{ user, userName, loading, logout }}>
-      {loading ? <p>Loading authentication...</p> : children}
+      {loading ? <LoadingScreen /> : children}
     </AuthContext.Provider>
   );
 };
 
-// 🏷 Custom Hook to Access Authentication Data
 export const useAuth = () => useContext(AuthContext);
