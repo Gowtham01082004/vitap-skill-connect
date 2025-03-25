@@ -10,7 +10,9 @@ const Footer = () => {
             <span role="img" aria-label="logo">
               🎓
             </span>
-            <h3>VITAssist</h3>
+            <h3 className="brand-title">
+              VIT<span>Assist</span>
+            </h3>
           </div>
           <p>
             VITAssist is a comprehensive platform designed to support VIT-AP
@@ -58,10 +60,10 @@ const Footer = () => {
               <a href="/faq">FAQ</a>
             </li>
             <li>
-              <a href="/privacy">Privacy Policy</a>
+              <a href="/privacy-policy">Privacy Policy</a>
             </li>
             <li>
-              <a href="/terms">Terms of Service</a>
+              <a href="/terms-of-service">Terms of Service</a>
             </li>
           </ul>
         </div>

@@ -28,7 +28,12 @@ const RequestsInbox = () => {
         setLoading(true);
         const requestCollection = collection(db, "requests");
 
-        const q = query(requestCollection, where("receiver", "==", user.email));
+        const q = query(
+          requestCollection,
+          where("receiver", "==", user.email),
+          where("status", "==", "sent") // ✅ Only fetch pending requests
+        );
+
         const snapshot = await getDocs(q);
 
         console.log(
@@ -115,41 +120,47 @@ const RequestsInbox = () => {
   };
 
   return (
-    <div className="requests-inbox-container">
-      <h2>Requests Inbox</h2>
+    <div className="total-container">
+      <div className="requests-inbox-container">
+        <h2>Requests Inbox</h2>
 
-      {loading ? (
-        <p>Loading requests...</p>
-      ) : requests.length === 0 ? (
-        <p>No new collaboration requests.</p>
-      ) : (
-        <div className="requests-list">
-          {requests.map((req) => (
-            <div key={req.id} className="request-card">
-              <p>
-                <strong>{req.senderEmail}</strong> wants to collaborate on{" "}
-                <strong>{req.postTitle}</strong>
-              </p>
-              <div className="request-actions">
-                <button
-                  className="accept-btn"
-                  onClick={() => handleAccept(req)}
-                  disabled={processingRequestId === req.id}
-                >
-                  {processingRequestId === req.id ? "Processing..." : "Accept"}
-                </button>
-                <button
-                  className="decline-btn"
-                  onClick={() => handleDecline(req)}
-                  disabled={processingRequestId === req.id}
-                >
-                  {processingRequestId === req.id ? "Processing..." : "Decline"}
-                </button>
+        {loading ? (
+          <p>Loading requests...</p>
+        ) : requests.length === 0 ? (
+          <p>No new collaboration requests.</p>
+        ) : (
+          <div className="requests-list">
+            {requests.map((req) => (
+              <div key={req.id} className="request-card">
+                <p>
+                  <strong>{req.sender}</strong> wants to collaborate on{" "}
+                  <strong>{req.postTitle}</strong>
+                </p>
+                <div className="request-actions">
+                  <button
+                    className="accept-btn"
+                    onClick={() => handleAccept(req)}
+                    disabled={processingRequestId === req.id}
+                  >
+                    {processingRequestId === req.id
+                      ? "Processing..."
+                      : "Accept"}
+                  </button>
+                  <button
+                    className="decline-btn"
+                    onClick={() => handleDecline(req)}
+                    disabled={processingRequestId === req.id}
+                  >
+                    {processingRequestId === req.id
+                      ? "Processing..."
+                      : "Decline"}
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 };

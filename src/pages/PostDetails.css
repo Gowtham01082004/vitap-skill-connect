@@ -1,99 +1,108 @@
-/* 🔹 Post Details Wrapper */
+/* PostDetails.css */
+
 .post-details-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  background: #f4f7fc;
-  padding: 20px;
+  padding: 2rem;
+  background-color: #121212;
+  color: white;
+  min-height: 100vh;
 }
 
-/* 🏆 Main Post Card */
 .post-card {
-  background: linear-gradient(135deg, #ffffff, #eef1f8);
+  background-color: #1e1e2f;
   border-radius: 12px;
-  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.2);
-  padding: 30px;
-  width: 600px;
-  text-align: center;
-  transition: 0.3s ease-in-out;
+  padding: 2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
 
-.post-card:hover {
-  transform: translateY(-5px);
+.post-card h2 {
+  font-size: 1.8rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
 }
 
-/* 🏷️ Post Title */
-.post-title {
-  color: #2563eb;
-  font-size: 24px;
-  font-weight: bold;
+.post-card p {
+  color: #ccc;
+  margin-bottom: 0.75rem;
 }
 
-/* 📌 Post Description */
-.post-description {
-  color: #555;
-  font-size: 16px;
-  line-height: 1.5;
-  margin: 15px 0;
+.roles-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
 }
 
-/* 👤 Owner Info */
-.post-owner {
-  font-size: 15px;
-  font-weight: bold;
-  color: #333;
-}
-
-/* 🎯 Roles Section */
-.roles-section {
-  background: #edf4ff;
-  padding: 15px;
-  border-radius: 8px;
-  margin-top: 20px;
-}
-
-.roles-list {
-  list-style: none;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0;
-}
-
-.role-tag {
-  background: #2563eb;
+.role-card {
+  background-color: #222;
   color: white;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-/* 🚀 Collaborate Button */
-.send-request-btn {
-  background: #007bff;
-  color: white;
-  border: none;
-  padding: 12px 18px;
-  font-size: 16px;
+  border-radius: 10px;
+  padding: 16px;
   cursor: pointer;
-  border-radius: 6px;
-  font-weight: bold;
+  border: 2px solid transparent;
   transition: 0.3s ease;
-  margin-top: 20px;
+  position: relative;
 }
 
-.send-request-btn:hover {
-  background: #0056b3;
+.role-card:hover {
+  border-color: #8b5df2;
 }
 
-.send-request-btn.sent {
-  background: #28a745;
+.role-card.filled {
+  background-color: #333;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 
-/* ⏳ Loading Text */
-.loading-text {
-  font-size: 18px;
-  color: #555;
+.role-card.selected {
+  border: 2px solid #8b5df2;
+  background-color: #1f1f2b;
+}
+
+.role-card h4 {
+  margin-bottom: 8px;
+  color: #ffffff;
+}
+
+.badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border-radius: 6px;
+  color: white;
+}
+
+.filled-badge {
+  background-color: #e53935; /* red */
+}
+
+.selected-badge {
+  background-color: #43a047; /* green */
+}
+
+.send-request-btn {
+  margin-top: 1.5rem;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  background-color: #8b5df2;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.send-request-btn:hover {
+  background-color: #a489f5;
+}
+
+.send-request-btn:disabled {
+  background-color: #555;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.send-request-btn.sent {
+  background-color: #4caf50;
 }

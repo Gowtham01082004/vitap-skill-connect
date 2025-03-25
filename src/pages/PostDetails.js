@@ -20,6 +20,8 @@ const PostDetails = () => {
   const [post, setPost] = useState(null);
   const [requestSent, setRequestSent] = useState(false);
   const [ownerName, setOwnerName] = useState("Loading...");
+  const [filledRoles, setFilledRoles] = useState({});
+  const [selectedRoleIndex, setSelectedRoleIndex] = useState(null);
 
   useEffect(() => {
     const fetchPostDetails = async () => {
@@ -33,12 +35,10 @@ const PostDetails = () => {
 
           if (postData.userId) {
             await fetchOwnerName(postData.userId);
+            fetchFilledRoles(postDoc.id, postData.roles);
           } else {
-            console.warn("Missing userId in post data:", postData);
             setOwnerName("Unknown User");
           }
-        } else {
-          console.error(`No post found for postId: ${id}`);
         }
       } catch (error) {
         console.error("Error fetching post details:", error);
@@ -49,35 +49,43 @@ const PostDetails = () => {
       try {
         const userRef = doc(db, "users", userId);
         const userDoc = await getDoc(userRef);
-
-        if (userDoc.exists()) {
-          setOwnerName(userDoc.data().userName || "Unknown User");
-        } else {
-          console.warn(`No user found for userId: ${userId}`);
-          setOwnerName("Unknown User");
-        }
-      } catch (error) {
-        console.error(`Error fetching user data for userId: ${userId}`, error);
-        setOwnerName("Unknown User");
+        setOwnerName(userDoc.exists() ? userDoc.data().userName : "Unknown");
+      } catch {
+        setOwnerName("Unknown");
       }
+    };
+
+    const fetchFilledRoles = async (postId, roles) => {
+      const requestRef = collection(db, "requests");
+      const q = query(
+        requestRef,
+        where("postId", "==", postId),
+        where("status", "==", "accepted")
+      );
+      const snapshot = await getDocs(q);
+      const roleCounts = {};
+
+      snapshot.forEach((doc) => {
+        const data = doc.data();
+        if (data.selectedRoleIndex !== undefined) {
+          roleCounts[data.selectedRoleIndex] =
+            (roleCounts[data.selectedRoleIndex] || 0) + 1;
+        }
+      });
+
+      setFilledRoles(roleCounts);
     };
 
     const checkExistingRequest = async () => {
       if (!user) return;
-      try {
-        const requestsRef = collection(db, "requests");
-        const q = query(
-          requestsRef,
-          where("postId", "==", id),
-          where("sender", "==", user.email)
-        );
-        const querySnapshot = await getDocs(q);
-        if (!querySnapshot.empty) {
-          setRequestSent(true);
-        }
-      } catch (error) {
-        console.error("Error checking request status:", error);
-      }
+      const requestsRef = collection(db, "requests");
+      const q = query(
+        requestsRef,
+        where("postId", "==", id),
+        where("sender", "==", user.email)
+      );
+      const snapshot = await getDocs(q);
+      if (!snapshot.empty) setRequestSent(true);
     };
 
     fetchPostDetails();
@@ -85,7 +93,7 @@ const PostDetails = () => {
   }, [id, user]);
 
   const handleSendRequest = async () => {
-    if (!user || !post?.userEmail) return;
+    if (!user || !post || selectedRoleIndex === null) return;
     try {
       await addDoc(collection(db, "requests"), {
         sender: user.email,
@@ -93,9 +101,9 @@ const PostDetails = () => {
         postId: post.id,
         postTitle: post.title,
         status: "sent",
+        selectedRoleIndex,
         timestamp: serverTimestamp(),
       });
-
       setRequestSent(true);
     } catch (error) {
       console.error("Error sending request:", error);
@@ -106,37 +114,64 @@ const PostDetails = () => {
     <div className="post-details-container">
       {post ? (
         <div className="post-card">
-          <h2 className="post-title">{post.title}</h2>
-          <p className="post-description">{post.fullDescription}</p>
-          <p className="post-owner">
+          <h2>{post.title}</h2>
+          <p>{post.fullDescription}</p>
+          <p>
             <strong>Posted by:</strong> {ownerName}
           </p>
 
-          {post.roles && (
-            <div className="roles-section">
-              <h3>Looking For:</h3>
-              <ul className="roles-list">
-                {post.roles.map((role, index) => (
-                  <li key={index} className="role-tag">
-                    {role}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          )}
+          <h3>Available Roles:</h3>
+          <div className="roles-grid">
+            {post.roles?.map((role, index) => {
+              const isFilled = filledRoles[index] >= role.count;
+              const isSelected = selectedRoleIndex === index;
+
+              return (
+                <div
+                  key={index}
+                  className={`role-card ${isFilled ? "filled" : ""} ${
+                    isSelected ? "selected" : ""
+                  }`}
+                  onClick={() =>
+                    !isFilled && !requestSent && setSelectedRoleIndex(index)
+                  }
+                >
+                  <h4>{role.title}</h4>
+                  <p>
+                    <strong>Required Skills:</strong> {role.skills.join(", ")}
+                  </p>
+                  <p>
+                    <strong>Members:</strong> {filledRoles[index] || 0} /{" "}
+                    {role.count}
+                  </p>
+                  {isFilled && (
+                    <span className="badge filled-badge">Filled</span>
+                  )}
+                  {isSelected && !isFilled && (
+                    <span className="badge selected-badge">Selected</span>
+                  )}
+                </div>
+              );
+            })}
+          </div>
 
           {post.userEmail !== user?.email && (
             <button
               className={`send-request-btn ${requestSent ? "sent" : ""}`}
               onClick={handleSendRequest}
-              disabled={requestSent}
+              disabled={
+                requestSent ||
+                selectedRoleIndex === null ||
+                filledRoles[selectedRoleIndex] >=
+                  post.roles[selectedRoleIndex]?.count
+              }
             >
-              {requestSent ? "Request Sent ✅" : "Collaborate"}
+              {requestSent ? "Request Sent ✅" : "Apply for Selected Role"}
             </button>
           )}
         </div>
       ) : (
-        <p className="loading-text">Loading post details...</p>
+        <p>Loading post details...</p>
       )}
     </div>
   );

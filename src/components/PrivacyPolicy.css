@@ -1,0 +1,31 @@
+.privacy-policy-container {
+  background-color: #121212;
+  color: #f1f1f1;
+  padding: 40px;
+  font-family: "Poppins", sans-serif;
+  max-width: 100%;
+  margin: auto;
+}
+
+.privacy-policy-container h1 {
+  font-size: 36px;
+  color: #00e5ff;
+  margin-bottom: 20px;
+}
+
+.privacy-policy-container h2 {
+  color: #ff3d81;
+  margin-top: 30px;
+  font-size: 24px;
+}
+
+.privacy-policy-container p,
+.privacy-policy-container li {
+  font-size: 15px;
+  line-height: 1.6;
+  color: #cccccc;
+}
+
+.privacy-policy-container ul {
+  padding-left: 20px;
+}

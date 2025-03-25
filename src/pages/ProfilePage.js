@@ -44,13 +44,17 @@ const ProfilePage = () => {
   const [userData, setUserData] = useState({});
   const [editing, setEditing] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
+  const [collaboratedPosts, setCollaboratedPosts] = useState([]);
   const [customSkillInput, setCustomSkillInput] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
+  const [loadingUser, setLoadingUser] = useState(true);
 
   useEffect(() => {
     if (!user) return;
 
     const fetchUserData = async () => {
+      setLoadingUser(true);
       const userRef = doc(db, "users", user.uid);
       const userDoc = await getDoc(userRef);
 
@@ -70,20 +74,44 @@ const ProfilePage = () => {
         await setDoc(userRef, { email: user.email, createdAt: new Date() });
         setUserData({ email: user.email });
       }
+      setLoadingUser(false);
     };
 
     const fetchUserPosts = async () => {
-      const q = query(
+      setLoadingPosts(true);
+      const postQuery = query(
         collection(db, "posts"),
         where("userEmail", "==", user.email),
         orderBy("timestamp", "desc")
       );
-      const snapshot = await getDocs(q);
+      const snapshot = await getDocs(postQuery);
       setUserPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      setLoadingPosts(false);
+    };
+
+    const fetchCollaboratedPosts = async () => {
+      const requestQuery = query(
+        collection(db, "requests"),
+        where("sender", "==", user.email),
+        where("status", "==", "accepted")
+      );
+      const requestSnapshot = await getDocs(requestQuery);
+
+      const postIds = requestSnapshot.docs.map((doc) => doc.data().postId);
+      if (postIds.length === 0) return;
+
+      const postsSnapshot = await Promise.all(
+        postIds.map((postId) => getDoc(doc(db, "posts", postId)))
+      );
+      const posts = postsSnapshot
+        .filter((doc) => doc.exists())
+        .map((doc) => ({ id: doc.id, ...doc.data() }));
+      setCollaboratedPosts(posts);
     };
 
     fetchUserData();
     fetchUserPosts();
+    fetchCollaboratedPosts();
   }, [user]);
 
   const handleDeletePost = async (postId) => {
@@ -330,7 +358,9 @@ const ProfilePage = () => {
 
           <div className="info-card">
             <h3>My Projects</h3>
-            {userPosts.length === 0 ? (
+            {loadingPosts ? (
+              <p className="subtext">Loading your posts...</p>
+            ) : userPosts.length === 0 ? (
               <p className="subtext">No posts yet.</p>
             ) : (
               <ul className="user-posts-list">
@@ -346,6 +376,26 @@ const ProfilePage = () => {
                     >
                       🗑 Delete
                     </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
+          <div className="info-card">
+            <h3>Collaborated Projects</h3>
+            {loadingPosts ? (
+              <p className="subtext">Loading collaborations...</p>
+            ) : collaboratedPosts.length === 0 ? (
+              <p className="subtext">You haven't joined any projects yet.</p>
+            ) : (
+              <ul className="user-posts-list">
+                {collaboratedPosts.map((post) => (
+                  <li className="post-item" key={post.id}>
+                    <p>
+                      <strong>{post.title}</strong>
+                    </p>
+                    <p>{post.description}</p>
                   </li>
                 ))}
               </ul>

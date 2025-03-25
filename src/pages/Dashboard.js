@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, getDocs, collection } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import LoadingScreen from "../components/LoadingScreen";
 import axios from "axios";
@@ -12,6 +12,20 @@ const Dashboard = () => {
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, "posts"));
+        setPosts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
+      } catch (error) {
+        console.error("Error fetching posts:", error);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   const [messages, setMessages] = useState([
     {
@@ -96,7 +110,7 @@ const Dashboard = () => {
               <div className="stat-card-title">JOIN PROJECTS</div>
               <div className="stat-card-icon">🔍</div>
             </div>
-            <div className="stat-value">65+</div>
+            <div className="stat-value">{posts.length}</div>
             <div className="stat-meta">Available projects to join</div>
           </div>
 

@@ -15,7 +15,9 @@
   overflow: hidden;
   margin-top: 0%;
 }
-
+.brand-title span {
+  color: #00e5ff;
+}
 .footer-v2::before {
   content: "";
   position: absolute;

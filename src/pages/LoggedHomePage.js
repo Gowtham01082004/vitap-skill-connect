@@ -12,6 +12,7 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./LoggedHomePage.css";
+import ProjectSkeleton from "../components/ProjectSkeleton"; // ✅ Corrected import
 
 const LoggedHomePage = () => {
   const { user, loading } = useAuth();
@@ -58,8 +59,8 @@ const LoggedHomePage = () => {
         const userRef = doc(db, "users", post.userId);
         const userDoc = await getDoc(userRef);
         userMap[post.userId] = userDoc.exists()
-          ? userDoc.data().name || "Unknown User"
-          : "Unknown User";
+          ? userDoc.data().name || "Unknown"
+          : "Unknown";
       }
       setUserNames(userMap);
     };
@@ -86,68 +87,101 @@ const LoggedHomePage = () => {
     };
 
     fetchPosts();
-
     return () => {
       isMounted = false;
     };
   }, [user]);
+
+  const getInitials = (name) => {
+    return name
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
+      .toUpperCase()
+      .slice(0, 2);
+  };
 
   if (loading) return <p>Loading authentication...</p>;
   if (!user) return <p>You are not logged in. Please log in first.</p>;
 
   return (
     <div className="logged-home-container">
-      <h3>Welcome, {user?.email}</h3>
+      <div className="header-section">
+        <h3>Join Projects</h3>
+        <button className="filter-btn">Filter</button>
+      </div>
 
-      <button
-        className="create-post-btn"
-        onClick={() => navigate("/create-post")}
-      >
-        ➕ Create New Post
-      </button>
+      <p className="project-count">
+        Showing <span className="highlight">{posts.length}</span> available
+        projects
+      </p>
 
-      {postsLoading && <p>Loading posts...</p>}
+      <div className="project-cards">
+        {postsLoading
+          ? Array.from({ length: 6 }).map((_, index) => (
+              <ProjectSkeleton key={index} />
+            ))
+          : posts.map((post) => (
+              <div key={post.id} className="project-card">
+                <div className="card-header">
+                  <h4 className="project-title">{post.title}</h4>
+                  <span className="project-tag">
+                    {post.domain?.[0] || "General"}
+                  </span>
+                </div>
 
-      <div className="posts">
-        {posts.length === 0 && !postsLoading ? (
-          <p>No posts yet. Start the conversation!</p>
-        ) : (
-          posts.map((post) => (
-            <div key={post.id} className="post-card">
-              <h4>{post.title}</h4>
-              <p>{post.shortDescription}</p>
-              <p>
-                <strong>Posted by:</strong>{" "}
-                {userNames[post.userId] || "Loading..."}
-              </p>
-              <ul>
-                {(post.roles || []).map((role, index) => (
-                  <li key={index}>{role}</li>
-                ))}
-              </ul>
+                <p className="project-dept">
+                  {post.department || "Engineering"}
+                </p>
 
-              {post.userId !== user.uid && (
-                <button
-                  onClick={() => navigate(`/post/${post.id}`)}
-                  disabled={requestStatus[post.id] === "accepted"}
-                  className={
-                    requestStatus[post.id] === "accepted"
-                      ? "collaborated-btn"
-                      : requestStatus[post.id] === "declined"
-                      ? "declined-btn"
-                      : "collaborate-btn"
-                  }
-                >
-                  {requestStatus[post.id] === "accepted"
-                    ? "Collaborated ✅"
-                    : requestStatus[post.id] === "declined"
-                    ? "Declined ❌"
-                    : "Collaborate"}
-                </button>
-              )}
-            </div>
-          ))
-        )}
+                <p className="project-desc">
+                  {post.fullDescription?.slice(0, 150) ||
+                    "No description available."}
+                </p>
+
+                <div className="project-meta">
+                  <span>🕒 Duration: {post.duration}</span>
+                  <span>👥 Team Size: {post.teamSize || "N/A"}</span>
+                </div>
+
+                <div className="project-skills">
+                  {(post.skillsRequired || []).map((skill, i) => (
+                    <span key={i} className="skill-pill">
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="card-footer">
+                  <div className="mentor-info">
+                    <div className="mentor-avatar">
+                      {getInitials(userNames[post.userId] || "")}
+                    </div>
+                    <span>{userNames[post.userId] || "Loading..."}</span>
+                  </div>
+
+                  {post.userId !== user.uid && (
+                    <button
+                      onClick={() => navigate(`/post/${post.id}`)}
+                      disabled={requestStatus[post.id] === "accepted"}
+                      className={`apply-btn ${
+                        requestStatus[post.id] === "accepted"
+                          ? "applied"
+                          : requestStatus[post.id] === "declined"
+                          ? "declined"
+                          : ""
+                      }`}
+                    >
+                      {requestStatus[post.id] === "accepted"
+                        ? "Applied ✅"
+                        : requestStatus[post.id] === "declined"
+                        ? "Declined ❌"
+                        : "Apply"}
+                    </button>
+                  )}
+                </div>
+              </div>
+            ))}
       </div>
     </div>
   );

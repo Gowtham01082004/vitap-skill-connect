@@ -1,55 +1,121 @@
+/* Make the page background and content look clean and modern */
 .create-post-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  text-align: center;
-}
-
-.create-post-container h2 {
-  margin-bottom: 15px;
-}
-
-.create-post-container form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.create-post-container input,
-.create-post-container textarea {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-}
-
-.create-post-container button {
-  background-color: #007bff;
+  padding: 2rem;
+  background-color: #0a0a0a;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: 0.3s ease;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
 }
 
-.create-post-container button:hover {
-  background-color: #0056b3;
-}
-
-.create-post-btn {
-  background-color: #28a745;
+/* Style the main card (paper) */
+.create-post-paper {
+  padding: 1.5rem 2rem;
+  background-color: #000000 !important; /* Pure black */
   color: white;
-  padding: 10px 15px;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  border: none;
-  transition: 0.3s ease;
-  display: block;
-  margin: 20px auto;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-.create-post-btn:hover {
-  background-color: #218838;
+/* Step container */
+.create-post-step-content {
+  background-color: transparent !important;
+  padding: 1.5rem 0 0;
+  color: white;
+  border-radius: 12px;
+}
+
+/* Page title */
+.create-post-container h4 {
+  font-size: 28px;
+  margin-bottom: 1rem;
+  color: white;
+  font-weight: 600;
+}
+
+/* Stepper customization */
+.stepper {
+  background-color: transparent !important;
+  margin-bottom: 1rem;
+}
+
+.stepper .MuiStepIcon-root {
+  color: #555 !important;
+}
+
+.stepper .MuiStepIcon-root.Mui-active {
+  color: #8b5df2 !important;
+}
+
+.stepper .MuiStepIcon-root.Mui-completed {
+  color: #00e5ff !important;
+}
+
+.stepper .MuiStepLabel-label {
+  color: white !important;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+.stepper .MuiStepLabel-label.Mui-active {
+  color: #8b5df2 !important;
+  opacity: 1;
+  font-weight: bold;
+}
+
+.stepper .MuiStepLabel-label.Mui-completed {
+  color: #00e5ff !important;
+  opacity: 1;
+}
+
+.stepper .MuiStepConnector-line {
+  border-color: #555 !important;
+}
+
+/* Dark theme for inputs */
+.custom-input .MuiInputBase-root {
+  background-color: #121212 !important;
+  color: white;
+  border-radius: 8px;
+}
+
+.custom-input input,
+.custom-input textarea {
+  color: white !important;
+}
+
+.custom-input .MuiInputLabel-root {
+  color: #bbb !important;
+}
+
+.custom-input .MuiInputLabel-root.Mui-focused {
+  color: #8b5df2 !important;
+}
+
+.custom-input .MuiOutlinedInput-notchedOutline {
+  border-color: #444 !important;
+}
+
+.custom-input
+  .MuiOutlinedInput-root.Mui-focused
+  .MuiOutlinedInput-notchedOutline {
+  border-color: #8b5df2 !important;
+}
+
+.custom-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
+  border-color: #666 !important;
+}
+
+/* Make Submit/Next buttons more modern */
+.MuiButton-containedPrimary {
+  background-color: #8b5df2 !important;
+  color: white !important;
+  font-weight: bold;
+  border-radius: 8px;
+  padding: 8px 24px;
+  transition: background 0.3s ease;
+}
+
+.MuiButton-containedPrimary:hover {
+  background-color: #a78bfa !important;
 }
