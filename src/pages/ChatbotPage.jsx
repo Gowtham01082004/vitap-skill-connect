@@ -18,13 +18,6 @@ const ChatbotPage = () => {
   const [isTyping, setIsTyping] = useState(false);
   const chatboxRef = useRef(null);
 
-  const suggestions = [
-    "Show my upcoming assignments",
-    "When is my next class?",
-    "Find available projects",
-    "Course materials",
-  ];
-
   useEffect(() => {
     chatboxRef.current?.scrollTo(0, chatboxRef.current.scrollHeight);
   }, [messages, isTyping]);
@@ -98,14 +91,6 @@ const ChatbotPage = () => {
             <div className="message-text">Typing...</div>
           </div>
         )}
-      </div>
-
-      <div className="chat-suggestions">
-        {suggestions.map((suggestion, i) => (
-          <button key={i} onClick={() => sendMessage(suggestion)}>
-            {suggestion}
-          </button>
-        ))}
       </div>
 
       <div className="chatbot-input-area">

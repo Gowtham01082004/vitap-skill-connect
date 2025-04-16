@@ -49,7 +49,7 @@ const PostDetails = () => {
       try {
         const userRef = doc(db, "users", userId);
         const userDoc = await getDoc(userRef);
-        setOwnerName(userDoc.exists() ? userDoc.data().userName : "Unknown");
+        setOwnerName(userDoc.exists() ? userDoc.data().username : "Unknown");
       } catch {
         setOwnerName("Unknown");
       }

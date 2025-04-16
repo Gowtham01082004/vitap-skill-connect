@@ -9,14 +9,18 @@
 .profile-grid {
   display: grid;
   grid-template-columns: 1fr 2fr;
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .profile-card {
   background-color: #191a20;
   border-radius: 12px;
   overflow: hidden;
-  position: relative;
+  margin: 0;
+
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 20px; /* prevent excess spacing */
 }
 
 .profile-banner {
@@ -43,8 +47,9 @@
 }
 
 .profile-body {
-  padding: 60px 20px 20px;
+  padding: 60px 20px 0;
   text-align: center;
+  display: block;
 }
 
 .profile-body .subtext {
@@ -70,10 +75,10 @@
 }
 
 .button-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  margin-top: 1rem;
+  margin-bottom: 0;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -186,16 +191,18 @@
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.05);
 }
+
 .edit-input {
   display: block;
   width: 100%;
   padding: 12px;
-  margin-bottom: 12px;
   border-radius: 6px;
   background-color: #1e1f28;
   border: 1px solid #2a2b35;
   color: white;
+  margin-bottom: 10px;
 }
+
 .pill-container {
   display: flex;
   flex-wrap: wrap;
@@ -229,14 +236,16 @@
   margin-bottom: 5px;
   display: block;
 }
+
 .input-label {
   display: flex;
   flex-direction: column;
   font-size: 0.85rem;
   color: #a8a9b4;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   gap: 5px;
 }
+
 .pill-add {
   display: flex;
   gap: 8px;
@@ -260,10 +269,104 @@
   font-weight: bold;
   cursor: pointer;
 }
-
+.custom-skill-input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 12px;
+}
 /* Custom Color Tag Overrides */
 .custom-pill {
   background-color: rgba(255, 255, 255, 0.1);
   border-color: rgba(255, 255, 255, 0.2);
   color: #f1f1f1;
+}
+.btn btn-primary {
+  margin-bottom: 0;
+}
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    margin-bottom: 20px;
+  }
+
+  .profile-avatar {
+    width: 80px;
+    height: 80px;
+    font-size: 1.5rem;
+    bottom: -35px;
+  }
+
+  .profile-body {
+    padding: 50px 15px 20px;
+  }
+
+  .info-columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .profile-dashboard-container {
+    padding: 20px;
+  }
+
+  .profile-banner {
+    height: 100px;
+  }
+
+  .profile-avatar {
+    width: 70px;
+    height: 70px;
+    font-size: 1.3rem;
+    bottom: -30px;
+  }
+
+  .profile-body h2 {
+    font-size: 1.4rem;
+  }
+
+  .info-card h3 {
+    font-size: 1rem;
+  }
+
+  .btn {
+    padding: 8px 14px;
+    font-size: 0.85rem;
+  }
+
+  .pill,
+  .tag {
+    font-size: 0.75rem;
+    padding: 6px 12px;
+  }
+
+  .edit-input {
+    font-size: 0.9rem;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+
+  .pill-add input {
+    font-size: 0.85rem;
+  }
+
+  .pill-add button {
+    padding: 6px 10px;
+    font-size: 0.85rem;
+  }
+
+  .button-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .user-posts-list .post-item {
+    font-size: 0.9rem;
+    padding: 12px;
+  }
 }

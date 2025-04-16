@@ -1,0 +1,42 @@
+.my-projects-container {
+  display: flex;
+  height: 100%;
+  padding: 2rem;
+  color: white;
+  background-color: black;
+}
+
+.project-list {
+  width: 250px;
+  background: #1e1e2e;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-right: 2rem;
+}
+
+.project-item {
+  cursor: pointer;
+  padding: 10px;
+  margin: 6px 0;
+  border-radius: 6px;
+  background: #2c2f3e;
+  transition: 0.2s;
+}
+
+.project-item.active {
+  background: #8b5df2;
+  font-weight: bold;
+}
+
+.project-details {
+  flex: 1;
+  background: #1a1d24;
+  padding: 1.5rem;
+  border-radius: 10px;
+}
+
+.chat-access-note {
+  margin-top: 1rem;
+  font-style: italic;
+  color: #bbb;
+}

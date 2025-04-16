@@ -407,7 +407,8 @@ const CreatePost = () => {
               <strong>Description:</strong> {formData.fullDescription}
             </Typography>
             <Typography>
-              <strong>Skills:</strong> {formData.skillsRequired.join(", ")}
+              <strong className="temp">Skills:</strong>{" "}
+              {formData.skillsRequired.join(", ")}
             </Typography>
             <Typography>
               <strong>Technical Knowledge:</strong>{" "}

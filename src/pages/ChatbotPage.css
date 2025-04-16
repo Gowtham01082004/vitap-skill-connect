@@ -1,5 +1,5 @@
 .chatbot-full-container {
-  height: 100vh;
+  height: 89vh;
   display: flex;
   flex-direction: column;
   background: #0e0f10;
@@ -32,7 +32,7 @@
 .chatbot-welcome h3 {
   color: #00e5ff;
   font-size: 20px;
-  margin-bottom: 8px;
+  margin-bottom: 2px;
 }
 
 .chatbot-messages {
@@ -41,7 +41,6 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 12px;
 }
 
 .chat-message {
@@ -82,22 +81,6 @@
   padding: 10px 20px;
   border-top: 1px solid #2a2a2a;
 }
-
-.chat-suggestions button {
-  background: #232323;
-  color: white;
-  border: 1px solid #444;
-  border-radius: 20px;
-  padding: 8px 14px;
-  font-size: 13px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.chat-suggestions button:hover {
-  background: #333;
-}
-
 .chatbot-input-area {
   padding: 12px 20px;
   background: #1a1a1a;

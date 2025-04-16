@@ -12,16 +12,20 @@ import {
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./LoggedHomePage.css";
-import ProjectSkeleton from "../components/ProjectSkeleton"; // ✅ Corrected import
+import ProjectSkeleton from "../components/ProjectSkeleton";
 
 const LoggedHomePage = () => {
   const { user, loading } = useAuth();
   const navigate = useNavigate();
 
   const [posts, setPosts] = useState([]);
+  const [filteredPosts, setFilteredPosts] = useState([]);
   const [postsLoading, setPostsLoading] = useState(true);
   const [requestStatus, setRequestStatus] = useState({});
   const [userNames, setUserNames] = useState({});
+
+  const [searchType, setSearchType] = useState("domain");
+  const [searchInput, setSearchInput] = useState("");
 
   useEffect(() => {
     let isMounted = true;
@@ -42,13 +46,13 @@ const LoggedHomePage = () => {
           }));
 
           setPosts(postsData);
-          setPostsLoading(false);
-
+          setFilteredPosts(postsData);
           fetchUserNames(postsData);
           fetchRequestStatus(postsData);
         }
       } catch (error) {
         console.error("Error fetching posts:", error);
+      } finally {
         setPostsLoading(false);
       }
     };
@@ -77,12 +81,10 @@ const LoggedHomePage = () => {
           where("sender", "==", user.email)
         );
         const requestSnapshot = await getDocs(requestQuery);
-
         if (!requestSnapshot.empty) {
           requestStatusMap[post.id] = requestSnapshot.docs[0].data().status;
         }
       }
-
       setRequestStatus(requestStatusMap);
     };
 
@@ -92,14 +94,36 @@ const LoggedHomePage = () => {
     };
   }, [user]);
 
-  const getInitials = (name) => {
-    return name
+  const handleFilter = () => {
+    const query = searchInput.toLowerCase();
+
+    const filtered = posts.filter((post) => {
+      if (searchType === "domain") {
+        return post.domain?.some((d) => d.toLowerCase().includes(query));
+      } else if (searchType === "name") {
+        return post.title?.toLowerCase().includes(query);
+      } else if (searchType === "skill") {
+        return post.skillsRequired?.some((s) =>
+          s.toLowerCase().includes(query)
+        );
+      }
+      return true;
+    });
+
+    setFilteredPosts(filtered);
+  };
+
+  useEffect(() => {
+    handleFilter();
+  }, [searchInput, searchType]);
+
+  const getInitials = (name) =>
+    name
       .split(" ")
       .map((n) => n[0])
       .join("")
       .toUpperCase()
       .slice(0, 2);
-  };
 
   if (loading) return <p>Loading authentication...</p>;
   if (!user) return <p>You are not logged in. Please log in first.</p>;
@@ -108,12 +132,29 @@ const LoggedHomePage = () => {
     <div className="logged-home-container">
       <div className="header-section">
         <h3>Join Projects</h3>
-        <button className="filter-btn">Filter</button>
+        <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
+          <select
+            className="filter-btn"
+            value={searchType}
+            onChange={(e) => setSearchType(e.target.value)}
+          >
+            <option value="domain">By Domain</option>
+            <option value="name">By Name</option>
+            <option value="skill">By Skill</option>
+          </select>
+          <input
+            type="text"
+            className="filter-btn"
+            placeholder={`Search ${searchType}...`}
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+          />
+        </div>
       </div>
 
       <p className="project-count">
-        Showing <span className="highlight">{posts.length}</span> available
-        projects
+        Showing <span className="highlight">{filteredPosts.length}</span>{" "}
+        available projects
       </p>
 
       <div className="project-cards">
@@ -121,7 +162,7 @@ const LoggedHomePage = () => {
           ? Array.from({ length: 6 }).map((_, index) => (
               <ProjectSkeleton key={index} />
             ))
-          : posts.map((post) => (
+          : filteredPosts.map((post) => (
               <div key={post.id} className="project-card">
                 <div className="card-header">
                   <h4 className="project-title">{post.title}</h4>

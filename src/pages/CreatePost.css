@@ -3,7 +3,7 @@
   padding: 2rem;
   background-color: #0a0a0a;
   color: white;
-  min-height: 100vh;
+  min-height: 120vh;
   font-family: "Poppins", sans-serif;
 }
 
@@ -32,7 +32,9 @@
   color: white;
   font-weight: 600;
 }
-
+.temp {
+  color: white;
+}
 /* Stepper customization */
 .stepper {
   background-color: transparent !important;
@@ -77,6 +79,21 @@
   background-color: #121212 !important;
   color: white;
   border-radius: 8px;
+}
+.custom-chip {
+  background-color: #2a2e3a !important;
+  color: white !important;
+  border: 1px solid #555 !important;
+  font-weight: 500;
+  margin: 4px;
+}
+
+.custom-chip .MuiChip-label {
+  color: white !important;
+}
+
+.custom-chip:hover {
+  background-color: #444 !important;
 }
 
 .custom-input input,

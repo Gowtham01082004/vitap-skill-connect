@@ -1,0 +1,41 @@
+.admin-dashboard {
+  padding: 2rem;
+  padding-top: 100px; /* Add this to push content below navbar */
+  background-color: #121212;
+  color: white;
+  min-height: 100vh;
+}
+
+.upload-section {
+  background: #1a1d24;
+  padding: 1.5rem;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.upload-section input {
+  padding: 10px;
+  border-radius: 6px;
+  background: #2a2e3a;
+  color: white;
+  border: 1px solid #333;
+}
+
+.upload-section button {
+  background: #8b5df2;
+  padding: 10px;
+  border: none;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.paper-list .paper-card {
+  background: #1f1f1f;
+  padding: 10px;
+  border-radius: 6px;
+  margin: 10px 0;
+}

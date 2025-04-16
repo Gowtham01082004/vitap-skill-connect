@@ -128,14 +128,14 @@ const Dashboard = () => {
 
           <div
             className="stat-card success"
-            onClick={() => navigate("/profile")}
+            onClick={() => navigate("/my-projects")}
           >
             <div className="stat-card-header">
-              <div className="stat-card-title">MY DASHBOARD</div>
-              <div className="stat-card-icon">📊</div>
+              <div className="stat-card-title">MY PROJECTS</div>
+              <div className="stat-card-icon">📂</div>
             </div>
             <div className="stat-value">View</div>
-            <div className="stat-meta">Track your academic progress</div>
+            <div className="stat-meta">See projects you've posted</div>
           </div>
         </div>
 
