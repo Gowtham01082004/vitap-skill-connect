@@ -100,6 +100,7 @@ const AuthPage = () => {
           createdAt: new Date(),
           emailVerified: false,
           isProfileComplete: false,
+          isOnline: true,
         });
       } else {
         const userCredential = await signInWithEmailAndPassword(

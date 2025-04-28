@@ -121,6 +121,18 @@ const Sidebar = () => {
               <li className="nav-item">
                 <div
                   className={`nav-link ${
+                    isActive("/attendance-calculator") ? "active" : ""
+                  }`}
+                  onClick={() => navigate("/attendance-calculator")}
+                >
+                  <span className="nav-icon">🧮</span>
+                  {!collapsed && "Attendance Calculator"}
+                </div>
+              </li>
+
+              <li className="nav-item">
+                <div
+                  className={`nav-link ${
                     isActive("/view-pyq") ? "active" : ""
                   }`}
                   onClick={() => navigate("/view-pyq")}
@@ -187,12 +199,6 @@ const Sidebar = () => {
                 <div className="nav-link">
                   <span className="nav-icon">⚙</span>
                   {!collapsed && "Settings"}
-                </div>
-              </li>
-              <li className="nav-item">
-                <div className="nav-link">
-                  <span className="nav-icon">🔒</span>
-                  {!collapsed && "Privacy"}
                 </div>
               </li>
               <li className="nav-item">

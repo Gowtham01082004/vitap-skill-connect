@@ -42,6 +42,56 @@ const Features = () => {
               interests.
             </p>
           </div>
+
+          {/* Project Posting & Collaboration */}
+          <div className="feature-card">
+            <div className="feature-icon">🚀</div>
+            <h3>Project Posting</h3>
+            <p>
+              Post your innovative project ideas, recruit members, and
+              collaborate efficiently.
+            </p>
+          </div>
+
+          {/* Previous Year Question Papers */}
+          <div className="feature-card">
+            <div className="feature-icon">📚</div>
+            <h3>Previous Year Papers</h3>
+            <p>
+              Access and download previous years' question papers for your
+              courses and exams.
+            </p>
+          </div>
+
+          {/* CGPA Calculator */}
+          <div className="feature-card">
+            <div className="feature-icon">🧮</div>
+            <h3>CGPA Calculator</h3>
+            <p>
+              Calculate your CGPA with ease for up to 12 semesters and track
+              your academic performance.
+            </p>
+          </div>
+
+          {/* Interview Preparation */}
+          <div className="feature-card">
+            <div className="feature-icon">🎓</div>
+            <h3>Interview Prep</h3>
+            <p>
+              Prepare for technical interviews with curated questions on OOPs,
+              DBMS, DSA, and CN.
+            </p>
+          </div>
+
+          {/* Request Inbox */}
+          <div className="feature-card">
+            <div className="feature-icon">📥</div>
+            <h3>Requests Inbox</h3>
+            <p>
+              Manage all your project join requests and collaboration
+              invitations in one place.
+            </p>
+          </div>
         </div>
       </div>
     </section>

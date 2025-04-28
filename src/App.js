@@ -9,12 +9,13 @@ import { AdminProvider, useAdmin } from "./context/AdminContext";
 import PrivateRoute from "./components/PrivateRoute";
 
 import Navbar from "./components/Navbar";
+import TeamMemberInfoPage from "./pages/TeamMemberInfoPage";
 import LoggedNavbar from "./components/LoggedNavbar";
 import Sidebar from "./components/Sidebar";
 import Footer from "./components/Footer";
 import AdminNavbar from "./components/AdminNavbar";
 import AdminSidebar from "./components/AdminSidebar";
-
+import AttendanceCalculator from "./pages/AttendanceCalculator";
 import InterviewPrepPage from "./pages/InterviewPrepPage";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
@@ -39,6 +40,7 @@ import RequestsInbox from "./pages/RequestsInbox";
 import Notifications from "./pages/Notifications";
 import CgpaCalculator from "./pages/CgpaCalculator";
 import AdminLogin from "./pages/AdminLogin";
+import CompleteProjectView from "./pages/CompleteProjectView";
 import AdminDashboard from "./pages/AdminDashboard";
 
 function App() {
@@ -58,19 +60,14 @@ const MainLayout = () => {
   const { isAdminAuthenticated } = useAdmin();
   const location = useLocation();
   const path = location.pathname;
-
-  // Admin UI visibility
   const hideAdminNavbar = ["/view-pyq"].includes(path);
   const hideAdminSidebar = ["/view-pyq"].includes(path);
-
-  // General UI visibility
   const hideNavbar = [
     "/auth",
     "/admin",
     "/admin-dashboard",
     "/admin-pyq-upload",
   ].includes(path);
-
   const hideFooter = [
     "/chatbotpage",
     "/auth",
@@ -80,36 +77,33 @@ const MainLayout = () => {
   ].includes(path);
 
   const showSidebar =
-    user &&
-    (path.startsWith("/dashboard") ||
-      path.startsWith("/logged-homepage") ||
-      path.startsWith("/profile") ||
-      path.startsWith("/notifications") ||
-      path.startsWith("/requests-inbox") ||
-      path.startsWith("/create-post") ||
-      path.startsWith("/my-projects") ||
-      path.startsWith("/interview-prep") ||
-      path.startsWith("/view-pyq") ||
-      path.startsWith("/cgpa-calculator"));
+    (user &&
+      [
+        "/dashboard",
+        "/logged-homepage",
+        "/profile",
+        "/notifications",
+        "/requests-inbox",
+        "/create-post",
+        "/my-projects",
+        "/interview-prep",
+        "/view-pyq",
+        "/cgpa-calculator",
+        "/attendance-calculator",
+      ].some((route) => path.startsWith(route))) ||
+    path.startsWith("/complete_accept_project/");
 
   return (
     <>
-      {/* Admin Top Navbar */}
       {isAdminAuthenticated && !hideAdminNavbar && <AdminNavbar />}
-
-      {/* Regular Navbars */}
       {!hideNavbar && (user ? <LoggedNavbar /> : <Navbar />)}
 
       <div style={{ display: "flex" }}>
-        {/* Admin Sidebar */}
         {isAdminAuthenticated && !hideAdminSidebar && <AdminSidebar />}
-
-        {/* Student Sidebar */}
         {showSidebar && <Sidebar />}
 
         <div style={{ flex: 1 }}>
           <Routes>
-            {/* Admin Routes */}
             <Route path="/admin" element={<AdminLogin />} />
             <Route
               path="/admin-dashboard"
@@ -124,7 +118,6 @@ const MainLayout = () => {
               }
             />
 
-            {/* Public Routes */}
             <Route path="/" element={<Home />} />
             <Route path="/how-it-works" element={<HowItWorks />} />
             <Route path="/about" element={<AboutUs />} />
@@ -135,12 +128,19 @@ const MainLayout = () => {
             <Route path="/terms-of-service" element={<TermsOfService />} />
             <Route path="/contact" element={<ContactUs />} />
 
-            {/* Private User Routes */}
             <Route
               path="/dashboard"
               element={
                 <PrivateRoute>
                   <Dashboard />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/complete_accept_project/:id"
+              element={
+                <PrivateRoute>
+                  <CompleteProjectView />
                 </PrivateRoute>
               }
             />
@@ -153,10 +153,26 @@ const MainLayout = () => {
               }
             />
             <Route
+              path="/team-member/:email"
+              element={
+                <PrivateRoute>
+                  <TeamMemberInfoPage />
+                </PrivateRoute>
+              }
+            />
+            <Route
               path="/cgpa-calculator"
               element={
                 <PrivateRoute>
                   <CgpaCalculator />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/attendance-calculator"
+              element={
+                <PrivateRoute>
+                  <AttendanceCalculator />
                 </PrivateRoute>
               }
             />
@@ -225,14 +241,12 @@ const MainLayout = () => {
               }
             />
 
-            {/* Chatbot */}
             <Route path="/chatbotpage" element={<ChatbotPage />} />
             <Route path="/chatbot" element={<Chatbot />} />
           </Routes>
         </div>
       </div>
 
-      {/* Footer */}
       {!hideFooter && <Footer />}
     </>
   );

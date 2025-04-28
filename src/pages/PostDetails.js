@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { db } from "../config/firebaseConfig";
+import React, { useEffect, useState } from "react";
 import {
   collection,
   addDoc,
@@ -10,171 +9,206 @@ import {
   getDocs,
   serverTimestamp,
 } from "firebase/firestore";
+import { useParams, Link } from "react-router-dom";
+import { db } from "../config/firebaseConfig";
 import { useAuth } from "../context/AuthContext";
-import { useParams } from "react-router-dom";
 import "./PostDetails.css";
 
 const PostDetails = () => {
   const { id } = useParams();
   const { user } = useAuth();
   const [post, setPost] = useState(null);
-  const [requestSent, setRequestSent] = useState(false);
   const [ownerName, setOwnerName] = useState("Loading...");
   const [filledRoles, setFilledRoles] = useState({});
   const [selectedRoleIndex, setSelectedRoleIndex] = useState(null);
+  const [requestSent, setRequestSent] = useState(false);
+  const [appliedRoleIndex, setAppliedRoleIndex] = useState(null);
 
   useEffect(() => {
-    const fetchPostDetails = async () => {
-      try {
-        const postDocRef = doc(db, "posts", id);
-        const postDoc = await getDoc(postDocRef);
+    const fetchData = async () => {
+      const postDoc = await getDoc(doc(db, "posts", id));
+      if (postDoc.exists()) {
+        const data = postDoc.data();
+        setPost({ id: postDoc.id, ...data });
 
-        if (postDoc.exists()) {
-          const postData = postDoc.data();
-          setPost({ id: postDoc.id, ...postData });
+        const userDoc = await getDoc(doc(db, "users", data.userId));
+        if (userDoc.exists()) setOwnerName(userDoc.data().username);
 
-          if (postData.userId) {
-            await fetchOwnerName(postData.userId);
-            fetchFilledRoles(postDoc.id, postData.roles);
-          } else {
-            setOwnerName("Unknown User");
+        const reqSnap = await getDocs(
+          query(
+            collection(db, "requests"),
+            where("postId", "==", postDoc.id),
+            where("status", "==", "accepted")
+          )
+        );
+
+        const counts = {};
+        reqSnap.forEach((doc) => {
+          const r = doc.data();
+          if (r.selectedRoleIndex !== undefined) {
+            counts[r.selectedRoleIndex] =
+              (counts[r.selectedRoleIndex] || 0) + 1;
           }
-        }
-      } catch (error) {
-        console.error("Error fetching post details:", error);
+        });
+
+        setFilledRoles(counts);
       }
     };
 
-    const fetchOwnerName = async (userId) => {
-      try {
-        const userRef = doc(db, "users", userId);
-        const userDoc = await getDoc(userRef);
-        setOwnerName(userDoc.exists() ? userDoc.data().username : "Unknown");
-      } catch {
-        setOwnerName("Unknown");
-      }
-    };
-
-    const fetchFilledRoles = async (postId, roles) => {
-      const requestRef = collection(db, "requests");
-      const q = query(
-        requestRef,
-        where("postId", "==", postId),
-        where("status", "==", "accepted")
-      );
-      const snapshot = await getDocs(q);
-      const roleCounts = {};
-
-      snapshot.forEach((doc) => {
-        const data = doc.data();
-        if (data.selectedRoleIndex !== undefined) {
-          roleCounts[data.selectedRoleIndex] =
-            (roleCounts[data.selectedRoleIndex] || 0) + 1;
-        }
-      });
-
-      setFilledRoles(roleCounts);
-    };
-
-    const checkExistingRequest = async () => {
+    const checkRequest = async () => {
       if (!user) return;
-      const requestsRef = collection(db, "requests");
-      const q = query(
-        requestsRef,
-        where("postId", "==", id),
-        where("sender", "==", user.email)
+      const snap = await getDocs(
+        query(
+          collection(db, "requests"),
+          where("postId", "==", id),
+          where("sender", "==", user.email)
+        )
       );
-      const snapshot = await getDocs(q);
-      if (!snapshot.empty) setRequestSent(true);
+      if (!snap.empty) {
+        setRequestSent(true);
+        const role = snap.docs[0].data().selectedRoleIndex;
+        setAppliedRoleIndex(role);
+      }
     };
 
-    fetchPostDetails();
-    checkExistingRequest();
+    fetchData();
+    checkRequest();
   }, [id, user]);
 
   const handleSendRequest = async () => {
-    if (!user || !post || selectedRoleIndex === null) return;
-    try {
-      await addDoc(collection(db, "requests"), {
-        sender: user.email,
-        receiver: post.userEmail,
-        postId: post.id,
-        postTitle: post.title,
-        status: "sent",
-        selectedRoleIndex,
-        timestamp: serverTimestamp(),
-      });
-      setRequestSent(true);
-    } catch (error) {
-      console.error("Error sending request:", error);
-    }
+    if (!post || selectedRoleIndex === null || requestSent) return;
+    await addDoc(collection(db, "requests"), {
+      sender: user.email,
+      receiver: post.userEmail,
+      postId: post.id,
+      postTitle: post.title,
+      selectedRoleIndex,
+      status: "sent",
+      timestamp: serverTimestamp(),
+    });
+    setRequestSent(true);
+    setAppliedRoleIndex(selectedRoleIndex);
   };
 
+  if (!post) return <div className="container">Loading post details...</div>;
+
   return (
-    <div className="post-details-container">
-      {post ? (
-        <div className="post-card">
-          <h2>{post.title}</h2>
-          <p>{post.fullDescription}</p>
-          <p>
-            <strong>Posted by:</strong> {ownerName}
-          </p>
+    <div className="container">
+      <div className="breadcrumb">
+        <Link to="/logged-homePage">Projects</Link> &gt;{" "}
+        <span>{post.title}</span>
+      </div>
 
-          <h3>Available Roles:</h3>
-          <div className="roles-grid">
-            {post.roles?.map((role, index) => {
-              const isFilled = filledRoles[index] >= role.count;
-              const isSelected = selectedRoleIndex === index;
+      <h1 className="page-title">{post.title}</h1>
 
-              return (
-                <div
-                  key={index}
-                  className={`role-card ${isFilled ? "filled" : ""} ${
-                    isSelected ? "selected" : ""
-                  }`}
-                  onClick={() =>
-                    !isFilled && !requestSent && setSelectedRoleIndex(index)
-                  }
-                >
-                  <h4>{role.title}</h4>
-                  <p>
-                    <strong>Required Skills:</strong> {role.skills.join(", ")}
-                  </p>
-                  <p>
-                    <strong>Members:</strong> {filledRoles[index] || 0} /{" "}
-                    {role.count}
-                  </p>
-                  {isFilled && (
-                    <span className="badge filled-badge">Filled</span>
-                  )}
-                  {isSelected && !isFilled && (
-                    <span className="badge selected-badge">Selected</span>
-                  )}
-                </div>
-              );
-            })}
+      <div className="card">
+        <div className="card-header">📘 Project Overview</div>
+        <Info label="Description" value={post.fullDescription} />
+        <Info label="Project Type" value={post.projectType} />
+        <Info label="Duration" value={post.duration} />
+        <Info label="Team Size" value={post.teamSize} />
+      </div>
+
+      <div className="card">
+        <div className="card-header">🧑 Creator Details</div>
+        <Info label="Name" value={ownerName} />
+        <Info label="Email" value={post.userEmail} />
+      </div>
+
+      <div className="card">
+        <div className="card-header">💡 Skills & Domains</div>
+        <Info label="Domains" value={(post.domain || []).join(", ")} />
+        <div className="info-row">
+          <div className="info-label">Skills Required:</div>
+          <div className="info-value tag-container">
+            {(post.skillsRequired || []).map((skill, i) => (
+              <span className="tag tag-primary" key={i}>
+                {skill}
+              </span>
+            ))}
           </div>
-
-          {post.userEmail !== user?.email && (
-            <button
-              className={`send-request-btn ${requestSent ? "sent" : ""}`}
-              onClick={handleSendRequest}
-              disabled={
-                requestSent ||
-                selectedRoleIndex === null ||
-                filledRoles[selectedRoleIndex] >=
-                  post.roles[selectedRoleIndex]?.count
-              }
-            >
-              {requestSent ? "Request Sent ✅" : "Apply for Selected Role"}
-            </button>
-          )}
         </div>
-      ) : (
-        <p>Loading post details...</p>
-      )}
+        <Info label="Technical Knowledge" value={post.technicalKnowledge} />
+      </div>
+
+      <div className="card">
+        <div className="card-header">📅 Posted On</div>
+        <div className="timestamp">
+          {post.timestamp?.toDate().toLocaleString()}
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="card-header">🧩 Available Roles</div>
+        <div className="roles-container">
+          {post.roles?.map((role, i) => {
+            const filled = filledRoles[i] || 0;
+            const isFilled = filled >= role.count;
+            const isSelected = selectedRoleIndex === i;
+            const isApplied = appliedRoleIndex === i;
+
+            return (
+              <div
+                key={i}
+                className={`role-card ${isSelected ? "selected" : ""} ${
+                  isApplied ? "applied" : ""
+                }`}
+                onClick={() =>
+                  !isFilled && !requestSent && setSelectedRoleIndex(i)
+                }
+              >
+                <div className="role-title">{role.title}</div>
+                <div className="info-label">Required Skills:</div>
+                <div className="tag-container">
+                  {role.skills.map((skill, idx) => (
+                    <span className="tag" key={idx}>
+                      {skill}
+                    </span>
+                  ))}
+                </div>
+                <div className="members-info">
+                  <span>
+                    Members: {filled}/{role.count}
+                  </span>
+                  <div className="progress-bar">
+                    <div
+                      className="progress-fill"
+                      style={{ width: `${(filled / role.count) * 100}%` }}
+                    ></div>
+                  </div>
+                </div>
+                {isApplied && <div className="applied-badge">✅ Applied</div>}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="action-buttons">
+        {requestSent ? (
+          <button className="btn btn-success">Request Sent ✓</button>
+        ) : (
+          <button
+            className="btn btn-primary"
+            onClick={handleSendRequest}
+            disabled={selectedRoleIndex === null}
+          >
+            Apply for Selected Role
+          </button>
+        )}
+        <a href={`mailto:${post.userEmail}`} className="btn btn-primary">
+          Contact Creator
+        </a>
+      </div>
     </div>
   );
 };
+
+const Info = ({ label, value }) => (
+  <div className="info-row">
+    <div className="info-label">{label}:</div>
+    <div className="info-value">{value}</div>
+  </div>
+);
 
 export default PostDetails;

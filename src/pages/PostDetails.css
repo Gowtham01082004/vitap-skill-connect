@@ -1,108 +1,209 @@
-/* PostDetails.css */
+:root {
+  --primary: #4a8cff;
+  --secondary: #5d42b5;
+  --dark: #151729;
+  --darker: #0e1018;
+  --light: #ffffff;
+  --gray: #a0a0b0;
+  --success: #34c759;
+  --danger: #ff3b30;
+}
 
-.post-details-container {
-  padding: 2rem;
-  background-color: #121212;
+body {
+  background-color: var(--darker);
+  color: var(--light);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 1.5rem;
+}
+
+.breadcrumb {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  color: var(--gray);
+}
+
+.breadcrumb a {
+  color: var(--gray);
+  text-decoration: none;
+}
+
+.breadcrumb a:hover {
+  color: var(--primary);
+}
+
+.page-title {
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  background: linear-gradient(90deg, var(--primary), #7a6cf0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.card {
+  background-color: var(--dark);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-header {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 0.8rem;
+}
+
+.info-label {
+  flex: 0 0 180px;
+  font-weight: 500;
+  color: var(--gray);
+}
+
+.info-value {
+  flex: 1;
   color: white;
-  min-height: 100vh;
 }
 
-.post-card {
-  background-color: #1e1e2f;
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
 }
 
-.post-card h2 {
-  font-size: 1.8rem;
-  margin-bottom: 0.5rem;
-  color: #ffffff;
+.tag {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.3rem 0.8rem;
+  font-size: 0.8rem;
+  border-radius: 9999px;
+  color: white;
 }
 
-.post-card p {
-  color: #ccc;
-  margin-bottom: 0.75rem;
+.tag-primary {
+  background-color: rgba(74, 140, 255, 0.2);
+  color: var(--primary);
 }
 
-.roles-grid {
+.timestamp {
+  color: var(--gray);
+  font-size: 0.9rem;
+}
+
+.roles-container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .role-card {
-  background-color: #222;
-  color: white;
-  border-radius: 10px;
-  padding: 16px;
+  background-color: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.2rem;
+  border-radius: 0.8rem;
+  transition: all 0.2s ease;
   cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.3s ease;
-  position: relative;
 }
 
 .role-card:hover {
-  border-color: #8b5df2;
-}
-
-.role-card.filled {
-  background-color: #333;
-  opacity: 0.6;
-  cursor: not-allowed;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .role-card.selected {
-  border: 2px solid #8b5df2;
-  background-color: #1f1f2b;
+  border: 1px solid var(--primary);
+  background-color: rgba(74, 140, 255, 0.08);
 }
 
-.role-card h4 {
-  margin-bottom: 8px;
-  color: #ffffff;
+.role-title {
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.8rem;
 }
 
-.badge {
+.members-info {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: var(--gray);
+}
+
+.progress-bar {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  flex: 1;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  justify-content: flex-end;
+}
+
+.btn {
+  padding: 0.6rem 1.2rem;
+  border-radius: 0.4rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: none;
+  transition: all 0.2s ease;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.btn-success {
+  background-color: var(--success);
+  color: white;
+}
+
+.btn:disabled {
+  background-color: #444;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.role-card.applied {
+  border: 2px solid var(--success);
+  background-color: rgba(52, 199, 89, 0.1);
+  position: relative;
+}
+
+.applied-badge {
   position: absolute;
   top: 10px;
   right: 10px;
-  padding: 4px 8px;
-  font-size: 12px;
-  border-radius: 6px;
+  background-color: var(--success);
   color: white;
-}
-
-.filled-badge {
-  background-color: #e53935; /* red */
-}
-
-.selected-badge {
-  background-color: #43a047; /* green */
-}
-
-.send-request-btn {
-  margin-top: 1.5rem;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  background-color: #8b5df2;
-  color: white;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.3s ease;
-}
-
-.send-request-btn:hover {
-  background-color: #a489f5;
-}
-
-.send-request-btn:disabled {
-  background-color: #555;
-  cursor: not-allowed;
-  opacity: 0.7;
-}
-
-.send-request-btn.sent {
-  background-color: #4caf50;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 500;
 }

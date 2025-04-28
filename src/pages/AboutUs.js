@@ -1,6 +1,6 @@
 import React from "react";
 import "./AboutUs.css";
-import founderImage from "../assets/images/OIP.jpg";
+import founder1 from "../assets/images/Abhilash.jpg";
 
 const AboutUs = () => {
   return (
@@ -68,28 +68,22 @@ const AboutUs = () => {
         <h3>Meet Our Founders</h3>
         <div className="founder-container">
           <div className="founder-card">
-            <img src={founderImage} alt="Founder 1" />
-            <h4>Abhilash Kaleru</h4>
+            <img src={founder1} alt="Founder 1" />
+            <h4>Palla Suhaas</h4>
             <p>Co-Founder & CEO</p>
             <p>Software Engineer | AI Enthusiast | Community Builder</p>
           </div>
           <div className="founder-card">
-            <img src={founderImage} alt="Founder 1" />
-            <h4>Abhilash Kaleru</h4>
+            <img src={founder1} alt="Founder 1" />
+            <h4>Samhitha revanur</h4>
             <p>Co-Founder & CEO</p>
             <p>Software Engineer | AI Enthusiast | Community Builder</p>
           </div>
           <div className="founder-card">
-            <img src={founderImage} alt="Founder 1" />
-            <h4>Abhilash Kaleru</h4>
+            <img src={founder1} alt="Founder 1" />
+            <h4>Kaleru Abhilash</h4>
             <p>Co-Founder & CEO</p>
             <p>Software Engineer | AI Enthusiast | Community Builder</p>
-          </div>
-          <div className="founder-card">
-            <img src={founderImage} alt="Founder 1" />
-            <h4>Jane Doe</h4>
-            <p>Co-Founder & CTO</p>
-            <p>Blockchain Developer | Open Source Advocate | Tech Speaker</p>
           </div>
         </div>
       </div>
