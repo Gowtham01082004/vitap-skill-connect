@@ -22,8 +22,8 @@ const ChatbotPage = () => {
     chatboxRef.current?.scrollTo(0, chatboxRef.current.scrollHeight);
   }, [messages, isTyping]);
 
-  const sendMessage = async () => {
-    const text = input.trim();
+  const sendMessage = async (messageText) => {
+    const text = messageText || input.trim();
     if (!text) return;
 
     const userMessage = {
@@ -44,16 +44,23 @@ const ChatbotPage = () => {
         { message: text }
       );
 
+      const botText =
+        response?.data?.response && typeof response.data.response === "string"
+          ? response.data.response
+          : "Sorry, I couldn't understand that.";
+
       const botMessage = {
         sender: "bot",
-        text: response.data.response,
+        text: botText,
         time: new Date().toLocaleTimeString([], {
           hour: "2-digit",
           minute: "2-digit",
         }),
       };
       setMessages((prev) => [...prev, botMessage]);
-    } catch {
+    } catch (err) {
+      console.error("❌ Chat API Error:", err);
+
       setMessages((prev) => [
         ...prev,
         {
