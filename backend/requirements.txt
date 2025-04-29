@@ -3,3 +3,4 @@ flask-cors==3.0.10
 python-dotenv==0.19.2
 langchain==0.0.250
 gunicorn
+Werkzeug==2.3.8
