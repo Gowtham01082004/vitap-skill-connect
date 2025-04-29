@@ -1,0 +1,108 @@
+.my-projects-container {
+  display: flex;
+  padding: 2rem;
+  gap: 2rem;
+  background: #0e1018;
+  color: #f5f5f5;
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.project-list {
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.project-box {
+  background: #151729;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+}
+
+.project-box h3 {
+  color: #4a8cff;
+  margin-bottom: 12px;
+}
+
+.project-item {
+  padding: 10px;
+  margin-bottom: 8px;
+  border-radius: 8px;
+  background-color: #23233a;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.project-item:hover {
+  background-color: #2c2c44;
+}
+
+.project-item.active {
+  background-color: #4a8cff;
+  color: white;
+  font-weight: 600;
+}
+
+.no-projects {
+  color: #888;
+  font-style: italic;
+  font-size: 0.9rem;
+}
+
+.loader {
+  color: #ccc;
+  font-style: italic;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.project-details {
+  flex: 1;
+  background-color: #151729;
+  border-radius: 12px;
+  padding: 2rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+}
+
+.project-details h2 {
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.project-details p {
+  margin-bottom: 0.5rem;
+  color: #cccccc;
+}
+
+.project-details ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.chat-access-note {
+  background-color: #2c2c44;
+  padding: 0.8rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+  color: #aaa;
+  font-style: italic;
+}
+
+.enter-project-btn {
+  margin-top: 1.5rem;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background: #4a8cff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.enter-project-btn:hover {
+  background: #6ea8ff;
+}

@@ -1,0 +1,85 @@
+.total-container {
+  background-color: #0a0a0a;
+  min-height: 120vh;
+  width: 100%;
+  padding: 40px;
+  box-sizing: border-box;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+.requests-inbox-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.requests-inbox-container h2 {
+  font-size: 26px;
+  margin-bottom: 20px;
+  color: #ffffff;
+}
+
+.requests-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.request-card {
+  background: #1c1c1c;
+  padding: 18px 20px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.request-card:hover {
+  transform: translateY(-2px);
+}
+
+.request-card p {
+  font-size: 15px;
+  color: #e0e0e0;
+}
+
+.request-card strong {
+  color: #ffffff;
+}
+
+.request-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.accept-btn,
+.decline-btn {
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.accept-btn {
+  background-color: #00c853;
+  color: black;
+}
+
+.accept-btn:hover {
+  background-color: #00b94a;
+}
+
+.decline-btn {
+  background-color: #e53935;
+  color: black;
+}
+
+.decline-btn:hover {
+  background-color: #d32f2f;
+}

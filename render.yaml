@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: skill-connect-backend
+    env: python
+    plan: free
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn api:app
+    envVars:
+      - key: GEMINI_API_KEY
+        value: AIzaSyCmE1avZ3uagWK7OJ-YnooHqiVufyCJCEU

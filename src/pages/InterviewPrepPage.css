@@ -1,0 +1,84 @@
+:root {
+  --primary: #00bcd4;
+  --primary-light: #26c6da;
+  --bg-dark: #1e1e1e;
+  --text-light: #ccc;
+  --text-white: #fff;
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+.interview-content {
+  background-color: var(--bg-dark);
+  padding: 2rem;
+  color: var(--text-white);
+  min-height: 100vh;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.interview-content h2 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary);
+  padding-bottom: 10px;
+}
+
+.question {
+  margin-bottom: 2rem;
+  padding: 1.2rem 1.5rem;
+  border-left: 4px solid var(--primary);
+  background-color: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.question:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  border-left-color: var(--primary-light);
+}
+
+.question h3 {
+  font-size: 18px;
+  color: var(--text-white);
+  margin-bottom: 10px;
+}
+
+.question p {
+  font-size: 15px;
+  color: var(--text-light);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.not-found {
+  text-align: center;
+  margin-top: 4rem;
+}
+
+.not-found h2 {
+  font-size: 22px;
+  color: var(--primary);
+  margin-bottom: 1rem;
+}
+
+.not-found p {
+  color: var(--text-light);
+  font-size: 15px;
+}
+
+/* Optional Dropdown Styles (If Used Elsewhere) */
+.dropdown-items {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.dropdown-items .nav-item {
+  padding: 5px 0;
+  cursor: pointer;
+  transition: color 0.3s;
+}
+
+.dropdown-items .nav-item:hover {
+  color: var(--primary);
+}

@@ -1,0 +1,134 @@
+.chatbot-full-container {
+  height: 89vh;
+  display: flex;
+  flex-direction: column;
+  background: #0e0f10;
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.chatbot-header {
+  padding: 16px 24px;
+  background: #1f1f1f;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.chatbot-header span {
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.chatbot-welcome {
+  text-align: center;
+  padding: 20px;
+  border-bottom: 1px solid #222;
+}
+
+.chatbot-welcome h3 {
+  color: #00e5ff;
+  font-size: 20px;
+  margin-bottom: 2px;
+}
+
+.chatbot-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-message {
+  max-width: 70%;
+  padding: 12px 16px;
+  border-radius: 16px;
+  font-size: 14px;
+  word-wrap: break-word;
+  position: relative;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background-color: #00e5ff;
+  color: black;
+  border-radius: 16px 16px 0 16px;
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background-color: #1f1f1f;
+  color: white;
+  border-radius: 16px 16px 16px 0;
+}
+
+.message-time {
+  font-size: 10px;
+  color: #aaa;
+  margin-top: 4px;
+  text-align: right;
+}
+
+.chat-suggestions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 10px 20px;
+  border-top: 1px solid #2a2a2a;
+}
+.chatbot-input-area {
+  padding: 12px 20px;
+  background: #1a1a1a;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  border-top: 1px solid #2a2a2a;
+}
+
+.chatbot-input-area input {
+  flex: 1;
+  padding: 12px;
+  border-radius: 20px;
+  border: none;
+  background: #2a2a2a;
+  color: white;
+}
+
+.chatbot-input-area button {
+  padding: 10px 16px;
+  background: #00e5ff;
+  color: black;
+  font-weight: bold;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+}
+.chatbot-header {
+  padding: 16px 24px;
+  background: #121212;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #00e5ff;
+  font-weight: bold;
+  font-size: 18px;
+  border-bottom: 1px solid #1f1f1f;
+}
+
+.chatbot-welcome h3 {
+  color: #00e5ff;
+  font-size: 22px;
+  margin-bottom: 10px;
+}
+
+.chatbot-welcome p {
+  color: #bbb;
+  font-size: 14px;
+  max-width: 600px;
+  margin: 0 auto;
+}

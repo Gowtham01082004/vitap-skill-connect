@@ -1,0 +1,167 @@
+.pyq-upload-container {
+  padding: 100px 30px 30px 250px;
+  background-color: #1a1d24;
+  color: white;
+  min-height: 100vh;
+  width: 100%;
+  font-family: "Poppins", sans-serif;
+}
+
+.upload-header {
+  margin-bottom: 40px;
+}
+
+.upload-header .title {
+  font-size: 32px;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 10px;
+}
+
+.upload-header .subtitle {
+  font-size: 16px;
+  color: white;
+  max-width: 600px;
+}
+
+.form-container {
+  background-color: var(--surface-color);
+  border-radius: 12px;
+  padding: 30px;
+}
+
+.form-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: white;
+  margin-bottom: 25px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 8px;
+  color: white;
+  font-weight: 500;
+}
+
+.form-input {
+  width: 100%;
+  background-color: var(--surface-color-2);
+  border: 1px solid white;
+  border-radius: 8px;
+  padding: 14px;
+  color: white;
+  font-size: 15px;
+}
+
+.radio-tabs {
+  display: flex;
+  gap: 10px;
+}
+
+.radio-tab {
+  background-color: var(--surface-color-2);
+  border-radius: 6px;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-weight: 500;
+  color: white;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.radio-tab input {
+  display: none;
+}
+
+.radio-tab.active {
+  background-color: black;
+  color: white;
+  border: 1px solid var(--primary-color-dark);
+}
+
+.file-upload {
+  background-color: var(--surface-color-2);
+  border: 2px dashed var(--surface-color-3);
+  border-radius: 8px;
+  padding: 25px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--text-secondary);
+}
+
+.file-upload:hover {
+  border-color: var(--primary-color);
+  color: var(--primary-color);
+}
+
+.file-input {
+  display: none;
+}
+
+.file-preview {
+  margin-top: 15px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.preview-item {
+  position: relative;
+  width: 100px;
+  height: 140px;
+  background-color: var(--surface-color-3);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+}
+
+.preview-remove {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 64, 129, 0.8);
+  color: white;
+  border: none;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.submit-btn {
+  background: linear-gradient(
+    45deg,
+    var(--primary-color),
+    var(--primary-color-dark)
+  );
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 14px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-top: 10px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(108, 99, 255, 0.4);
+}

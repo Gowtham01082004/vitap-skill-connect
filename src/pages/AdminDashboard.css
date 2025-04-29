@@ -1,0 +1,31 @@
+.admin-dashboard {
+  padding: 30px;
+  flex: 1;
+  margin-top: 50px;
+  background-color: #121212;
+  color: white;
+  margin-left: 220px; /* 👈 same as sidebar width */
+  min-height: calc(100vh - 71px); /* align with fixed sidebar height */
+}
+
+.dashboard-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.dashboard-card {
+  background-color: #1e1e1e;
+  padding: 20px 25px;
+  border-radius: 10px;
+  border: 1px solid #333;
+  font-size: 16px;
+  color: #e0e0e0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  border-color: #6c63ff;
+}

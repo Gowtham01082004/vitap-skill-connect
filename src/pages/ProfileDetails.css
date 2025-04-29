@@ -1,0 +1,109 @@
+.profile-form-container {
+  max-width: 600px;
+  margin: auto;
+  padding: 30px;
+  background: #0f1012;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+}
+
+.profile-form-container h1 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #00e5ff;
+}
+
+.profile-form-container form {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-form-container input {
+  background: #1e1f28;
+  border: 1px solid #333;
+  color: white;
+  padding: 12px;
+  border-radius: 6px;
+  margin-bottom: 15px;
+}
+
+.profile-form-container label {
+  font-size: 13px;
+  color: #aaaaaa;
+  text-transform: uppercase;
+  margin: 10px 0 6px;
+}
+
+.pill-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pill {
+  padding: 8px 14px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pill.selected {
+  background-color: #00e5ff;
+  color: #0a0a0a;
+  font-weight: bold;
+  border-color: #00e5ff;
+}
+
+button[type="submit"] {
+  background-color: #00e5ff;
+  color: #0a0a0a;
+  padding: 12px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+  background-color: #00bcd4;
+}
+
+.error {
+  color: #ff5252;
+  font-size: 14px;
+  margin-bottom: 10px;
+}
+.custom-skill-input-row {
+  display: flex;
+  gap: 10px;
+  margin: 10px 0 20px;
+}
+
+.custom-skill-input-row input {
+  flex: 1;
+  background: #1e1f28;
+  border: 1px solid #333;
+  color: white;
+  padding: 10px 12px;
+  border-radius: 6px;
+}
+
+.btn-add {
+  background: #00e5ff;
+  border: none;
+  color: #0a0a0a;
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-add:hover {
+  background-color: #00bcd4;
+}

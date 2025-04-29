@@ -1,0 +1,246 @@
+.dashboard-container {
+  padding: 30px;
+  background: #121212;
+  color: #e0e0e0;
+  font-family: "Inter", sans-serif;
+  min-height: 100vh;
+}
+
+.profile-banner {
+  background: linear-gradient(135deg, #1e88e5, #0d47a1);
+  color: white;
+  padding: 30px 20px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.profile-content {
+  display: flex;
+  align-items: center;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  background: white;
+  color: #1e88e5;
+  font-size: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  margin-right: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.profile-info-text h2 {
+  margin-bottom: 5px;
+  font-size: 24px;
+}
+
+.profile-info-text p {
+  opacity: 0.9;
+  margin-bottom: 15px;
+}
+
+.edit-btn,
+.save-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.edit-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  margin-right: 10px;
+}
+
+.edit-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.save-btn {
+  background: #00e5ff;
+  color: #000;
+  font-weight: 600;
+}
+
+.save-btn:hover {
+  background: #33eaff;
+  transform: translateY(-1px);
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.info-card {
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+  height: auto;
+  min-height: 150px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+}
+
+.info-card h3 {
+  color: #00e5ff;
+  margin-bottom: 15px;
+  font-size: 18px;
+  border-bottom: 1px solid #333;
+  padding-bottom: 8px;
+}
+
+.tag-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 10px 0;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 30px;
+  background: #2c2c2c;
+  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  color: #fff;
+  transition: all 0.2s ease;
+}
+
+.skill-tag {
+  position: relative;
+  padding-right: 20px;
+}
+
+.remove-skill {
+  margin-left: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.remove-skill:hover {
+  color: #ff5252;
+}
+
+.tag.selected {
+  background: #00e5ff;
+  color: #000;
+  font-weight: 500;
+}
+
+.tag:hover {
+  transform: translateY(-1px);
+}
+
+.project-item {
+  background: #2a2a2a;
+  padding: 12px;
+  margin-top: 8px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: #fff;
+  transition: background-color 0.2s ease;
+}
+
+.project-item:hover {
+  background: #333;
+}
+
+.edit-section {
+  margin-bottom: 25px;
+  background: #1e1e1e;
+  padding: 20px;
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.edit-section input {
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: white;
+  transition: border-color 0.2s ease;
+}
+
+.edit-section input:focus {
+  border-color: #00e5ff;
+  outline: none;
+}
+
+.skill-input-wrapper {
+  display: flex;
+  margin-top: 15px;
+}
+
+.skill-input {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px 0 0 6px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.skill-input:focus {
+  border-color: #00e5ff;
+  outline: none;
+}
+
+.add-skill-btn {
+  background: #00e5ff;
+  color: #000;
+  border: none;
+  border-radius: 0 6px 6px 0;
+  padding: 0 15px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.add-skill-btn:hover {
+  background: #33eaff;
+}
+
+@media (max-width: 768px) {
+  .profile-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-avatar {
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .edit-section {
+    grid-template-columns: 1fr;
+  }
+}
