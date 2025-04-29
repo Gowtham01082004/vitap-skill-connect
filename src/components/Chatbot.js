@@ -20,9 +20,12 @@ const Chatbot = () => {
     setIsTyping(true); // 👈 Show typing indicator
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/chat", {
-        message: input,
-      });
+      const response = await axios.post(
+        "https://skill-connect-project.onrender.com",
+        {
+          message: input,
+        }
+      );
 
       const botMessage = { sender: "bot", text: response.data.response };
       setMessages((prev) => [...prev, botMessage]);

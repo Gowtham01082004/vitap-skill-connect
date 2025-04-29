@@ -39,9 +39,12 @@ const ChatbotPage = () => {
     setIsTyping(true);
 
     try {
-      const response = await axios.post("http://127.0.0.1:5000/chat", {
-        message: text,
-      });
+      const response = await axios.post(
+        "https://skill-connect-project.onrender.com",
+        {
+          message: text,
+        }
+      );
 
       const botMessage = {
         sender: "bot",
