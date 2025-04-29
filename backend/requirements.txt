@@ -1,8 +1,4 @@
-flask
-flask-cors
-python-dotenv
-langchain
-langchain-google-genai
-langchain-community
-faiss-cpu
-streamlit
+Flask==2.2.2
+flask-cors==3.0.10
+python-dotenv==0.19.2
+langchain==0.0.250
