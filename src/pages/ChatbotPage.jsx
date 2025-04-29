@@ -22,8 +22,8 @@ const ChatbotPage = () => {
     chatboxRef.current?.scrollTo(0, chatboxRef.current.scrollHeight);
   }, [messages, isTyping]);
 
-  const sendMessage = async (messageText) => {
-    const text = messageText || input.trim();
+  const sendMessage = async () => {
+    const text = input.trim();
     if (!text) return;
 
     const userMessage = {
@@ -40,7 +40,7 @@ const ChatbotPage = () => {
 
     try {
       const response = await axios.post(
-        "https://skill-connect-project.onrender.com/chat", // ✅ Corrected endpoint!
+        "https://skill-connect-project.onrender.com/chat",
         { message: text }
       );
 
@@ -94,8 +94,14 @@ const ChatbotPage = () => {
         )}
       </div>
 
-      <div className="chatbot-input-area">
-        {/* 🛠️ Added id and name attributes for accessibility */}
+      {/* ✅ Form prevents page reload on Enter */}
+      <form
+        className="chatbot-input-area"
+        onSubmit={(e) => {
+          e.preventDefault();
+          sendMessage();
+        }}
+      >
         <input
           id="chat-input"
           name="chat-input"
@@ -103,13 +109,12 @@ const ChatbotPage = () => {
           placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           autoComplete="off"
         />
-        <button onClick={sendMessage} aria-label="Send Message">
+        <button type="submit" aria-label="Send Message">
           ➤
         </button>
-      </div>
+      </form>
     </div>
   );
 };
