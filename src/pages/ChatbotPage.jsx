@@ -40,7 +40,7 @@ const ChatbotPage = () => {
 
     try {
       const response = await axios.post(
-        "https://skill-connect-project.onrender.com/chat",
+        "https://skill-connect-project.onrender.com/chat", // ✅ Corrected endpoint!
         { message: text }
       );
 
@@ -95,14 +95,20 @@ const ChatbotPage = () => {
       </div>
 
       <div className="chatbot-input-area">
+        {/* 🛠️ Added id and name attributes for accessibility */}
         <input
+          id="chat-input"
+          name="chat-input"
           type="text"
           placeholder="Type your message here..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+          autoComplete="off"
         />
-        <button onClick={sendMessage}>➤</button>
+        <button onClick={sendMessage} aria-label="Send Message">
+          ➤
+        </button>
       </div>
     </div>
   );
