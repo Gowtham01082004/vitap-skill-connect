@@ -41,7 +41,7 @@ const ChatbotPage = () => {
     try {
       const response = await axios.post(
         "https://skill-connect-project.onrender.com/chat",
-        { message: input }
+        { message: text }
       );
 
       const botMessage = {
