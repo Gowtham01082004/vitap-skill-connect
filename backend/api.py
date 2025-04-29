@@ -91,6 +91,9 @@ def chat():
         print("❌ Error in /chat:", str(e))
         return jsonify({"response": "Something went wrong. Please try again."})
 
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Skill Connect backend is running."})
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
