@@ -1,4 +1,5 @@
-// CreatePost.jsx
+// ✅ Updated CreatePost.jsx (adds userId + fixes Firestore permission issues)
+
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -24,7 +25,7 @@ import {
 import { db } from "../config/firebaseConfig";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
-import "./CreatePost.css"; // custom styles
+import "./CreatePost.css";
 
 const steps = ["Project Details", "Requirements", "Team Composition", "Review"];
 const predefinedSkills = [
@@ -322,11 +323,12 @@ const CreatePost = () => {
               label="Number of Roles"
               type="number"
               fullWidth
-              required
               margin="normal"
-              value={formData.roles.length}
+              required
+              value={formData.roles.length === 0 ? "" : formData.roles.length}
               onChange={handleRolesCountChange}
-              className="custom-input"
+              className="custom-input no-spinner"
+              InputProps={{ inputProps: { min: 0 } }}
             />
             <Grid container spacing={2}>
               {formData.roles.map((role, i) => (
@@ -373,7 +375,8 @@ const CreatePost = () => {
                           parseInt(e.target.value) || 1
                         )
                       }
-                      className="custom-input"
+                      className="custom-input no-spinner"
+                      InputProps={{ inputProps: { min: 1 } }}
                     />
                   </Grid>
                 </React.Fragment>
@@ -407,8 +410,7 @@ const CreatePost = () => {
               <strong>Description:</strong> {formData.fullDescription}
             </Typography>
             <Typography>
-              <strong className="temp">Skills:</strong>{" "}
-              {formData.skillsRequired.join(", ")}
+              <strong>Skills:</strong> {formData.skillsRequired.join(", ")}
             </Typography>
             <Typography>
               <strong>Technical Knowledge:</strong>{" "}

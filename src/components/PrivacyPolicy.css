@@ -1,31 +1,90 @@
+:root {
+  --primary: #00e5ff;
+  --secondary: #ff3d81;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --border: rgba(255, 255, 255, 0.07);
+  --text-light: #f1f1f1;
+  --text-muted: #cccccc;
+  --bg: #0f0f0f;
+}
+
 .privacy-policy-container {
-  background-color: #121212;
-  color: #f1f1f1;
-  padding: 40px;
-  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to bottom, #121212, #0a0a0a);
+  color: var(--text-light);
+  padding: 60px 20px;
   max-width: 100%;
-  margin: auto;
+  font-family: "Poppins", sans-serif;
 }
 
-.privacy-policy-container h1 {
-  font-size: 36px;
-  color: #00e5ff;
-  margin-bottom: 20px;
+.policy-header {
+  text-align: center;
+  margin-bottom: 40px;
+  margin-top: 40px;
 }
 
-.privacy-policy-container h2 {
-  color: #ff3d81;
-  margin-top: 30px;
-  font-size: 24px;
+.policy-header h1 {
+  font-size: 38px;
+  color: var(--primary);
+  margin-bottom: 10px;
 }
 
-.privacy-policy-container p,
-.privacy-policy-container li {
+.last-updated {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.policy-content {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.policy-card {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 25px 30px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 20px rgba(0, 229, 255, 0.03);
+  transition: all 0.3s;
+}
+
+.policy-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0, 229, 255, 0.05);
+}
+
+.policy-card h2 {
+  color: var(--secondary);
+  font-size: 22px;
+  margin-bottom: 15px;
+}
+
+.policy-card p,
+.policy-card li {
   font-size: 15px;
-  line-height: 1.6;
-  color: #cccccc;
+  line-height: 1.7;
+  color: var(--text-muted);
 }
 
-.privacy-policy-container ul {
+.policy-card ul {
   padding-left: 20px;
+  margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .policy-card {
+    padding: 20px;
+  }
+
+  .policy-header h1 {
+    font-size: 30px;
+  }
+
+  .policy-card h2 {
+    font-size: 20px;
+  }
 }

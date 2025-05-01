@@ -41,12 +41,7 @@
   gap: 30px;
 }
 
-.mission,
-.vision,
-.values,
-.approach,
-.commitment,
-.growth {
+.mission-card {
   background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 10px;
@@ -57,38 +52,23 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mission:hover,
-.vision:hover,
-.values:hover,
-.approach:hover,
-.commitment:hover,
-.growth:hover {
+.mission-card:hover {
   transform: translateY(-6px);
   box-shadow: 0 10px 20px rgba(0, 229, 255, 0.1);
 }
 
-.mission h3,
-.vision h3,
-.values h3,
-.approach h3,
-.commitment h3,
-.growth h3 {
+.mission-card h3 {
   color: var(--primary);
   font-size: 18px;
   margin-bottom: 10px;
 }
 
-.mission p,
-.vision p,
-.values p,
-.approach p,
-.commitment p,
-.growth p {
+.mission-card p {
   font-size: 14px;
   color: var(--gray);
 }
 
-/* Founders Section */
+/* Founders */
 .founders {
   margin-top: 60px;
 }
@@ -96,7 +76,6 @@
 .founders h3 {
   font-size: 28px;
   margin-bottom: 25px;
-  color: var(--light-text);
 }
 
 .founder-container {
@@ -127,8 +106,8 @@
 
 .founder-card h4 {
   font-size: 20px;
-  margin-bottom: 5px;
   color: var(--primary);
+  margin-bottom: 5px;
 }
 
 .founder-card p {
@@ -136,40 +115,50 @@
   color: var(--gray);
 }
 
-/* Impact Section */
-.community-impact {
+/* Platform Highlights */
+.platform-highlights {
   margin-top: 60px;
 }
 
-.community-impact h3 {
+.platform-highlights h3 {
   font-size: 26px;
   color: var(--primary);
   margin-bottom: 25px;
 }
 
-.impact-stats {
+.highlight-cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 50px;
+  gap: 30px;
+  padding: 0 20px;
 }
 
-.stat {
+.highlight-card {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 25px;
+  width: 280px;
   text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.stat h4 {
-  font-size: 32px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  margin-bottom: 5px;
+.highlight-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 8px 20px rgba(0, 229, 255, 0.1);
 }
 
-.stat p {
+.highlight-card h4 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: var(--primary);
+}
+
+.highlight-card p {
+  font-size: 14px;
   color: var(--gray);
-  font-size: 16px;
 }
 
 /* CTA Button */
@@ -196,15 +185,57 @@
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .founder-card,
+  .highlight-card {
+    width: 45%;
+  }
+}
+
 @media (max-width: 768px) {
   .mission-vision,
   .founder-container,
-  .impact-stats {
+  .highlight-cards {
     flex-direction: column;
     align-items: center;
   }
 
+  .mission-card,
+  .highlight-card,
   .founder-card {
     width: 90%;
+    padding: 20px;
+  }
+
+  .aboutus-container h1 {
+    font-size: 28px;
+  }
+
+  .primary-btn {
+    font-size: 15px;
+    padding: 10px 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .aboutus-container {
+    padding: 60px 15px;
+  }
+
+  .founder-card img {
+    width: 100%;
+    height: auto;
+  }
+
+  .highlight-card h4 {
+    font-size: 16px;
+  }
+
+  .highlight-card p {
+    font-size: 13px;
+  }
+
+  .primary-btn {
+    width: 100%;
   }
 }

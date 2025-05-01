@@ -1,4 +1,4 @@
-/* Make the page background and content look clean and modern */
+/* Page container */
 .create-post-container {
   padding: 2rem;
   background-color: #0a0a0a;
@@ -7,17 +7,17 @@
   font-family: "Poppins", sans-serif;
 }
 
-/* Style the main card (paper) */
+/* Main card (Paper) */
 .create-post-paper {
   padding: 1.5rem 2rem;
-  background-color: #000000 !important; /* Pure black */
+  background-color: #000000 !important;
   color: white;
   border-radius: 16px;
   box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
-/* Step container */
+/* Step content container */
 .create-post-step-content {
   background-color: transparent !important;
   padding: 1.5rem 0 0;
@@ -32,10 +32,23 @@
   color: white;
   font-weight: 600;
 }
+/* Hide number input spinner arrows */
+.no-spinner input[type="number"]::-webkit-outer-spin-button,
+.no-spinner input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.no-spinner input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Temporary class */
 .temp {
   color: white;
 }
-/* Stepper customization */
+
+/* Stepper */
 .stepper {
   background-color: transparent !important;
   margin-bottom: 1rem;
@@ -74,26 +87,11 @@
   border-color: #555 !important;
 }
 
-/* Dark theme for inputs */
+/* Inputs Dark Mode */
 .custom-input .MuiInputBase-root {
   background-color: #121212 !important;
   color: white;
   border-radius: 8px;
-}
-.custom-chip {
-  background-color: #2a2e3a !important;
-  color: white !important;
-  border: 1px solid #555 !important;
-  font-weight: 500;
-  margin: 4px;
-}
-
-.custom-chip .MuiChip-label {
-  color: white !important;
-}
-
-.custom-chip:hover {
-  background-color: #444 !important;
 }
 
 .custom-input input,
@@ -123,7 +121,24 @@
   border-color: #666 !important;
 }
 
-/* Make Submit/Next buttons more modern */
+/* Chips (Skills) */
+.custom-chip {
+  background-color: #2a2e3a !important;
+  color: white !important;
+  border: 1px solid #555 !important;
+  font-weight: 500;
+  margin: 4px;
+}
+
+.custom-chip .MuiChip-label {
+  color: white !important;
+}
+
+.custom-chip:hover {
+  background-color: #444 !important;
+}
+
+/* Buttons Modern */
 .MuiButton-containedPrimary {
   background-color: #8b5df2 !important;
   color: white !important;
@@ -135,4 +150,59 @@
 
 .MuiButton-containedPrimary:hover {
   background-color: #a78bfa !important;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .create-post-container {
+    padding: 1rem;
+  }
+
+  .create-post-paper {
+    padding: 1rem;
+  }
+
+  .create-post-container h4 {
+    font-size: 24px;
+    text-align: center;
+  }
+
+  .create-post-step-content {
+    padding: 1rem 0 0;
+  }
+
+  .MuiButton-containedPrimary {
+    width: 100%;
+    padding: 10px 0;
+    font-size: 16px;
+  }
+
+  .custom-chip {
+    font-size: 12px;
+    padding: 6px 10px;
+  }
+
+  .stepper .MuiStepLabel-label {
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .create-post-container h4 {
+    font-size: 20px;
+  }
+
+  .stepper {
+    margin-bottom: 0.5rem;
+  }
+
+  .custom-chip {
+    font-size: 11px;
+    padding: 5px 8px;
+  }
+
+  .MuiButton-containedPrimary {
+    font-size: 14px;
+    padding: 8px 0;
+  }
 }

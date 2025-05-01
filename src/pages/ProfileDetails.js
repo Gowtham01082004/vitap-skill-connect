@@ -19,12 +19,13 @@ const skillsList = [
   "Tailwind",
   "Python",
 ];
+
 const categoriesList = ["Fullstack", "AI/ML", "Blockchain", "UI/UX", "DevOps"];
 
 const ProfileDetails = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { uid, email } = location.state || {};
+  const { uid, email } = location.state || {}; // From AuthPage after signup
 
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
@@ -33,8 +34,8 @@ const ProfileDetails = () => {
   const [year, setYear] = useState("");
   const [primarySkills, setPrimarySkills] = useState([]);
   const [customSkillInput, setCustomSkillInput] = useState("");
-  const [projectCategories, setProjectCategories] = useState([]);
   const [secondarySkills, setSecondarySkills] = useState("");
+  const [projectCategories, setProjectCategories] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -58,11 +59,13 @@ const ProfileDetails = () => {
     setCustomSkillInput("");
   };
 
-  const checkUsernameAvailability = async () => {
-    const q = query(collection(db, "users"), where("username", "==", username));
+  const checkUsernameAvailability = async (usernameToCheck) => {
+    const q = query(
+      collection(db, "users"),
+      where("username", "==", usernameToCheck.toLowerCase())
+    );
     const snapshot = await getDocs(q);
-    const docs = snapshot.docs.filter((doc) => doc.id !== uid); // exclude current user
-    return docs.length === 0;
+    return snapshot.empty; // true if available
   };
 
   const handleSubmit = async (e) => {
@@ -78,13 +81,13 @@ const ProfileDetails = () => {
       !year ||
       primarySkills.length === 0
     ) {
-      setError("All required fields must be filled.");
+      setError("Please fill in all required fields.");
       setLoading(false);
       return;
     }
 
-    const isAvailable = await checkUsernameAvailability();
-    if (!isAvailable) {
+    const available = await checkUsernameAvailability(username);
+    if (!available) {
       setError("Username is already taken. Please choose another.");
       setLoading(false);
       return;
@@ -92,22 +95,24 @@ const ProfileDetails = () => {
 
     try {
       await setDoc(doc(db, "users", uid), {
-        name,
-        username,
+        uid,
         email,
+        name,
+        username: username.toLowerCase(),
         studentID,
         department,
         year,
-        primarySkills: primarySkills.join(", "),
+        primarySkills,
         secondarySkills,
-        projectCategories: projectCategories.join(", "),
+        projectCategories,
+        profileCompleted: true,
         createdAt: new Date(),
       });
 
       navigate("/logged-homepage");
-    } catch (error) {
-      console.error("Error saving profile:", error);
-      setError("Error saving profile. Try again.");
+    } catch (err) {
+      console.error("Error saving profile:", err);
+      setError("Error saving profile. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -223,6 +228,7 @@ const ProfileDetails = () => {
         </div>
 
         {error && <p className="error">{error}</p>}
+
         <button type="submit" disabled={loading}>
           {loading ? "Saving..." : "Submit & Continue"}
         </button>

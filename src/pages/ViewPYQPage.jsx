@@ -1,3 +1,4 @@
+// ViewPYQPage.js
 import React, { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
@@ -54,7 +55,6 @@ const ViewPYQPage = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
-
         <select
           className="pyq-dropdown"
           value={examTypeFilter}
@@ -85,6 +85,28 @@ const ViewPYQPage = () => {
               <p>
                 <strong>Date:</strong> {paper.examDate}
               </p>
+
+              {paper.fileLinks?.[0] && (
+                <div
+                  className="preview-wrapper"
+                  onClick={() => window.open(paper.fileLinks[0], "_blank")}
+                >
+                  {paper.fileLinks[0].endsWith(".pdf") ? (
+                    <iframe
+                      src={paper.fileLinks[0]}
+                      title="Preview"
+                      className="preview-pdf"
+                    ></iframe>
+                  ) : (
+                    <img
+                      src={paper.fileLinks[0]}
+                      alt="Preview"
+                      className="preview-img"
+                    />
+                  )}
+                </div>
+              )}
+
               <div className="btn-wrapper">
                 {paper.fileLinks?.map((link, index) => (
                   <button

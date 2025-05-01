@@ -144,3 +144,60 @@
 .logout-btn:hover {
   background-color: #c3002f;
 }
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  gap: 5px;
+  margin-right: 20px;
+}
+.nav-hamburger span {
+  width: 25px;
+  height: 3px;
+  background: white;
+  border-radius: 2px;
+}
+@media (max-width: 768px) {
+  .nav-hamburger {
+    display: flex;
+  }
+}
+
+@media (max-width: 768px) {
+  .header-container {
+    padding: 0 15px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .header-right {
+    gap: 10px;
+  }
+
+  .user-name {
+    display: none; /* Hide user name on mobile */
+  }
+
+  .notification-icon {
+    display: none; /* Hide notification icon if you want a cleaner navbar */
+  }
+
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 12px;
+  }
+
+  .user-avatar {
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+
+  .logo h1 {
+    font-size: 20px;
+  }
+
+  .logo-icon {
+    font-size: 22px;
+  }
+}

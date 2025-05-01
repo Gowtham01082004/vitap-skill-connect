@@ -1,21 +1,21 @@
-.features {
+.vit-features {
   padding: 80px 0;
-  position: relative;
   background-color: var(--dark);
   width: 100%;
 }
 
-.container {
+.vit-features-container {
   width: 90%;
+  margin: 0 auto;
   padding: 0 20px;
 }
 
-.section-title {
+.vit-features-title {
   text-align: center;
   margin-bottom: 60px;
 }
 
-.section-title h2 {
+.vit-features-title h2 {
   font-size: 32px;
   margin-bottom: 15px;
   background: linear-gradient(
@@ -27,41 +27,51 @@
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
-  display: inline-block;
 }
 
-.section-title p {
+.vit-features-title p {
   color: var(--gray);
   max-width: 700px;
   margin: 0 auto;
 }
 
-.features-grid {
+/* Features Grid */
+.vit-features-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 🔥 Force 4 columns */
+  grid-template-columns: repeat(4, 1fr);
   gap: 30px;
-  width: 100%;
 }
 
+/* Responsive Grids */
 @media (max-width: 1200px) {
-  .features-grid {
-    grid-template-columns: repeat(3, 1fr); /* 3 cards on medium screens */
+  .vit-features-grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (max-width: 992px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr); /* 2 cards on tablets */
+  .vit-features-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
-  .features-grid {
-    grid-template-columns: 1fr; /* 1 card on mobile */
+/* 2 cards even for mobiles */
+@media (max-width: 768px) {
+  .vit-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
   }
 }
 
-.feature-card {
+@media (max-width: 480px) {
+  .vit-features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+}
+
+/* Feature Card */
+.vit-feature-card {
   background: rgba(18, 18, 18, 0.6);
   border-radius: 15px;
   padding: 40px 30px;
@@ -71,9 +81,10 @@
   z-index: 1;
   border: 1px solid rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(10px);
+  text-align: center;
 }
 
-.feature-card::before {
+.vit-feature-card::before {
   content: "";
   position: absolute;
   top: 0;
@@ -86,23 +97,24 @@
   transition: transform 0.3s;
 }
 
-.feature-card:hover::before {
+.vit-feature-card:hover::before {
   transform: translateY(0);
 }
 
-.feature-card:hover {
+.vit-feature-card:hover {
   transform: translateY(-10px);
   box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   border-color: rgba(255, 255, 255, 0.1);
 }
 
-.feature-icon {
+/* Feature Icon */
+.vit-feature-icon {
   width: 70px;
   height: 70px;
   background: linear-gradient(
     135deg,
-    rgba(0, 229, 255, 0.1) 0%,
-    rgba(108, 99, 255, 0.1) 100%
+    rgba(0, 229, 255, 0.1),
+    rgba(108, 99, 255, 0.1)
   );
   border-radius: 12px;
   display: flex;
@@ -114,19 +126,54 @@
   box-shadow: 0 5px 15px rgba(0, 229, 255, 0.15);
 }
 
-.feature-card h3 {
+.vit-feature-card h3 {
   font-size: 22px;
   margin-bottom: 15px;
   color: white;
 }
 
-.feature-card p {
+.vit-feature-card p {
   color: #e0e0e0;
   margin-bottom: 0;
 }
 
+/* Smaller devices adjustments */
 @media (max-width: 768px) {
-  .features-grid {
-    grid-template-columns: repeat(2, 1fr); /* 👈 Show 2 cards per row */
+  .vit-feature-card {
+    padding: 25px 18px;
+  }
+  .vit-feature-icon {
+    font-size: 28px;
+    width: 60px;
+    height: 60px;
+  }
+  .vit-feature-card h3 {
+    font-size: 18px;
+  }
+  .vit-feature-card p {
+    font-size: 14px;
+  }
+  .vit-features-title h2 {
+    font-size: 24px;
+  }
+  .vit-features-title p {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 420px) {
+  .vit-feature-card {
+    padding: 20px 15px;
+  }
+  .vit-feature-icon {
+    font-size: 24px;
+    width: 50px;
+    height: 50px;
+  }
+  .vit-feature-card h3 {
+    font-size: 16px;
+  }
+  .vit-feature-card p {
+    font-size: 13px;
   }
 }

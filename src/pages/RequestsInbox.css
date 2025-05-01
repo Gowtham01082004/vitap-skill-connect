@@ -83,3 +83,11 @@
 .decline-btn:hover {
   background-color: #d32f2f;
 }
+.clickable-sender {
+  cursor: pointer;
+  color: #007bff;
+  text-decoration: underline;
+}
+.clickable-sender:hover {
+  color: #0056b3;
+}

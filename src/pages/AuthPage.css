@@ -288,3 +288,53 @@
 .ghost {
   margin-top: 10px;
 }
+/* Responsive Design */
+@media (max-width: 768px) {
+  .auth-wrapper {
+    width: 95%;
+    min-height: 600px;
+    flex-direction: column;
+    overflow: auto;
+  }
+
+  .auth-form-container {
+    width: 100% !important;
+    position: relative;
+    left: 0 !important;
+    transform: none !important;
+    opacity: 1 !important;
+    z-index: 2 !important;
+    display: block !important;
+  }
+
+  .auth-overlay-container {
+    display: none;
+  }
+
+  .auth-email-verification-container {
+    padding: 20px;
+  }
+
+  .auth-verification-popup {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .auth-form-container form {
+    padding: 20px;
+  }
+
+  .auth-form-container input {
+    font-size: 14px;
+  }
+
+  .auth-form-container button,
+  .auth-overlay-panel button {
+    padding: 10px 25px;
+    font-size: 12px;
+  }
+
+  .password-container button {
+    font-size: 11px;
+  }
+}

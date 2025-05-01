@@ -1,3 +1,5 @@
+// src/App.js
+import React, { useState } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -22,6 +24,7 @@ import AboutUs from "./pages/AboutUs";
 import HowItWorks from "./components/HowItWorks";
 import FAQ from "./pages/FAQ";
 import AuthPage from "./pages/AuthPage";
+import Roadmap from "./pages/Roadmap";
 import ProfileDetails from "./pages/ProfileDetails";
 import ContactUs from "./components/ContactUs";
 import PrivacyPolicy from "./components/PrivacyPolicy";
@@ -42,7 +45,13 @@ import CgpaCalculator from "./pages/CgpaCalculator";
 import AdminLogin from "./pages/AdminLogin";
 import CompleteProjectView from "./pages/CompleteProjectView";
 import AdminDashboard from "./pages/AdminDashboard";
-
+import MobileRoadmap from "./pages/roadmaps/MobileRoadmap";
+import WebDevelopmentRoadmap from "./pages/roadmaps/WebDevelopmentRoadmap";
+import DataScienceRoadmap from "./pages/roadmaps/DataScienceRoadmap";
+import CybersecurityRoadmap from "./pages/roadmaps/CybersecurityRoadmap";
+import DevOpsCloudRoadmap from "./pages/roadmaps/DevOpsCloudRoadmap";
+import BlockchainRoadmap from "./pages/roadmaps/BlockchainRoadmap";
+import DiscussionForum from "./pages/DiscussionForum";
 function App() {
   return (
     <AuthProvider>
@@ -60,6 +69,10 @@ const MainLayout = () => {
   const { isAdminAuthenticated } = useAdmin();
   const location = useLocation();
   const path = location.pathname;
+
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+  const handleSidebarToggle = () => setSidebarVisible((prev) => !prev);
+
   const hideAdminNavbar = ["/view-pyq"].includes(path);
   const hideAdminSidebar = ["/view-pyq"].includes(path);
   const hideNavbar = [
@@ -90,20 +103,41 @@ const MainLayout = () => {
         "/view-pyq",
         "/cgpa-calculator",
         "/attendance-calculator",
+        "/roadmap",
       ].some((route) => path.startsWith(route))) ||
     path.startsWith("/complete_accept_project/");
 
   return (
     <>
       {isAdminAuthenticated && !hideAdminNavbar && <AdminNavbar />}
-      {!hideNavbar && (user ? <LoggedNavbar /> : <Navbar />)}
+      {!hideNavbar &&
+        (user ? (
+          <LoggedNavbar onSidebarToggle={handleSidebarToggle} />
+        ) : (
+          <Navbar />
+        ))}
 
       <div style={{ display: "flex" }}>
         {isAdminAuthenticated && !hideAdminSidebar && <AdminSidebar />}
-        {showSidebar && <Sidebar />}
+        {showSidebar && (
+          <Sidebar
+            isMobileSidebarVisible={sidebarVisible}
+            toggleSidebar={handleSidebarToggle}
+          />
+        )}
 
         <div style={{ flex: 1 }}>
           <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/how-it-works" element={<HowItWorks />} />
+            <Route path="/about" element={<AboutUs />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/contact" element={<ContactUs />} />
+            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="/terms-of-service" element={<TermsOfService />} />
+            <Route path="/auth" element={<AuthPage />} />
+            <Route path="/profile-setup" element={<ProfileDetails />} />
+
             <Route path="/admin" element={<AdminLogin />} />
             <Route
               path="/admin-dashboard"
@@ -118,16 +152,6 @@ const MainLayout = () => {
               }
             />
 
-            <Route path="/" element={<Home />} />
-            <Route path="/how-it-works" element={<HowItWorks />} />
-            <Route path="/about" element={<AboutUs />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/profile-setup" element={<ProfileDetails />} />
-            <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-            <Route path="/terms-of-service" element={<TermsOfService />} />
-            <Route path="/contact" element={<ContactUs />} />
-
             <Route
               path="/dashboard"
               element={
@@ -137,10 +161,116 @@ const MainLayout = () => {
               }
             />
             <Route
-              path="/complete_accept_project/:id"
+              path="/roadmap/data-science"
               element={
                 <PrivateRoute>
-                  <CompleteProjectView />
+                  <DataScienceRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/disc-for"
+              element={
+                <PrivateRoute>
+                  <DiscussionForum />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/roadmap/devops"
+              element={
+                <PrivateRoute>
+                  <DevOpsCloudRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/roadmap/blockchain"
+              element={
+                <PrivateRoute>
+                  <BlockchainRoadmap />
+                </PrivateRoute>
+              }
+            />
+
+            <Route
+              path="/roadmap/cybersecurity"
+              element={
+                <PrivateRoute>
+                  <CybersecurityRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/roadmap/mobile"
+              element={
+                <PrivateRoute>
+                  <MobileRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/roadmap/web"
+              element={
+                <PrivateRoute>
+                  <WebDevelopmentRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/logged-homepage"
+              element={
+                <PrivateRoute>
+                  <LoggedHomePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/roadmap"
+              element={
+                <PrivateRoute>
+                  <Roadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <PrivateRoute>
+                  <ProfilePage />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/post/:id"
+              element={
+                <PrivateRoute>
+                  <PostDetails />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/create-post"
+              element={
+                <PrivateRoute>
+                  <CreatePost />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/requests-inbox"
+              element={
+                <PrivateRoute>
+                  <RequestsInbox />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notifications"
+              element={
+                <PrivateRoute>
+                  <Notifications />
                 </PrivateRoute>
               }
             />
@@ -193,50 +323,10 @@ const MainLayout = () => {
               }
             />
             <Route
-              path="/logged-homepage"
+              path="/complete_accept_project/:id"
               element={
                 <PrivateRoute>
-                  <LoggedHomePage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/profile"
-              element={
-                <PrivateRoute>
-                  <ProfilePage />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/post/:id"
-              element={
-                <PrivateRoute>
-                  <PostDetails />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/create-post"
-              element={
-                <PrivateRoute>
-                  <CreatePost />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/requests-inbox"
-              element={
-                <PrivateRoute>
-                  <RequestsInbox />
-                </PrivateRoute>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={
-                <PrivateRoute>
-                  <Notifications />
+                  <CompleteProjectView />
                 </PrivateRoute>
               }
             />

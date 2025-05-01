@@ -11,7 +11,7 @@ import {
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import "./AuthPage.css";
 
-const AuthPage = () => {
+const DesktopAuth = () => {
   const [isSignUp, setIsSignUp] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,44 +20,26 @@ const AuthPage = () => {
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [emailSent, setEmailSent] = useState(false);
-  const [verificationPopup, setVerificationPopup] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const checkVerification = setInterval(async () => {
-          await user.reload();
-          if (user.emailVerified) {
-            clearInterval(checkVerification);
-
-            // Only redirect to profile-setup after signup
-            const userDoc = await getDoc(doc(db, "users", user.uid));
-            if (userDoc.exists()) {
-              const data = userDoc.data();
-              if (!data.isProfileComplete) {
-                navigate("/profile-setup", {
-                  state: { uid: user.uid, email: user.email },
-                });
-              } else {
-                navigate("/dashboard");
-              }
-            }
+      if (user && user.emailVerified) {
+        const userDoc = await getDoc(doc(db, "users", user.uid));
+        if (userDoc.exists()) {
+          const data = userDoc.data();
+          if (!data.profileCompleted) {
+            navigate("/profile-setup", {
+              state: { uid: user.uid, email: user.email },
+            });
+          } else {
+            navigate("/dashboard");
           }
-        }, 3000);
-        return () => clearInterval(checkVerification);
+        }
       }
     });
     return () => unsubscribe();
   }, [navigate]);
-
-  const handleToggle = () => {
-    setIsSignUp((prev) => !prev);
-    setEmail("");
-    setPassword("");
-    setName("");
-    setError("");
-  };
 
   const getErrorMessage = (code) => {
     const messages = {
@@ -66,8 +48,18 @@ const AuthPage = () => {
       "auth/weak-password": "Password should be at least 6 characters.",
       "auth/wrong-password": "Incorrect password. Please try again.",
       "auth/user-not-found": "No account found with this email.",
+      "auth/network-request-failed":
+        "Network error. Check your internet connection.",
     };
     return messages[code] || "An error occurred. Please try again.";
+  };
+
+  const handleToggle = () => {
+    setIsSignUp((prev) => !prev);
+    setEmail("");
+    setPassword("");
+    setName("");
+    setError("");
   };
 
   const handleSubmit = async (e) => {
@@ -89,35 +81,30 @@ const AuthPage = () => {
           password
         );
         const user = userCredential.user;
-
         await sendEmailVerification(user);
-        setEmailSent(true);
-        setVerificationPopup(true);
-
         await setDoc(doc(db, "users", user.uid), {
+          uid: user.uid,
           name,
           email,
           createdAt: new Date(),
           emailVerified: false,
-          isProfileComplete: false,
+          profileCompleted: false,
           isOnline: true,
         });
+        setEmailSent(true);
       } else {
         const userCredential = await signInWithEmailAndPassword(
           auth,
           email,
           password
         );
-
         if (!userCredential.user.emailVerified) {
           setError("Please verify your email before logging in.");
           return;
         }
-
         const userDoc = await getDoc(doc(db, "users", userCredential.user.uid));
         const data = userDoc.data();
-
-        if (!data.isProfileComplete) {
+        if (!data.profileCompleted) {
           navigate("/profile-setup", {
             state: {
               uid: userCredential.user.uid,
@@ -140,7 +127,6 @@ const AuthPage = () => {
       setError("Enter your email to reset password.");
       return;
     }
-
     try {
       await sendPasswordResetEmail(auth, email);
       setError("Password reset email sent! Check your inbox.");
@@ -158,7 +144,7 @@ const AuthPage = () => {
             <p>
               A verification email has been sent to <strong>{email}</strong>.
             </p>
-            <p>Please verify your email before logging in.</p>
+            <p>Please verify before logging in.</p>
           </div>
         ) : (
           <>
@@ -238,7 +224,6 @@ const AuthPage = () => {
           </>
         )}
 
-        {/* Overlay Panel */}
         <div className="auth-overlay-container">
           <div className="auth-overlay">
             <div className="auth-overlay-panel auth-overlay-left">
@@ -258,22 +243,8 @@ const AuthPage = () => {
           </div>
         </div>
       </div>
-
-      {verificationPopup && (
-        <>
-          <div className="auth-verification-overlay"></div>
-          <div className="auth-verification-popup">
-            <h3>Email Verification Required</h3>
-            <p>
-              We've sent a verification email to <strong>{email}</strong>.
-              Please check your inbox and verify your email.
-            </p>
-            <p>Once verified, you will be redirected automatically.</p>
-          </div>
-        </>
-      )}
     </div>
   );
 };
 
-export default AuthPage;
+export default DesktopAuth;

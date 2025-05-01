@@ -1,11 +1,11 @@
 import React from "react";
-import "./Features.css"; // Reuse your existing CSS or extend with new classes
+import "./Features.css";
 
 const Features = () => {
   return (
-    <section className="features" id="features">
-      <div className="container">
-        <div className="section-title">
+    <section className="vit-features" id="features">
+      <div className="vit-features-container">
+        <div className="vit-features-title">
           <h2>Our Services</h2>
           <p>
             Discover the tools and resources designed to enhance your VIT-AP
@@ -13,85 +13,55 @@ const Features = () => {
           </p>
         </div>
 
-        <div className="features-grid">
-          {/* Skill Showcase */}
-          <div className="feature-card">
-            <div className="feature-icon">📄</div>
-            <h3>Skill Showcase</h3>
-            <p>
-              Create your profile and showcase your skills, projects, and
-              achievements.
-            </p>
-          </div>
-
-          {/* AI Chatbot */}
-          <div className="feature-card">
-            <div className="feature-icon">🤖</div>
-            <h3>AI Doubt Resolution</h3>
-            <p>
-              Get instant answers to your questions with our AI-powered chatbot.
-            </p>
-          </div>
-
-          {/* Team Formation */}
-          <div className="feature-card">
-            <div className="feature-icon">👥</div>
-            <h3>Team Formation</h3>
-            <p>
-              Find perfect teammates for your projects based on skills and
-              interests.
-            </p>
-          </div>
-
-          {/* Project Posting & Collaboration */}
-          <div className="feature-card">
-            <div className="feature-icon">🚀</div>
-            <h3>Project Posting</h3>
-            <p>
-              Post your innovative project ideas, recruit members, and
-              collaborate efficiently.
-            </p>
-          </div>
-
-          {/* Previous Year Question Papers */}
-          <div className="feature-card">
-            <div className="feature-icon">📚</div>
-            <h3>Previous Year Papers</h3>
-            <p>
-              Access and download previous years' question papers for your
-              courses and exams.
-            </p>
-          </div>
-
-          {/* CGPA Calculator */}
-          <div className="feature-card">
-            <div className="feature-icon">🧮</div>
-            <h3>CGPA Calculator</h3>
-            <p>
-              Calculate your CGPA with ease for up to 12 semesters and track
-              your academic performance.
-            </p>
-          </div>
-
-          {/* Interview Preparation */}
-          <div className="feature-card">
-            <div className="feature-icon">🎓</div>
-            <h3>Interview Prep</h3>
-            <p>
-              Prepare for technical interviews with curated questions on OOPs,
-              DBMS, DSA, and CN.
-            </p>
-          </div>
-
-          {/* Request Inbox */}
-          <div className="feature-card">
-            <div className="feature-icon">📥</div>
-            <h3>Requests Inbox</h3>
-            <p>
-              Manage all your project join requests and collaboration
-              invitations in one place.
-            </p>
-          </div>
+        <div className="vit-features-grid">
+          {[
+            {
+              icon: "📄",
+              title: "Skill Showcase",
+              desc: "Create your profile and showcase your skills, projects, and achievements.",
+            },
+            {
+              icon: "🤖",
+              title: "AI Doubt Resolution",
+              desc: "Get instant answers to your questions with our AI-powered chatbot.",
+            },
+            {
+              icon: "👥",
+              title: "Team Formation",
+              desc: "Find perfect teammates for your projects based on skills and interests.",
+            },
+            {
+              icon: "🚀",
+              title: "Project Posting",
+              desc: "Post your innovative project ideas, recruit members, and collaborate efficiently.",
+            },
+            {
+              icon: "📚",
+              title: "Previous Year Papers",
+              desc: "Access and download previous years' question papers for your courses and exams.",
+            },
+            {
+              icon: "🧮",
+              title: "CGPA Calculator",
+              desc: "Calculate your CGPA with ease for up to 12 semesters and track your performance.",
+            },
+            {
+              icon: "🎓",
+              title: "Interview Prep",
+              desc: "Prepare for interviews with curated questions on OOPs, DBMS, DSA, and CN.",
+            },
+            {
+              icon: "📥",
+              title: "Requests Inbox",
+              desc: "Manage all your project join requests and invites in one place.",
+            },
+          ].map((item, index) => (
+            <div key={index} className="vit-feature-card">
+              <div className="vit-feature-icon">{item.icon}</div>
+              <h3>{item.title}</h3>
+              <p>{item.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
     </section>

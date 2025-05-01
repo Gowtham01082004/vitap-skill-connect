@@ -5,7 +5,7 @@ import { auth } from "../config/firebaseConfig";
 import { signOut } from "firebase/auth";
 import "./LoggedNavbar.css";
 
-const LoggedNavbar = () => {
+const LoggedNavbar = ({ onSidebarToggle }) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -21,15 +21,20 @@ const LoggedNavbar = () => {
   return (
     <header className="vit-header">
       <div className="header-container">
-        {/* Logo */}
-        <div className="header-left">
-          <Link to="/dashboard" className="logo">
-            <span className="logo-icon">🎓</span>
-            <h1>
-              VIT<span className="highlight">Assist</span>
-            </h1>
-          </Link>
+        {/* Hamburger (only on mobile) */}
+        <div className="nav-hamburger" onClick={onSidebarToggle}>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>
+
+        {/* Logo */}
+        <Link to="/dashboard" className="logo">
+          <span className="logo-icon">🎓</span>
+          <h1>
+            VIT<span className="highlight">Assist</span>
+          </h1>
+        </Link>
 
         {/* Right Section */}
         <div className="header-right">

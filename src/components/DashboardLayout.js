@@ -1,15 +1,24 @@
 // src/components/DashboardLayout.js
-import React from "react";
+import React, { useState } from "react";
 import Sidebar from "./Sidebar";
 import LoggedNavbar from "./LoggedNavbar";
-import "./DashboardLayout.css"; // Create this for layout styling
+import "./DashboardLayout.css";
 
 const DashboardLayout = ({ children }) => {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
+
+  const handleSidebarToggle = () => {
+    setSidebarVisible((prev) => !prev);
+  };
+
   return (
     <>
-      <LoggedNavbar />
+      <LoggedNavbar onSidebarToggle={handleSidebarToggle} />
       <div className="dashboard-layout">
-        <Sidebar />
+        <Sidebar
+          isMobileSidebarVisible={sidebarVisible}
+          toggleSidebar={handleSidebarToggle}
+        />
         <main className="dashboard-main">{children}</main>
       </div>
     </>

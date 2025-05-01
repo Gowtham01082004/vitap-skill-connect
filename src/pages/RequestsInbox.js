@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { db } from "../config/firebaseConfig";
 import {
   collection,
@@ -15,6 +16,7 @@ import "./RequestsInbox.css";
 
 const RequestsInbox = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [requests, setRequests] = useState([]);
   const [loading, setLoading] = useState(true);
   const [processingRequestId, setProcessingRequestId] = useState(null);
@@ -23,24 +25,15 @@ const RequestsInbox = () => {
     if (!user) return;
 
     const fetchRequests = async () => {
-      if (!user) return;
       try {
         setLoading(true);
         const requestCollection = collection(db, "requests");
-
         const q = query(
           requestCollection,
           where("receiver", "==", user.email),
-          where("status", "==", "sent") // ✅ Only fetch pending requests
+          where("status", "==", "sent")
         );
-
         const snapshot = await getDocs(q);
-
-        console.log(
-          "Fetched Requests:",
-          snapshot.docs.map((doc) => doc.data())
-        ); // ✅ Debugging Log
-
         setRequests(
           snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }))
         );
@@ -54,13 +47,11 @@ const RequestsInbox = () => {
     fetchRequests();
   }, [user]);
 
-  // 🔹 Accept Request & Send Notification
   const handleAccept = async (request) => {
     if (!user) return;
     setProcessingRequestId(request.id);
 
     try {
-      // ✅ Ensure post exists before updating
       const postRef = doc(db, "posts", request.postId);
       const postDoc = await getDoc(postRef);
 
@@ -71,21 +62,16 @@ const RequestsInbox = () => {
         });
       }
 
-      // ✅ Update the request status (Fix: Uses `request.id` correctly)
       await updateDoc(doc(db, "requests", request.id), { status: "accepted" });
 
-      // ✅ Send Notification to Requesting User
       await addDoc(collection(db, "notifications"), {
-        sender: user.email, // Post owner
-        receiver: request.sender, // Requesting user
+        sender: user.email,
+        receiver: request.sender,
         message: `Your collaboration request for "${request.postTitle}" has been accepted! 🎉`,
         timestamp: new Date(),
       });
 
-      // ✅ Update UI
-      setRequests((prevRequests) =>
-        prevRequests.filter((r) => r.id !== request.id)
-      );
+      setRequests((prev) => prev.filter((r) => r.id !== request.id));
     } catch (error) {
       console.error("Error accepting request:", error);
     } finally {
@@ -100,7 +86,6 @@ const RequestsInbox = () => {
     try {
       await updateDoc(doc(db, "requests", request.id), { status: "declined" });
 
-      // ✅ Send Notification to Requesting User
       await addDoc(collection(db, "notifications"), {
         sender: user.email,
         receiver: request.sender,
@@ -108,10 +93,7 @@ const RequestsInbox = () => {
         timestamp: new Date(),
       });
 
-      // ✅ Update UI
-      setRequests((prevRequests) =>
-        prevRequests.filter((r) => r.id !== request.id)
-      );
+      setRequests((prev) => prev.filter((r) => r.id !== request.id));
     } catch (error) {
       console.error("Error declining request:", error);
     } finally {
@@ -133,8 +115,13 @@ const RequestsInbox = () => {
             {requests.map((req) => (
               <div key={req.id} className="request-card">
                 <p>
-                  <strong>{req.sender}</strong> wants to collaborate on{" "}
-                  <strong>{req.postTitle}</strong>
+                  <strong
+                    className="clickable-sender"
+                    onClick={() => navigate(`/team-member/${req.sender}`)}
+                  >
+                    {req.sender}
+                  </strong>{" "}
+                  wants to collaborate on <strong>{req.postTitle}</strong>
                 </p>
                 <div className="request-actions">
                   <button

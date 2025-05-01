@@ -1,0 +1,151 @@
+.main-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  color: #e2e2e2;
+}
+
+.section {
+  background-color: rgba(30, 30, 30, 0.7);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.path-detail-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.path-icon-large {
+  width: 80px;
+  height: 80px;
+  border-radius: 16px;
+  background: rgba(244, 114, 182, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.5rem;
+  margin-right: 1.5rem;
+}
+
+.path-info h1 {
+  margin-bottom: 0.5rem;
+}
+
+.path-info p {
+  opacity: 0.7;
+  max-width: 600px;
+}
+
+/* Timeline styling */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin-top: 2rem;
+}
+
+.timeline:before {
+  content: "";
+  position: absolute;
+  left: 7px;
+  top: 0;
+  height: 100%;
+  width: 2px;
+  background-color: rgba(244, 114, 182, 0.5);
+}
+
+.timeline-item {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+.timeline-marker {
+  position: absolute;
+  left: -2rem;
+  top: 0;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: #f472b6;
+  box-shadow: 0 0 0 4px rgba(244, 114, 182, 0.2);
+}
+
+.timeline-content {
+  background-color: #121212;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.timeline-item h3 {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.difficulty-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: rgba(244, 114, 182, 0.2);
+}
+
+.est-time-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: rgba(99, 102, 241, 0.2);
+}
+
+.timeline-detail {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.resources-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.resource-badge {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+}
+
+.resource-badge i {
+  margin-right: 0.4rem;
+  font-size: 0.9rem;
+}
+
+/* Responsive tweaks */
+@media (max-width: 768px) {
+  .main-content {
+    margin-left: 0;
+    padding: 1rem;
+  }
+
+  .path-detail-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .path-icon-large {
+    margin-bottom: 1rem;
+  }
+}

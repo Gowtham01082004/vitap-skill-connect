@@ -10,6 +10,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .filter-btn {
@@ -36,6 +38,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
+  justify-content: center; /* Center on small screens */
 }
 
 .project-card {
@@ -113,6 +116,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
 
 .mentor-info {
@@ -150,4 +154,86 @@
 
 .apply-btn.declined {
   background: #f44336;
+}
+
+/* ===== Responsive Design ===== */
+@media (max-width: 768px) {
+  .logged-home-container {
+    padding: 1rem;
+  }
+
+  .header-section {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .project-cards {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .project-card {
+    width: 100%;
+    max-width: 500px;
+  }
+
+  .filter-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .card-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-title {
+    font-size: 16px;
+  }
+
+  .project-desc {
+    font-size: 13px;
+  }
+
+  .project-meta {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  .apply-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+  font-size: 14px;
+}
+
+.pagination-controls button {
+  background-color: #2a2e3a;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.pagination-controls button:hover {
+  background-color: #00e5ff;
+  color: black;
+}
+
+.pagination-controls button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }

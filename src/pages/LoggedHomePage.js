@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { db } from "../config/firebaseConfig";
 import {
   collection,
@@ -26,6 +26,10 @@ const LoggedHomePage = () => {
 
   const [searchType, setSearchType] = useState("domain");
   const [searchInput, setSearchInput] = useState("");
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 6;
 
   useEffect(() => {
     let isMounted = true;
@@ -60,11 +64,22 @@ const LoggedHomePage = () => {
     const fetchUserNames = async (posts) => {
       const userMap = {};
       for (const post of posts) {
-        const userRef = doc(db, "users", post.userId);
-        const userDoc = await getDoc(userRef);
-        userMap[post.userId] = userDoc.exists()
-          ? userDoc.data().name || "Unknown"
-          : "Unknown";
+        if (!post.userId) {
+          userMap[post.userId] = "Unknown";
+          continue;
+        }
+        try {
+          const userRef = doc(db, "users", post.userId);
+          const userDoc = await getDoc(userRef);
+          if (userDoc.exists()) {
+            userMap[post.userId] = userDoc.data().name || "Unknown";
+          } else {
+            userMap[post.userId] = "Unknown";
+          }
+        } catch (error) {
+          console.error(`Error fetching user ${post.userId}:`, error);
+          userMap[post.userId] = "Unknown";
+        }
       }
       setUserNames(userMap);
     };
@@ -94,28 +109,30 @@ const LoggedHomePage = () => {
     };
   }, [user]);
 
-  const handleFilter = () => {
-    const query = searchInput.toLowerCase();
+  // ✅ handleFilter with useCallback to avoid warnings
+  const handleFilter = useCallback(() => {
+    const queryText = searchInput.toLowerCase();
 
     const filtered = posts.filter((post) => {
       if (searchType === "domain") {
-        return post.domain?.some((d) => d.toLowerCase().includes(query));
+        return post.domain?.some((d) => d.toLowerCase().includes(queryText));
       } else if (searchType === "name") {
-        return post.title?.toLowerCase().includes(query);
+        return post.title?.toLowerCase().includes(queryText);
       } else if (searchType === "skill") {
         return post.skillsRequired?.some((s) =>
-          s.toLowerCase().includes(query)
+          s.toLowerCase().includes(queryText)
         );
       }
       return true;
     });
 
     setFilteredPosts(filtered);
-  };
+    setCurrentPage(1); // reset to first page on search
+  }, [posts, searchInput, searchType]);
 
   useEffect(() => {
     handleFilter();
-  }, [searchInput, searchType]);
+  }, [handleFilter]);
 
   const getInitials = (name) =>
     name
@@ -127,6 +144,12 @@ const LoggedHomePage = () => {
 
   if (loading) return <p>Loading authentication...</p>;
   if (!user) return <p>You are not logged in. Please log in first.</p>;
+
+  // Pagination Logic
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const paginatedPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const totalPages = Math.ceil(filteredPosts.length / postsPerPage);
 
   return (
     <div className="logged-home-container">
@@ -154,7 +177,7 @@ const LoggedHomePage = () => {
 
       <p className="project-count">
         Showing <span className="highlight">{filteredPosts.length}</span>{" "}
-        available projects
+        projects
       </p>
 
       <div className="project-cards">
@@ -162,7 +185,7 @@ const LoggedHomePage = () => {
           ? Array.from({ length: 6 }).map((_, index) => (
               <ProjectSkeleton key={index} />
             ))
-          : filteredPosts.map((post) => (
+          : paginatedPosts.map((post) => (
               <div key={post.id} className="project-card">
                 <div className="card-header">
                   <h4 className="project-title">{post.title}</h4>
@@ -224,6 +247,29 @@ const LoggedHomePage = () => {
               </div>
             ))}
       </div>
+
+      {/* Pagination Controls */}
+      {totalPages > 1 && (
+        <div className="pagination-controls">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+          >
+            ⬅ Prev
+          </button>
+          <span>
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() =>
+              setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+            }
+            disabled={currentPage === totalPages}
+          >
+            Next ➡
+          </button>
+        </div>
+      )}
     </div>
   );
 };

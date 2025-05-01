@@ -1,37 +1,62 @@
 .attendance-page {
-  padding: 20px;
+  padding: 30px;
   color: white;
   width: 80%;
-  margin: 20px;
-  margin-left: 110px;
+  margin: 30px auto;
   background-color: #121212;
+  min-height: 100vh;
+  font-family: "Poppins", sans-serif;
+}
+
+.attendance-page h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
 }
 
 .attendance-format {
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 30px;
-  background-color: #121212;
+  background-color: #1f1f1f;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+}
+
+.attendance-format h4 {
+  margin-bottom: 15px;
+  color: #00e5ff;
+  font-weight: 600;
 }
 
 .attendance-format input {
   display: block;
-  margin: 10px 0;
+  margin: 10px auto;
   padding: 10px;
-  width: 100%;
-  border-radius: 6px;
+  width: 90%;
+  border-radius: 8px;
   border: none;
+  background-color: #2a2a2a;
+  color: white;
+  font-size: 16px;
+}
+
+.attendance-format input::placeholder {
+  color: #aaa;
 }
 
 .attendance-format button,
 .reset-button {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin-top: 15px;
+  padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: 16px;
   transition: 0.3s ease;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .attendance-format button {
@@ -39,11 +64,15 @@
   color: white;
 }
 
+.attendance-format button:hover {
+  background-color: #8b5df2;
+}
+
 .reset-button {
   background-color: transparent;
   color: #ff5e5e;
   border: 1px solid #ff5e5e;
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .reset-button:hover {
@@ -55,4 +84,60 @@
   text-align: center;
   margin: 10px 0;
   font-weight: bold;
+  color: #bbb;
+}
+
+/* Results */
+.attendance-format p {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 15px;
+  font-weight: 500;
+  color: #00e676;
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 768px) {
+  .attendance-page {
+    width: 90%;
+    padding: 20px;
+  }
+
+  .attendance-page h2 {
+    font-size: 24px;
+  }
+
+  .attendance-format input {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .attendance-format button,
+  .reset-button {
+    width: 100%;
+    font-size: 15px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .attendance-page {
+    padding: 15px;
+  }
+
+  .attendance-format {
+    padding: 15px;
+  }
+
+  .attendance-format h4 {
+    font-size: 18px;
+  }
+
+  .attendance-page h2 {
+    font-size: 22px;
+  }
+
+  .attendance-format p {
+    font-size: 16px;
+  }
 }
