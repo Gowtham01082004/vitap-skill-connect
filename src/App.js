@@ -21,6 +21,7 @@ import AttendanceCalculator from "./pages/AttendanceCalculator";
 import InterviewPrepPage from "./pages/InterviewPrepPage";
 import Home from "./pages/Home";
 import AboutUs from "./pages/AboutUs";
+import SettingsPage from "./pages/SettingsPage";
 import HowItWorks from "./components/HowItWorks";
 import FAQ from "./pages/FAQ";
 import AuthPage from "./pages/AuthPage";
@@ -104,6 +105,7 @@ const MainLayout = () => {
         "/cgpa-calculator",
         "/attendance-calculator",
         "/roadmap",
+        "/disc-for",
       ].some((route) => path.startsWith(route))) ||
     path.startsWith("/complete_accept_project/");
 
@@ -182,6 +184,14 @@ const MainLayout = () => {
               element={
                 <PrivateRoute>
                   <DevOpsCloudRoadmap />
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/settings"
+              element={
+                <PrivateRoute>
+                  <SettingsPage />
                 </PrivateRoute>
               }
             />

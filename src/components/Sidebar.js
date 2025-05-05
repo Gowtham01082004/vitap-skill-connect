@@ -168,20 +168,20 @@ const Sidebar = ({ isMobileSidebarVisible, toggleSidebar }) => {
                 </li>
                 <li className="nav-item">
                   <div
-                    className="nav-link"
-                    onClick={() => setInterviewOpen(!interviewOpen)}
-                  >
-                    🎓 {!collapsed && "Interview Prep"}
-                  </div>
-                </li>
-                <li className="nav-item">
-                  <div
                     className={`nav-link ${
                       isActive("/disc-for") ? "active" : ""
                     }`}
                     onClick={() => handleNavigate("/disc-for")}
                   >
                     📈 {!collapsed && "Discussion Forum"}
+                  </div>
+                </li>
+                <li className="nav-item">
+                  <div
+                    className="nav-link"
+                    onClick={() => setInterviewOpen(!interviewOpen)}
+                  >
+                    🎓 {!collapsed && "Interview Prep"}
                   </div>
                 </li>
                 {interviewOpen && !collapsed && (
@@ -229,8 +229,16 @@ const Sidebar = ({ isMobileSidebarVisible, toggleSidebar }) => {
                   </div>
                 </li>
                 <li className="nav-item">
-                  <div className="nav-link">⚙ {!collapsed && "Settings"}</div>
+                  <div
+                    className={`nav-link ${
+                      isActive("/settings") ? "active" : ""
+                    }`}
+                    onClick={() => handleNavigate("/settings")}
+                  >
+                    ⚙ {!collapsed && "Settings"}
+                  </div>
                 </li>
+
                 <li className="nav-item">
                   <div className="nav-link" onClick={handleLogout}>
                     📤 {!collapsed && "Log Out"}

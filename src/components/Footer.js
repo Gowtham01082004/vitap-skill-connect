@@ -70,7 +70,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-copyright-v2">
-        <p>VITAssist © 2023. All Rights Reserved.</p>
+        <p>VITAssist © 2025. All Rights Reserved.</p>
       </div>
     </footer>
   );

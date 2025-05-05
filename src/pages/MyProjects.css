@@ -4,9 +4,44 @@
   gap: 2rem;
   background: #0e1018;
   color: #f5f5f5;
-  min-height: 100vh;
+  height: 100%;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   flex-wrap: wrap; /* important for responsiveness */
+}
+/* 👑 Leader section */
+.leader-section {
+  background: #23233a;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1.5rem 0;
+  color: #ddd;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.leader-section h4 {
+  margin-bottom: 0.5rem;
+  color: #4a8cff;
+}
+
+/* 👥 Team section */
+.team-title {
+  margin-top: 1.5rem;
+  color: #4a8cff;
+}
+
+.team-list {
+  padding-left: 1.2rem;
+  list-style: disc;
+  margin-top: 0.5rem;
+}
+
+.team-member-item {
+  margin-bottom: 0.5rem;
+  color: #ccc;
+}
+
+.team-member-item strong {
+  color: #fff;
 }
 
 .project-list {
@@ -104,6 +139,16 @@
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s ease;
+}
+.project-details ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+  list-style-type: disc;
+}
+
+.project-details h4 {
+  margin-top: 1.5rem;
+  color: #4a8cff;
 }
 
 .enter-project-btn:hover {

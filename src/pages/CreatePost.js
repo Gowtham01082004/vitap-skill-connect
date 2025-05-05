@@ -1,5 +1,3 @@
-// ✅ Updated CreatePost.jsx (adds userId + fixes Firestore permission issues)
-
 import React, { useState, useEffect } from "react";
 import {
   Box,
@@ -23,6 +21,7 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
+import { Snackbar, Alert } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 import "./CreatePost.css";
@@ -51,6 +50,7 @@ const CreatePost = () => {
   const [step, setStep] = useState(0);
   const [loading, setLoading] = useState(false);
   const [customSkill, setCustomSkill] = useState("");
+  const [showSuccess, setShowSuccess] = useState(false);
   const [userData, setUserData] = useState(null);
   const [formData, setFormData] = useState({
     title: "",
@@ -166,7 +166,10 @@ const CreatePost = () => {
         timestamp: serverTimestamp(),
       };
       await addDoc(collection(db, "posts"), postData);
-      navigate("/dashboard");
+      setShowSuccess(true);
+      setTimeout(() => {
+        navigate("/dashboard");
+      }, 2000);
     } catch (error) {
       console.error("Submit error:", error);
     } finally {
@@ -471,6 +474,20 @@ const CreatePost = () => {
           </Box>
         </Box>
       </Paper>
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setShowSuccess(false)}
+          severity="success"
+          sx={{ width: "100%" }}
+        >
+          🎉 Project created successfully!
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

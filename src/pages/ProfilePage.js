@@ -8,9 +8,13 @@ import {
   doc,
   getDoc,
   setDoc,
+  deleteDoc,
 } from "firebase/firestore";
 import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 import "./ProfilePage.css";
+import { Snackbar, Alert } from "@mui/material";
+
 import { blueGrey } from "@mui/material/colors";
 
 const predefinedCategories = [
@@ -22,20 +26,9 @@ const predefinedCategories = [
   "Cybersecurity",
 ];
 
-const getRandomColor = () => {
-  const colors = [
-    "#00e5ff",
-    "#6c5ce7",
-    "#ff1744",
-    "#00c853",
-    "#ff9100",
-    "#f50057",
-  ];
-  return colors[Math.floor(Math.random() * colors.length)];
-};
-
 const ProfilePage = () => {
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     name: "",
     email: "",
@@ -43,13 +36,19 @@ const ProfilePage = () => {
     year: "",
     primarySkills: [],
     projectCategories: [],
+    username: "",
+    studentID: "",
+    secondarySkills: "",
   });
   const [editing, setEditing] = useState(false);
   const [userPosts, setUserPosts] = useState([]);
   const [collaboratedPosts, setCollaboratedPosts] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
   const [customSkillInput, setCustomSkillInput] = useState("");
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [loadingPosts, setLoadingPosts] = useState(true);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [toastMessage, setToastMessage] = useState("");
 
   useEffect(() => {
     if (!user) return;
@@ -109,11 +108,9 @@ const ProfilePage = () => {
           )
         );
 
-        // More efficient batch fetching for collaborations
         const postIds = reqSnap.docs.map((doc) => doc.data().postId);
 
         if (postIds.length > 0) {
-          // Batch fetch in chunks of 10 (Firestore limitation)
           const fetchedPosts = [];
           for (let i = 0; i < postIds.length; i += 10) {
             const batch = postIds.slice(i, i + 10);
@@ -140,7 +137,6 @@ const ProfilePage = () => {
     try {
       if (!user) return;
 
-      // Store arrays directly rather than converting to strings
       await setDoc(
         doc(db, "users", user.uid),
         {
@@ -153,7 +149,6 @@ const ProfilePage = () => {
         { merge: true }
       );
 
-      // Update local state to reflect changes
       setUserData((prev) => ({
         ...prev,
         projectCategories: selectedCategories,
@@ -192,6 +187,25 @@ const ProfilePage = () => {
         ? prev.filter((c) => c !== category)
         : [...prev, category]
     );
+  };
+
+  const handleEnterProject = (projectId) => {
+    navigate(`/complete_accept_project/${projectId}`);
+  };
+
+  const handleDeleteProject = async (projectId) => {
+    if (window.confirm("Are you sure you want to delete this project?")) {
+      try {
+        await deleteDoc(doc(db, "posts", projectId));
+        setUserPosts((prev) => prev.filter((proj) => proj.id !== projectId));
+        setSelectedProject(null);
+        setToastMessage("🗑️ Project deleted successfully.");
+        setShowSuccess(true);
+      } catch (error) {
+        console.error("Error deleting project:", error);
+        alert("Failed to delete project. Please try again.");
+      }
+    }
   };
 
   if (!user) {
@@ -252,6 +266,7 @@ const ProfilePage = () => {
       )}
 
       <div className="profile-grid">
+        {/* Academic Info */}
         <div className="info-card">
           <h3>Academic Info</h3>
           <p>
@@ -260,8 +275,15 @@ const ProfilePage = () => {
           <p>
             <strong>Year:</strong> {userData.year || "Not Provided"}
           </p>
+          <p>
+            <strong>Username:</strong> {userData.username || "Not Provided"}
+          </p>
+          <p>
+            <strong>Student ID:</strong> {userData.studentID || "Not Provided"}
+          </p>
         </div>
 
+        {/* Primary Skills */}
         <div className="info-card">
           <h3>Primary Skills</h3>
           <div className="tag-container">
@@ -283,6 +305,13 @@ const ProfilePage = () => {
               </span>
             ))}
           </div>
+          {userData.secondarySkills && (
+            <p
+              style={{ marginTop: "10px", fontSize: "0.95rem", color: "#ccc" }}
+            >
+              <strong>Secondary Skills:</strong> {userData.secondarySkills}
+            </p>
+          )}
           {editing && (
             <div className="skill-input-wrapper">
               <input
@@ -300,39 +329,78 @@ const ProfilePage = () => {
           )}
         </div>
 
+        {/* Preferred Categories */}
         <div className="info-card">
           <h3>Preferred Categories</h3>
           <div className="tag-container">
-            {predefinedCategories.map((cat, i) => (
-              <span
-                key={i}
-                className={`tag ${
-                  selectedCategories.includes(cat) ? "selected" : ""
-                }`}
-                onClick={() => editing && toggleCategory(cat)}
-                style={{ cursor: editing ? "pointer" : "default" }}
-              >
-                {cat}
-              </span>
-            ))}
+            {editing ? (
+              predefinedCategories.map((cat, i) => (
+                <span
+                  key={i}
+                  className={`tag ${
+                    selectedCategories.includes(cat) ? "selected" : ""
+                  }`}
+                  onClick={() => toggleCategory(cat)}
+                  style={{ cursor: "pointer" }}
+                >
+                  {cat}
+                </span>
+              ))
+            ) : selectedCategories.length > 0 ? (
+              selectedCategories.map((cat, i) => (
+                <span key={i} className="tag selected">
+                  {cat}
+                </span>
+              ))
+            ) : (
+              <p>No preferred categories selected.</p>
+            )}
           </div>
         </div>
 
+        {/* My Projects */}
         <div className="info-card">
           <h3>My Projects</h3>
           {loadingPosts ? (
             <p>Loading projects...</p>
           ) : userPosts.length > 0 ? (
             userPosts.map((post) => (
-              <div key={post.id} className="project-item">
+              <div
+                key={post.id}
+                className={`project-item ${
+                  selectedProject?.id === post.id ? "active" : ""
+                }`}
+                onClick={() => setSelectedProject(post)}
+              >
                 {post.title}
               </div>
             ))
           ) : (
             <p>No projects created yet.</p>
           )}
+
+          {selectedProject && (
+            <div className="project-actions">
+              <p style={{ marginTop: "10px" }}>
+                <strong>Selected:</strong> {selectedProject.title}
+              </p>
+              <button
+                className="enter-project-btn"
+                onClick={() => handleEnterProject(selectedProject.id)}
+              >
+                Enter Project
+              </button>
+              <button
+                className="delete-project-btn"
+                onClick={() => handleDeleteProject(selectedProject.id)}
+              >
+                Delete Project
+              </button>
+            </div>
+          )}
         </div>
 
+        {/* Collaborated Projects */}
         <div className="info-card">
           <h3>Collaborated Projects</h3>
           {loadingPosts ? (
@@ -348,6 +416,20 @@ const ProfilePage = () => {
           )}
         </div>
       </div>
+      <Snackbar
+        open={showSuccess}
+        autoHideDuration={3000}
+        onClose={() => setShowSuccess(false)}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={() => setShowSuccess(false)}
+          severity={toastMessage.includes("Failed") ? "error" : "success"}
+          sx={{ width: "100%" }}
+        >
+          {toastMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };

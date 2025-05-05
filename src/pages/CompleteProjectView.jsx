@@ -13,6 +13,7 @@ import {
 import { db } from "../config/firebaseConfig";
 import { useAuth } from "../context/AuthContext";
 import "./CompleteProjectView.css";
+import LoadingScreen from "../components/LoadingScreen";
 
 const CompleteProjectView = () => {
   const { id } = useParams();
@@ -20,15 +21,19 @@ const CompleteProjectView = () => {
   const [project, setProject] = useState(null);
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState("");
+  const [projectLoading, setProjectLoading] = useState(true);
 
   useEffect(() => {
     const fetchProject = async () => {
+      setProjectLoading(true);
       const docRef = doc(db, "posts", id);
       const docSnap = await getDoc(docRef);
       if (docSnap.exists()) {
         setProject({ id: docSnap.id, ...docSnap.data() });
       }
+      setProjectLoading(false);
     };
+
     fetchProject();
   }, [id]);
 
@@ -59,7 +64,7 @@ const CompleteProjectView = () => {
     (project.userEmail === user.email ||
       (project.collaborators || []).includes(user.email));
 
-  if (!project) return <div className="cpv-container">Loading...</div>;
+  if (projectLoading) return <LoadingScreen />;
 
   return (
     <main className="cpv-container">

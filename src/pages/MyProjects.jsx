@@ -18,6 +18,7 @@ const MyProjects = () => {
   const [createdProjects, setCreatedProjects] = useState([]);
   const [acceptedProjects, setAcceptedProjects] = useState([]);
   const [selectedProject, setSelectedProject] = useState(null);
+  const [collaborators, setCollaborators] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -63,6 +64,7 @@ const MyProjects = () => {
   }, [user]);
 
   const handleSelectProject = async (project) => {
+    // Get filled counts
     const acceptedQuery = query(
       collection(db, "requests"),
       where("postId", "==", project.id),
@@ -71,12 +73,24 @@ const MyProjects = () => {
     const snapshot = await getDocs(acceptedQuery);
 
     const roleCounts = {};
+    const collabList = [];
+
     snapshot.forEach((docSnap) => {
-      const { selectedRoleIndex } = docSnap.data();
+      const data = docSnap.data();
+      const { selectedRoleIndex, senderName, sender } = data;
+
+      // Role filling count
       if (selectedRoleIndex !== undefined) {
         roleCounts[selectedRoleIndex] =
           (roleCounts[selectedRoleIndex] || 0) + 1;
       }
+
+      // Collect collaborator info
+      collabList.push({
+        name: senderName || sender,
+        email: sender,
+        roleIndex: selectedRoleIndex,
+      });
     });
 
     const updatedRoles = (project.roles || []).map((role, i) => ({
@@ -85,6 +99,7 @@ const MyProjects = () => {
     }));
 
     setSelectedProject({ ...project, roles: updatedRoles });
+    setCollaborators(collabList);
   };
 
   const handleEnterProject = () => {
@@ -161,12 +176,47 @@ const MyProjects = () => {
               ))}
             </ul>
 
-            <div className="chat-access-note">
-              <strong>Group Chat:</strong> (Coming soon 🚧)
+            {/* 🚀 Leader Section */}
+            <div className="leader-section">
+              <h4>👑 Project Leader</h4>
+              <p>
+                <strong>Name:</strong> {selectedProject.userName || "Unknown"}
+                <br />
+                <strong>Email:</strong> {selectedProject.userEmail || "Unknown"}
+              </p>
             </div>
 
+            <div className="chat-access-note">
+              <strong>Group Chat:</strong>{" "}
+              {collaborators.length > 0 ? (
+                <>
+                  Active ✅
+                  <br />
+                  <em>{collaborators.length} member(s) currently accepted.</em>
+                </>
+              ) : (
+                <>No collaborators yet 🚫</>
+              )}
+            </div>
+
+            {collaborators.length > 0 && (
+              <>
+                <h4 className="team-title">👥 Team Members</h4>
+                <ul className="team-list">
+                  {collaborators.map((c, idx) => (
+                    <li key={idx} className="team-member-item">
+                      <strong>{c.name}</strong> ({c.email}) –{" "}
+                      <em>
+                        {selectedProject.roles?.[c.roleIndex]?.title || "Role"}
+                      </em>
+                    </li>
+                  ))}
+                </ul>
+              </>
+            )}
+
             <button className="enter-project-btn" onClick={handleEnterProject}>
-              Enter Project
+              Enter Project & Chat
             </button>
           </>
         ) : (

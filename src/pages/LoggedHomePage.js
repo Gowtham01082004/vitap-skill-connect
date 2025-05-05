@@ -62,6 +62,8 @@ const LoggedHomePage = () => {
     };
 
     const fetchUserNames = async (posts) => {
+      if (!user) return; // ⬅️ Add this to avoid fetching when logged out
+
       const userMap = {};
       for (const post of posts) {
         if (!post.userId) {
@@ -85,7 +87,8 @@ const LoggedHomePage = () => {
     };
 
     const fetchRequestStatus = async (posts) => {
-      if (!user) return;
+      if (!user) return; // ⬅️ Add this to avoid fetching when logged out
+
       const requestStatusMap = {};
 
       for (const post of posts) {

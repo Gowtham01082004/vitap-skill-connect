@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import "./AskQuestionModal.css";
-import { v4 as uuidv4 } from "uuid";
 
-const AskQuestionModal = ({ onClose, onSubmit, username }) => {
+const AskQuestionModal = ({ onClose, onSubmit }) => {
   const [questionType, setQuestionType] = useState("Academic Issue");
   const [subTitle, setSubTitle] = useState("");
   const [title, setTitle] = useState("");
@@ -10,14 +9,10 @@ const AskQuestionModal = ({ onClose, onSubmit, username }) => {
 
   const handleSubmit = () => {
     const newQuestion = {
-      id: uuidv4(),
       questionType,
       subTitle,
       title,
       summary,
-      postedAt: new Date().toLocaleString(),
-      username,
-      replies: 0,
     };
     onSubmit(newQuestion);
     onClose();
