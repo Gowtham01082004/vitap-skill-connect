@@ -10,11 +10,10 @@ const Home = () => {
       <div className="home">
         <section className="hero">
           <h1>
-            Empower Your Learning with <span>VITAssist</span>
+          Connect, Collaborate, and Learn Together with <span>US</span>
           </h1>
           <p>
-            AI-driven platform for students to access resources, collaborate on
-            projects, and get instant university assistance.
+          Join VIT-AP SkillConnect to find peers, share knowledge, and grow together in your learning journey.
           </p>
           <div className="hero-buttons">
             <button className="cta-primary" onClick={() => navigate("/auth")}>
