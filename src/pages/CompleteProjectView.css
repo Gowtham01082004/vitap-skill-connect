@@ -1,8 +1,8 @@
 :root {
-  --primary: #4a80ff;
-  --primary-light: rgba(74, 128, 255, 0.15);
-  --bg-dark: #1c1c2c;
-  --bg-darker: #151522;
+  --primary: #ff9800;
+  --primary-light: rgba(255, 152, 0, 0.15);
+  --bg-dark: #1a1a1a;
+  --bg-darker: #0e0e0e;
   --text: #e5e7eb;
   --text-light: #9ca3af;
   --white: #ffffff;
@@ -71,7 +71,7 @@ body {
 }
 
 .cpv-role-card {
-  background-color: #2a2a40;
+  background-color: #262626;
   border-left: 4px solid var(--primary);
   border-radius: var(--radius);
   padding: 16px;
@@ -96,7 +96,7 @@ body {
 }
 
 .cpv-member {
-  background-color: #2f2f45;
+  background-color: #2f2f2f;
   padding: 12px;
   border-radius: var(--radius);
   display: flex;
@@ -138,7 +138,7 @@ body {
 }
 
 .cpv-chat-box {
-  background-color: #2a2a40;
+  background-color: #2b2b2b;
   border: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1rem;
   border-radius: var(--radius);
@@ -173,13 +173,14 @@ body {
 .cpv-message-text {
   padding: 12px 16px;
   border-radius: var(--radius);
-  background-color: #383850;
+  background-color: #3c3c3c;
   font-size: 14px;
   color: var(--white);
 }
 
 .cpv-sent .cpv-message-text {
   background-color: var(--primary);
+  color: black;
 }
 
 .cpv-chat-input {
@@ -192,7 +193,7 @@ body {
   padding: 12px;
   border-radius: var(--radius);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  background-color: #1a1a2d;
+  background-color: #1a1a1a;
   color: var(--white);
   font-size: 14px;
   outline: none;
@@ -210,5 +211,5 @@ body {
 }
 
 .cpv-chat-input button:hover {
-  background-color: #3b6fe0;
+  background-color: #fb8c00;
 }

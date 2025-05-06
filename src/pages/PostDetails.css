@@ -1,17 +1,6 @@
-:root {
-  --primary: #4a8cff;
-  --secondary: #5d42b5;
-  --dark: #151729;
-  --darker: #0e1018;
-  --light: #ffffff;
-  --gray: #a0a0b0;
-  --success: #34c759;
-  --danger: #ff3b30;
-}
-
 body {
-  background-color: var(--darker);
-  color: var(--light);
+  background-color: #0e1018;
+  color: #ffffff;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -26,29 +15,29 @@ body {
   display: flex;
   gap: 0.5rem;
   margin-bottom: 1.5rem;
-  color: var(--gray);
+  color: #a0a0b0;
 }
 
 .breadcrumb a {
-  color: var(--gray);
+  color: #a0a0b0;
   text-decoration: none;
 }
 
 .breadcrumb a:hover {
-  color: var(--primary);
+  color: #ff9800;
 }
 
 .page-title {
   font-size: 2.2rem;
   margin-bottom: 2rem;
-  background: linear-gradient(90deg, var(--primary), #7a6cf0);
+  background: linear-gradient(90deg, #ff9800, #ff6f00);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
 .card {
-  background-color: var(--dark);
+  background-color: #151729;
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 1.5rem;
@@ -60,7 +49,7 @@ body {
   font-size: 1.2rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: var(--primary);
+  color: #ff9800;
 }
 
 .info-row {
@@ -71,7 +60,7 @@ body {
 .info-label {
   flex: 0 0 180px;
   font-weight: 500;
-  color: var(--gray);
+  color: #a0a0b0;
 }
 
 .info-value {
@@ -95,12 +84,12 @@ body {
 }
 
 .tag-primary {
-  background-color: rgba(74, 140, 255, 0.2);
-  color: var(--primary);
+  background-color: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
 }
 
 .timestamp {
-  color: var(--gray);
+  color: #a0a0b0;
   font-size: 0.9rem;
 }
 
@@ -126,8 +115,8 @@ body {
 }
 
 .role-card.selected {
-  border: 1px solid var(--primary);
-  background-color: rgba(74, 140, 255, 0.08);
+  border: 1px solid #ff9800;
+  background-color: rgba(255, 152, 0, 0.08);
 }
 
 .role-title {
@@ -143,7 +132,7 @@ body {
   gap: 0.5rem;
   margin-top: 1rem;
   font-size: 0.9rem;
-  color: var(--gray);
+  color: #a0a0b0;
 }
 
 .progress-bar {
@@ -156,7 +145,7 @@ body {
 
 .progress-fill {
   height: 100%;
-  background-color: var(--primary);
+  background-color: #ff9800;
 }
 
 .action-buttons {
@@ -177,12 +166,12 @@ body {
 }
 
 .btn-primary {
-  background-color: var(--primary);
+  background-color: #ff9800;
   color: white;
 }
 
 .btn-success {
-  background-color: var(--success);
+  background-color: #34c759;
   color: white;
 }
 
@@ -191,8 +180,9 @@ body {
   opacity: 0.6;
   cursor: not-allowed;
 }
+
 .role-card.applied {
-  border: 2px solid var(--success);
+  border: 2px solid #34c759;
   background-color: rgba(52, 199, 89, 0.1);
   position: relative;
 }
@@ -201,7 +191,7 @@ body {
   position: absolute;
   top: 10px;
   right: 10px;
-  background-color: var(--success);
+  background-color: #34c759;
   color: white;
   padding: 4px 10px;
   border-radius: 999px;

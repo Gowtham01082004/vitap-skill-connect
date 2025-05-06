@@ -15,9 +15,9 @@ const AdminNavbar = () => {
   return (
     <header className="admin-header">
       <div className="admin-logo">
-        <span className="logo-icon">🛠️</span>
+  
         <span className="logo-text">
-          VIT<span>Assist</span> Admin
+          VIT AP<span>SkillConnect</span> Admin
         </span>
       </div>
 

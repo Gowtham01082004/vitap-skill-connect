@@ -15,6 +15,7 @@
   width: 90%;
   max-width: 500px;
   color: #fff;
+  font-family: "Poppins", sans-serif;
 }
 
 .ask-modal label {
@@ -28,10 +29,11 @@
   width: 100%;
   padding: 0.7rem;
   margin-top: 0.5rem;
-  border: 1px solid #444;
+  border: 1px solid #2a2a2a;
   background: #2a2a2a;
   color: #fff;
   border-radius: 4px;
+  font-size: 14px;
 }
 
 .ask-modal-buttons {
@@ -48,13 +50,25 @@
   border-radius: 4px;
   cursor: pointer;
   color: white;
+  font-weight: 500;
+  transition: background 0.2s ease;
+}
+
+.cancel-btn:hover {
+  background: #444;
 }
 
 .submit-btn {
-  background: #00bcd4;
+  background: #ff9800;
   border: none;
   padding: 0.6rem 1.2rem;
   border-radius: 4px;
   cursor: pointer;
   color: black;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+
+.submit-btn:hover {
+  background: #fb8c00;
 }

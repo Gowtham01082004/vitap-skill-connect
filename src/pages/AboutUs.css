@@ -1,17 +1,6 @@
-:root {
-  --primary: #00e5ff;
-  --primary-dark: #00b8d4;
-  --secondary: #ff3d81;
-  --tertiary: #6c63ff;
-  --dark: #121212;
-  --darker: #0a0a0a;
-  --gray: #9e9e9e;
-  --light-text: #e0e0e0;
-}
-
 .aboutus-container {
-  background-color: var(--dark);
-  color: var(--light-text);
+  background-color: #121212;
+  color: #ffffff;
   padding: 80px 20px;
   margin-top: 40px;
   text-align: center;
@@ -20,17 +9,14 @@
 .aboutus-container h1 {
   font-size: 36px;
   margin-bottom: 20px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #ff5722;
 }
 
 .aboutus-container p {
   max-width: 800px;
   margin: 0 auto 40px;
   font-size: 16px;
-  color: var(--gray);
+  color: #bbbbbb;
 }
 
 /* Mission & Vision Cards */
@@ -42,30 +28,29 @@
 }
 
 .mission-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #1e1e1e;
+  border: 1px solid #2c2c2c;
   border-radius: 10px;
   padding: 30px 20px;
   width: 280px;
   text-align: center;
-  backdrop-filter: blur(6px);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .mission-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 10px 20px rgba(0, 229, 255, 0.1);
+  box-shadow: 0 10px 20px rgba(255, 87, 34, 0.25);
 }
 
 .mission-card h3 {
-  color: var(--primary);
+  color: #ff5722;
   font-size: 18px;
   margin-bottom: 10px;
 }
 
 .mission-card p {
   font-size: 14px;
-  color: var(--gray);
+  color: #bbbbbb;
 }
 
 /* Founders */
@@ -76,6 +61,7 @@
 .founders h3 {
   font-size: 28px;
   margin-bottom: 25px;
+  color: #ffffff;
 }
 
 .founder-container {
@@ -86,14 +72,13 @@
 }
 
 .founder-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: #1e1e1e;
   border-radius: 12px;
   padding: 20px;
   width: 250px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 6px 15px rgba(0, 229, 255, 0.05);
+  border: 1px solid #2c2c2c;
+  box-shadow: 0 6px 15px rgba(255, 87, 34, 0.1);
 }
 
 .founder-card img {
@@ -106,13 +91,13 @@
 
 .founder-card h4 {
   font-size: 20px;
-  color: var(--primary);
+  color: #ff5722;
   margin-bottom: 5px;
 }
 
 .founder-card p {
   font-size: 14px;
-  color: var(--gray);
+  color: #bbbbbb;
 }
 
 /* Platform Highlights */
@@ -122,7 +107,7 @@
 
 .platform-highlights h3 {
   font-size: 26px;
-  color: var(--primary);
+  color: #ff5722;
   margin-bottom: 25px;
 }
 
@@ -135,30 +120,29 @@
 }
 
 .highlight-card {
-  background: rgba(255, 255, 255, 0.03);
+  background: #1e1e1e;
   border-radius: 12px;
   padding: 25px;
   width: 280px;
   text-align: center;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(8px);
+  border: 1px solid #2c2c2c;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .highlight-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 8px 20px rgba(0, 229, 255, 0.1);
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.2);
 }
 
 .highlight-card h4 {
   font-size: 18px;
   margin-bottom: 10px;
-  color: var(--primary);
+  color: #ff5722;
 }
 
 .highlight-card p {
   font-size: 14px;
-  color: var(--gray);
+  color: #bbbbbb;
 }
 
 /* CTA Button */
@@ -167,8 +151,8 @@
 }
 
 .primary-btn {
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  color: var(--darker);
+  background: linear-gradient(90deg, #ff5722, #e64a19);
+  color: #ffffff;
   padding: 12px 30px;
   font-size: 16px;
   font-weight: 600;
@@ -176,12 +160,12 @@
   border-radius: 30px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 4px 15px rgba(0, 229, 255, 0.2);
+  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.25);
 }
 
 .primary-btn:hover {
   transform: translateY(-4px);
-  box-shadow: 0 8px 20px rgba(0, 229, 255, 0.3);
+  box-shadow: 0 8px 20px rgba(255, 87, 34, 0.35);
 }
 
 /* Responsive */

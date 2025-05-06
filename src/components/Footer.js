@@ -11,11 +11,11 @@ const Footer = () => {
               🎓
             </span>
             <h3 className="brand-title">
-              VIT<span>Assist</span>
+              VITAP<span>SkillConnect</span>
             </h3>
           </div>
           <p>
-            VITAssist is a comprehensive platform designed to support VIT-AP
+            SkillConnect is a comprehensive platform designed to support VIT-AP
             students and faculty with AI-powered assistance, project
             collaboration opportunities, and academic resources.
           </p>

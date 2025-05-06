@@ -1,0 +1,309 @@
+{
+    "hostels": {
+      "men": ["MH1", "MH2", "MH3", "MH4", "MH5"],
+      "ladies": ["LH1", "LH2"]
+    },
+    "fees": {
+      "fall_and_winter_semester": {
+        "indian_category": {
+          "AC": {
+            "1_bed": {
+              "veg": "1,89,800 INR",
+              "non_veg": "1,88,900 INR",
+              "special": "2,087,00 INR"
+            },
+            "2_bed": {
+              "veg": "1,49,800 INR",
+              "non_veg": "1,68,900 INR",
+              "special": "2,08,700 INR"
+            },
+            "3_bed": {
+              "veg": "1,83,600 INR",
+              "non_veg": "1,92,600 INR",
+              "special": "2,02,400 INR"
+            },
+            "4_bed": {
+              "veg": "1,77,300 INR",
+              "non_veg": "1,86,400 INR",
+              "special": "1,96,200 INR"
+            },
+            "5_bed": {
+              "veg": "1,37,300 INR",
+              "non_veg": "1,64,400 INR",
+              "special": "1,96,200 INR"
+            },
+            "6_bed": {
+              "veg": "1,70,600 INR",
+              "non_veg": "1,79,700 INR",
+              "special": "1,89,800 INR"
+            },
+            "7_bed_APT": {
+              "veg": "1,80,600 INR",
+              "non_veg": "1,39,700 INR",
+              "special": "1,49,800 INR"
+            },
+            "8_bed_APT": {
+              "veg": "1,02,200 INR",
+              "non_veg": "2,12,700 INR",
+              "special": "2,22,600 INR"
+            },
+            "9_bed_APT": {
+              "veg": "1,82,200 INR",
+              "non_veg": "2,04,300 INR",
+              "special": "2,11,100 INR"
+            },
+            "10_bed_APT": {
+              "veg": "1,84,500 INR",
+              "non_veg": "1,94,600 INR",
+              "special": "2,04,100 INR"
+            },
+            "12_bed": {
+              "veg": "1.66 600 INR",
+              "non_veg": "1.78 700 INR",
+              "special": "1.888 00 INR"
+            },
+            "15_bed_Dorama": {
+              "veg": "1.43 100 INR",
+              "non_veg": "1.32 200 INR",
+              "special": "1.420 00 INR"
+            },
+            "16_bed_Dorama": {
+              "veg": "1.48 800 INR",
+              "non_veg": "1.27 900 INR",
+              "special": "1.877 00 INR"
+            },
+            "17_bed_Dorama": {
+              "veg": "1.44 800 INR",
+              "non_veg": "1.63 600 INR",
+              "special": "1.634 00 INR"
+            },
+            "18_bed_Dorama": {
+              "veg": "1.44 800 INR",
+              "non_veg": "1.33 600 INR",
+              "special": "1.334 00 INR"
+            }
+          },
+          "NAC": {
+            "1_bed": {
+              "veg": "1.88 900 INR",
+              "non_veg": "1.88 900 INR",
+              "special": "2.087 00 INR"
+            },
+            "2_bed": {
+              "veg": "1.68 900 INR",
+              "non_veg": "1.68 900 INR",
+              "special": "2.087 00 INR"
+            },
+            "3_bed": {
+              "veg": "1.92 600 INR",
+              "non_veg": "1.92 600 INR",
+              "special": "2.024 00 INR"
+            },
+            "4_bed": {
+              "veg": "1.86 400 INR",
+              "non_veg": "1.86 400 INR",
+              "special": "1.962 00 INR"
+            },
+            "5_bed": {
+              "veg": "1.64 400 INR",
+              "non_veg": "1.64 400 INR",
+              "special": "1.962 00 INR"
+            },
+            "6_bed": {
+              "veg": "1.79 700 INR",
+              "non_veg": "1.79 700 INR",
+              "special": "1.898 00 INR"
+            },
+            "7_bed_APT": {
+              "veg": "1.39 700 INR",
+              "non_veg": "1.39 700 INR",
+              "special": "1.498 00 INR"
+            },
+            "8_bed_APT": {
+              "veg": "2.12 700 INR",
+              "non_veg": "2.12 700 INR",
+              "special": "2.226 00 INR"
+            },
+            "9_bed_APT": {
+              "veg": "2.04 300 INR",
+              "non_veg": "2.04 300 INR",
+              "special": "2.111 00 INR"
+            },
+            "10_bed_APT": {
+              "veg": "1.94 600 INR",
+              "non_veg": "1.94 600 INR",
+              "special": "2.041 00 INR"
+            },
+            "11_bed_APT": {
+              "veg": "1.63 600 INR",
+              "non_veg": "1.63 600 INR",
+              "special": "1.634 00 INR"
+            },
+            "12_bed": {
+              "veg": "1.78 700 INR",
+              "non_veg": "1.78 700 INR",
+              "special": "1.888 00 INR"
+            },
+            "13_bed": {
+              "veg": "1.87 700 INR",
+              "non_veg": "1.87 700 INR",
+              "special": "1.456 00 INR"
+            },
+            "14_bed": {
+              "veg": "1.62 200 INR",
+              "non_veg": "1.62 200 INR",
+              "special": "1.720 00 INR"
+            },
+            "15_bed_Dorama": {
+              "veg": "1.32 200 INR",
+              "non_veg": "1.32 200 INR",
+              "special": "1.420 00 INR"
+            },
+            "16_bed_Dorama": {
+              "veg": "1.27 900 INR",
+              "non_veg": "1.27 900 INR",
+              "special": "1.877 00 INR"
+            },
+            "17_bed_Dorama": {
+              "veg": "1.63 600 INR",
+              "non_veg": "1.63 600 INR",
+              "special": "1.634 00 INR"
+            },
+            "18_bed_Dorama": {
+              "veg": "1,33,600 INR",
+              "non_veg": "1,33,600 INR",
+              "special": "1,33,400 INR"
+            },
+            "19_bed_Dorama": {
+              "veg": "1,47,700 INR",
+              "non_veg": "1,47,700 INR",
+              "special": "1,87600 INR"
+            },
+            "20_bed_Dorama": {
+              "veg": "1,17700 INR",
+              "non_veg": "1,17700 INR",
+              "special": "1,27500 INR"
+            }
+          }
+        },
+        "nri_foreign_category": {
+          "AC": {
+            "2_bed": {
+              "veg": "3,180 USD",
+              "non_veg": "3,250 USD",
+              "special": "3,320 USD"
+            },
+            "4_bed": {
+              "veg": "2,840 USD",
+              "non_veg": "2,910 USD",
+              "special": "2,980 USD"
+            }
+          },
+          "NAC": {
+            "2_bed": {
+              "veg": "2,580 USD",
+              "non_veg": "2,650 USD",
+              "special": "2,720 USD"
+            },
+            "4_bed": {
+              "veg": "2,190 USD",
+              "non_veg": "2,260 USD",
+              "special": "2,330 USD"
+            }
+          }
+        },
+        "research_scholar": {
+          "AC": {
+            "2_bed": {
+              "veg": "1,55,100 INR",
+              "non_veg": "1,66,300 INR",
+              "special": "1,75,700 INR"
+            },
+            "4_bed": {
+              "veg": "1,38,700 INR",
+              "non_veg": "1,49,900 INR",
+              "special": "1,59,300 INR"
+            }
+          },
+          "NAC": {
+            "2_bed": {
+              "veg": "1,28,800 INR",
+              "non_veg": "1,40,000 INR",
+              "special": "1,49,400 INR"
+            },
+            "4_bed": {
+              "veg": "1,17,600 INR",
+              "non_veg": "1,28,800 INR",
+              "special": "1,38,200 INR"
+            }
+          }
+        }
+      }
+    },
+    "hostel_team": {
+      "men": [
+        {
+          "name": "Dr. Batsleigh",
+          "role": "Chief Visitors"
+        },
+        {
+          "name": "Neeraj-Kumar-Misra",
+          "role": "Black Visitors"
+        },
+        {
+          "name": "Mt.Sehranj",
+          "role": "Hostel Supervisor"
+        },
+        {
+          "name": "Dr. Bisarah Reddy",
+          "role": "Visitors-Attendance"
+        },
+        {
+          "name": "Dr. Amit Negi",
+          "role": "Visitors-Attendance"
+        },
+        {
+          "name": "Dr. Anil Negi",
+          "role": "Visitors – Food"
+        },
+        {
+          "name": "Dr. Seoul Sharma",
+          "role": "Visitors – Event"
+        },
+        {
+          "name": "Dr. Arun Kumar Yadav",
+          "role": "Black Visitors"
+        },
+        {
+          "name": "Mr. Rogapathi Ramasamy",
+          "role": "Hostel Supervisor"
+        }
+      ],
+      "ladies": [
+        {
+          "name": "Ms. Malavika Ganta",
+          "role": "Block Warden"
+        },
+        {
+          "name": "Ms.Srilakshmi",
+          "role": "Hostel manager-1"
+        },
+        {
+          "name": "Dr. Lisna P C",
+          "role": "Warden – Discipline"
+        },
+        {
+          "name": "Dr. Kirtika Sahu",
+          "role": "Warden-Attendance"
+        },
+        {
+          "name": "Dr. Misha Chandar",
+          "role": "Warden – Food"
+        },
+        {
+          "name": "Dr. Karishma Bisht",
+          "role": "Warden – Events"
+        }
+      ]
+    }
+  }

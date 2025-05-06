@@ -1,7 +1,7 @@
 .cgpa-container {
   padding: 30px;
   color: #fff;
-  background-color: #121212;
+  background-color: #0e0e0e;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
@@ -10,6 +10,7 @@
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
+  color: #ff9800;
 }
 
 .sem-row {
@@ -19,12 +20,12 @@
   padding: 15px 10px;
   border-radius: 8px;
   margin-bottom: 10px;
-  background-color: #1f1f1f;
-  flex-wrap: wrap; /* important for mobile */
+  background-color: #1a1a1a;
+  flex-wrap: wrap;
 }
 
 .sem-row.alt {
-  background-color: #2a2a2a;
+  background-color: #1f1f1f;
 }
 
 .sem-column {
@@ -38,7 +39,7 @@
 
 .sem-label {
   font-weight: bold;
-  color: #00bcd4;
+  color: #ffb74d;
   text-align: center;
   width: 30%;
   min-width: 100px;
@@ -51,7 +52,7 @@
   border: none;
   width: 80%;
   text-align: center;
-  background: #333;
+  background: #2a2a2a;
   color: white;
   margin-top: 5px;
   font-size: 16px;
@@ -60,7 +61,7 @@
 .calculate-btn {
   display: block;
   margin: 30px auto 0;
-  background-color: #00bcd4;
+  background: linear-gradient(90deg, #ff9800, #ff5722);
   padding: 12px 30px;
   border: none;
   color: white;
@@ -68,18 +69,19 @@
   cursor: pointer;
   font-weight: bold;
   font-size: 18px;
-  transition: background-color 0.3s;
+  transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .calculate-btn:hover {
-  background-color: #00a5b3;
+  background-color: #ff7043;
+  box-shadow: 0 0 10px rgba(255, 152, 0, 0.4);
 }
 
 .cgpa-result {
   margin-top: 30px;
   text-align: center;
   font-size: 24px;
-  color: #00e676;
+  color: #ffa726;
 }
 
 /* ===== Responsive Adjustments ===== */

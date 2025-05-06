@@ -3,7 +3,7 @@
   color: white;
   width: 80%;
   margin: 30px auto;
-  background-color: #121212;
+  background-color: #0a0a0a;
   min-height: 100vh;
   font-family: "Poppins", sans-serif;
 }
@@ -12,19 +12,20 @@
   text-align: center;
   margin-bottom: 20px;
   font-size: 28px;
+  color: #ff9800;
 }
 
 .attendance-format {
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 30px;
-  background-color: #1f1f1f;
-  box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+  background-color: #1c1c1c;
+  box-shadow: 0 0 10px rgba(255, 87, 34, 0.1);
 }
 
 .attendance-format h4 {
   margin-bottom: 15px;
-  color: #00e5ff;
+  color: #ff5722;
   font-weight: 600;
 }
 
@@ -60,23 +61,23 @@
 }
 
 .attendance-format button {
-  background-color: #6c63ff;
+  background-color: #ff5722;
   color: white;
 }
 
 .attendance-format button:hover {
-  background-color: #8b5df2;
+  background-color: #e64a19;
 }
 
 .reset-button {
   background-color: transparent;
-  color: #ff5e5e;
-  border: 1px solid #ff5e5e;
+  color: #ff7043;
+  border: 1px solid #ff7043;
   margin-top: 30px;
 }
 
 .reset-button:hover {
-  background-color: #ff5e5e;
+  background-color: #ff7043;
   color: white;
 }
 
@@ -93,7 +94,7 @@
   font-size: 18px;
   margin-top: 15px;
   font-weight: 500;
-  color: #00e676;
+  color: #66bb6a;
 }
 
 /* ===== Responsive Adjustments ===== */

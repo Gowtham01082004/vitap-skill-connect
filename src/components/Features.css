@@ -1,6 +1,6 @@
 .vit-features {
   padding: 80px 0;
-  background-color: var(--dark);
+  background-color: #121212;
   width: 100%;
 }
 
@@ -18,19 +18,14 @@
 .vit-features-title h2 {
   font-size: 32px;
   margin-bottom: 15px;
-  background: linear-gradient(
-    90deg,
-    var(--primary) 0%,
-    var(--secondary) 50%,
-    var(--tertiary) 100%
-  );
+  background: linear-gradient(90deg, #ff5722 0%, #ff9800 100%);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 .vit-features-title p {
-  color: var(--gray);
+  color: #9e9e9e;
   max-width: 700px;
   margin: 0 auto;
 }
@@ -42,7 +37,6 @@
   gap: 30px;
 }
 
-/* Responsive Grids */
 @media (max-width: 1200px) {
   .vit-features-grid {
     grid-template-columns: repeat(3, 1fr);
@@ -55,7 +49,6 @@
   }
 }
 
-/* 2 cards even for mobiles */
 @media (max-width: 768px) {
   .vit-features-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -91,7 +84,7 @@
   left: 0;
   width: 100%;
   height: 5px;
-  background: linear-gradient(90deg, var(--primary), var(--secondary));
+  background: linear-gradient(90deg, #ff5722, #ff9800);
   z-index: -1;
   transform: translateY(-5px);
   transition: transform 0.3s;
@@ -111,25 +104,21 @@
 .vit-feature-icon {
   width: 70px;
   height: 70px;
-  background: linear-gradient(
-    135deg,
-    rgba(0, 229, 255, 0.1),
-    rgba(108, 99, 255, 0.1)
-  );
+  background: linear-gradient(135deg, rgba(255, 87, 34, 0.1), rgba(255, 152, 0, 0.1));
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-bottom: 25px;
   font-size: 32px;
-  color: white;
-  box-shadow: 0 5px 15px rgba(0, 229, 255, 0.15);
+  color: #ffffff;
+  box-shadow: 0 5px 15px rgba(255, 87, 34, 0.15);
 }
 
 .vit-feature-card h3 {
   font-size: 22px;
   margin-bottom: 15px;
-  color: white;
+  color: #ffffff;
 }
 
 .vit-feature-card p {
@@ -142,20 +131,25 @@
   .vit-feature-card {
     padding: 25px 18px;
   }
+
   .vit-feature-icon {
     font-size: 28px;
     width: 60px;
     height: 60px;
   }
+
   .vit-feature-card h3 {
     font-size: 18px;
   }
+
   .vit-feature-card p {
     font-size: 14px;
   }
+
   .vit-features-title h2 {
     font-size: 24px;
   }
+
   .vit-features-title p {
     font-size: 14px;
   }
@@ -165,14 +159,17 @@
   .vit-feature-card {
     padding: 20px 15px;
   }
+
   .vit-feature-icon {
     font-size: 24px;
     width: 50px;
     height: 50px;
   }
+
   .vit-feature-card h3 {
     font-size: 16px;
   }
+
   .vit-feature-card p {
     font-size: 13px;
   }

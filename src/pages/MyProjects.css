@@ -8,6 +8,7 @@
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   flex-wrap: wrap; /* important for responsiveness */
 }
+
 /* 👑 Leader section */
 .leader-section {
   background: #23233a;
@@ -20,13 +21,13 @@
 
 .leader-section h4 {
   margin-bottom: 0.5rem;
-  color: #4a8cff;
+  color: #ff9800;
 }
 
 /* 👥 Team section */
 .team-title {
   margin-top: 1.5rem;
-  color: #4a8cff;
+  color: #ff9800;
 }
 
 .team-list {
@@ -60,7 +61,7 @@
 }
 
 .project-box h3 {
-  color: #4a8cff;
+  color: #ff9800;
   margin-bottom: 12px;
 }
 
@@ -78,7 +79,7 @@
 }
 
 .project-item.active {
-  background-color: #4a8cff;
+  background-color: #ff9800;
   color: white;
   font-weight: 600;
 }
@@ -102,7 +103,7 @@
   border-radius: 12px;
   padding: 2rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
-  min-width: 300px; /* ensure it doesn't shrink too much */
+  min-width: 300px;
 }
 
 .project-details h2 {
@@ -118,6 +119,7 @@
 .project-details ul {
   padding-left: 1.2rem;
   margin-bottom: 1rem;
+  list-style-type: disc;
 }
 
 .chat-access-note {
@@ -129,30 +131,25 @@
   font-style: italic;
 }
 
+.project-details h4 {
+  margin-top: 1.5rem;
+  color: #ff9800;
+}
+
 .enter-project-btn {
   margin-top: 1.5rem;
   padding: 0.75rem 1.5rem;
   font-size: 1rem;
-  background: #4a8cff;
+  background: #ff9800;
   color: white;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.3s ease;
 }
-.project-details ul {
-  padding-left: 1.2rem;
-  margin-bottom: 1rem;
-  list-style-type: disc;
-}
-
-.project-details h4 {
-  margin-top: 1.5rem;
-  color: #4a8cff;
-}
 
 .enter-project-btn:hover {
-  background: #6ea8ff;
+  background: #fb8c00;
 }
 
 /* ===== Responsive Design ===== */

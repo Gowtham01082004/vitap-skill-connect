@@ -3,6 +3,7 @@
   max-width: 800px;
   margin: 0 auto;
   color: white;
+  font-family: "Poppins", sans-serif;
 }
 
 .settings-container h2 {
@@ -24,7 +25,7 @@
 }
 
 .settings-section h3 {
-  color: #e53935;
+  color: #ff9800;
   margin-bottom: 0.5rem;
 }
 
@@ -35,7 +36,7 @@
 }
 
 .delete-account-btn {
-  background: #e53935;
+  background: #ff5722;
   border: none;
   color: white;
   padding: 10px 20px;
@@ -46,11 +47,11 @@
 }
 
 .delete-account-btn:hover {
-  background: #c62828;
+  background: #e64a19;
 }
 
 .message {
   margin-top: 1rem;
   font-size: 0.95rem;
-  color: #4fc3f7;
+  color: #ffb74d;
 }

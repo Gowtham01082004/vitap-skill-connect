@@ -12,8 +12,6 @@
   top: 0;
   overflow-y: auto;
   transition: all 0.3s ease;
-
-  /* Hide scrollbar */
   scrollbar-width: none; /* Firefox */
 }
 
@@ -29,7 +27,7 @@
   cursor: pointer;
   font-size: 22px;
   padding: 0 15px 15px;
-  color: #00e5ff;
+  color: #ff9900;
 }
 
 .sidebar-container .nav-section-title {
@@ -72,18 +70,18 @@
 }
 
 .sidebar-container .nav-link:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #00e5ff;
+  background-color: rgba(255, 153, 0, 0.08);
+  color: #ff9900;
 }
 
 .sidebar-container .nav-link.active {
   background: linear-gradient(
     90deg,
-    rgba(0, 229, 255, 0.1),
-    rgba(108, 99, 255, 0.05)
+    rgba(255, 153, 0, 0.12),
+    rgba(255, 153, 0, 0.05)
   );
-  color: #00e5ff;
-  border-left: 3px solid #00e5ff;
+  color: #ff9900;
+  border-left: 3px solid #ff9900;
 }
 
 .sidebar-container .nav-icon {
@@ -149,7 +147,7 @@
   }
 
   .hamburger span {
-    background-color: #ffffff;
+    background-color: #ff9900;
     border-radius: 4px;
     height: 3px;
     width: 100%;

@@ -7,7 +7,7 @@
 }
 
 .profile-banner {
-  background: linear-gradient(135deg, #1e88e5, #0d47a1);
+  background: linear-gradient(135deg, #ff9800, #e65100);
   color: white;
   padding: 30px 20px;
   border-radius: 10px;
@@ -24,7 +24,7 @@
   width: 100px;
   height: 100px;
   background: white;
-  color: #1e88e5;
+  color: #ff9800;
   font-size: 36px;
   border-radius: 50%;
   display: flex;
@@ -67,13 +67,13 @@
 }
 
 .save-btn {
-  background: #00e5ff;
+  background: #ff9800;
   color: #000;
   font-weight: 600;
 }
 
 .save-btn:hover {
-  background: #33eaff;
+  background: #f57c00;
   transform: translateY(-1px);
 }
 
@@ -98,7 +98,7 @@
 }
 
 .info-card h3 {
-  color: #00e5ff;
+  color: #ff9800;
   margin-bottom: 15px;
   font-size: 18px;
   border-bottom: 1px solid #333;
@@ -144,7 +144,7 @@
 }
 
 .tag.selected {
-  background: #00e5ff;
+  background: #ff9800;
   color: #000;
   font-weight: 500;
 }
@@ -170,7 +170,7 @@
 }
 
 .project-item.active {
-  background: #4a8cff;
+  background: #ff9800;
   color: white;
   font-weight: 600;
 }
@@ -199,12 +199,12 @@
 }
 
 .enter-project-btn {
-  background: #4a8cff;
+  background: #ff9800;
   color: white;
 }
 
 .enter-project-btn:hover {
-  background: #6ea8ff;
+  background: #f57c00;
 }
 
 .delete-project-btn {
@@ -238,7 +238,7 @@
 }
 
 .edit-section input:focus {
-  border-color: #00e5ff;
+  border-color: #ff9800;
   outline: none;
 }
 
@@ -257,12 +257,12 @@
 }
 
 .skill-input:focus {
-  border-color: #00e5ff;
+  border-color: #ff9800;
   outline: none;
 }
 
 .add-skill-btn {
-  background: #00e5ff;
+  background: #ff9800;
   color: #000;
   border: none;
   border-radius: 0 6px 6px 0;
@@ -272,7 +272,7 @@
 }
 
 .add-skill-btn:hover {
-  background: #33eaff;
+  background: #f57c00;
 }
 
 /* Responsive */

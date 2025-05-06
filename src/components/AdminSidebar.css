@@ -9,6 +9,7 @@
   padding: 20px;
   box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
   z-index: 90;
+  font-family: "Poppins", sans-serif;
 }
 
 .sidebar-title {
@@ -16,7 +17,7 @@
   font-weight: 600;
   margin-bottom: 30px;
   text-align: center;
-  color: #6c63ff;
+  color: #ff9800;
 }
 
 .sidebar-nav {
@@ -36,11 +37,11 @@
 
 .sidebar-nav a:hover {
   background-color: #2a2e3a;
-  color: #ffffff;
+  color: #fff;
 }
 
 .sidebar-nav a.active {
-  background-color: #6c63ff;
-  color: white;
+  background-color: #ff9800;
+  color: black;
   font-weight: 600;
 }

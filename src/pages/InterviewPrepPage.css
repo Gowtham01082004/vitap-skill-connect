@@ -1,9 +1,9 @@
 :root {
-  --primary: #00bcd4;
-  --primary-light: #26c6da;
-  --bg-dark: #1e1e1e;
-  --text-light: #ccc;
-  --text-white: #fff;
+  --primary: #ff9800;           /* Orange */
+  --primary-light: #ffb74d;     /* Light Orange */
+  --bg-dark: #1e1e1e;           /* Dark background */
+  --text-light: #ccc;           /* Light text */
+  --text-white: #fff;           /* White text */
   --border: rgba(255, 255, 255, 0.08);
 }
 
@@ -67,7 +67,7 @@
   font-size: 15px;
 }
 
-/* Optional Dropdown Styles (If Used Elsewhere) */
+/* Optional Dropdown Styles */
 .dropdown-items {
   list-style: none;
   padding-left: 20px;

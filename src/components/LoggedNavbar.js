@@ -30,9 +30,8 @@ const LoggedNavbar = ({ onSidebarToggle }) => {
 
         {/* Logo */}
         <Link to="/dashboard" className="logo">
-          <span className="logo-icon">🎓</span>
           <h1>
-            VIT<span className="highlight">Assist</span>
+            VIT AP<span className="highlight">SkillConnect</span>
           </h1>
         </Link>
 

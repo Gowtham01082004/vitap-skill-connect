@@ -1,7 +1,5 @@
-/* Roadmap.css */
-
 .roadmap-container {
-  background-color: #1f2937;
+  background-color: #0e0e0e;
   padding: 2.5rem;
   border-radius: 20px;
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
@@ -15,13 +13,13 @@
 }
 
 .roadmap-header h2 {
-  color: #60a5fa;
+  color: #ff9800;
   font-size: 2.4rem;
   margin-bottom: 0.5rem;
 }
 
 .roadmap-header p {
-  color: #9ca3af;
+  color: #bbb;
   font-size: 1.1rem;
   max-width: 600px;
   margin: 0 auto;
@@ -34,8 +32,8 @@
 }
 
 .roadmap-card {
-  background-color: #111827;
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background-color: #1a1a1a;
+  border: 1px solid rgba(255, 255, 255, 0.05);
   padding: 1.8rem;
   border-radius: 16px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
@@ -46,13 +44,13 @@
 
 .roadmap-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 12px 30px rgba(255, 152, 0, 0.3);
 }
 
 .roadmap-icon {
   font-size: 2.2rem;
-  background-color: rgba(99, 102, 241, 0.15);
-  color: #6366f1;
+  background-color: rgba(255, 152, 0, 0.15);
+  color: #ff9800;
   width: 56px;
   height: 56px;
   border-radius: 14px;
@@ -69,7 +67,7 @@
 }
 
 .roadmap-card p {
-  color: #cbd5e1;
+  color: #e0e0e0;
   font-size: 1rem;
   margin-bottom: 1rem;
   line-height: 1.5;
@@ -84,14 +82,14 @@
   padding-left: 1.2rem;
   margin-bottom: 0.4rem;
   font-size: 0.95rem;
-  color: #d1d5db;
+  color: #cccccc;
 }
 
 .milestone::before {
   content: "•";
   position: absolute;
   left: 0;
-  color: #38bdf8;
+  color: #ffb74d;
   font-size: 1rem;
   line-height: 1;
 }
@@ -99,7 +97,7 @@
 .explore-btn {
   display: inline-block;
   margin-top: 1rem;
-  background: linear-gradient(90deg, #3b82f6, #6366f1);
+  background: linear-gradient(90deg, #ff9800, #ff5722);
   color: white;
   border: none;
   padding: 0.55rem 1.2rem;
@@ -112,7 +110,7 @@
 
 .explore-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
 }
 
 @media (max-width: 640px) {

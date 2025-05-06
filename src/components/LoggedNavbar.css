@@ -1,8 +1,8 @@
 :root {
-  --primary: #00e5ff;
-  --primary-dark: #00b8d4;
-  --secondary: #ff3d81;
-  --tertiary: #6c63ff;
+  --primary: #ff9900;
+  --primary-dark: #cc7a00;
+  --secondary: #ff3d00;
+  --tertiary: #ff6600;
   --dark: #121212;
   --darker: #0a0a0a;
   --light: #f8f9fa;
@@ -18,7 +18,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: 0 2px 15px rgba(0, 229, 255, 0.15);
+  box-shadow: 0 2px 15px rgba(255, 153, 0, 0.15);
   backdrop-filter: blur(10px);
   width: 100%;
 }
@@ -144,6 +144,7 @@
 .logout-btn:hover {
   background-color: #c3002f;
 }
+
 .nav-hamburger {
   display: none;
   flex-direction: column;
@@ -151,19 +152,19 @@
   gap: 5px;
   margin-right: 20px;
 }
+
 .nav-hamburger span {
   width: 25px;
   height: 3px;
   background: white;
   border-radius: 2px;
 }
+
 @media (max-width: 768px) {
   .nav-hamburger {
     display: flex;
   }
-}
 
-@media (max-width: 768px) {
   .header-container {
     padding: 0 15px;
     flex-direction: row;
@@ -175,11 +176,11 @@
   }
 
   .user-name {
-    display: none; /* Hide user name on mobile */
+    display: none;
   }
 
   .notification-icon {
-    display: none; /* Hide notification icon if you want a cleaner navbar */
+    display: none;
   }
 
   .logout-btn {

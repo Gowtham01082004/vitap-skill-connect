@@ -11,6 +11,7 @@
   left: 0;
   right: 0;
   z-index: 100;
+  font-family: "Poppins", sans-serif;
 }
 
 .admin-logo {
@@ -24,10 +25,11 @@
 .logo-icon {
   margin-right: 10px;
   font-size: 22px;
+  color: #ff9800;
 }
 
 .logo-text span {
-  color: #00e5ff;
+  color: #ff9800;
 }
 
 .admin-actions {
@@ -38,21 +40,20 @@
 
 .admin-email {
   font-size: 14px;
-  color: #b0b0b0;
+  color: #ccc;
 }
 
 .admin-logout-btn {
-  background-color: #ff4081;
-  color: white;
+  background-color: #ff9800;
+  color: black;
   border: none;
   border-radius: 6px;
   padding: 8px 16px;
-  font-family: "Poppins", sans-serif;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .admin-logout-btn:hover {
-  background-color: #e91e63;
+  background-color: #fb8c00;
 }

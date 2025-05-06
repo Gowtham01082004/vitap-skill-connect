@@ -32,6 +32,7 @@
   color: white;
   font-weight: 600;
 }
+
 /* Hide number input spinner arrows */
 .no-spinner input[type="number"]::-webkit-outer-spin-button,
 .no-spinner input[type="number"]::-webkit-inner-spin-button {
@@ -59,11 +60,11 @@
 }
 
 .stepper .MuiStepIcon-root.Mui-active {
-  color: #8b5df2 !important;
+  color: #ff9800 !important;
 }
 
 .stepper .MuiStepIcon-root.Mui-completed {
-  color: #00e5ff !important;
+  color: #ffb74d !important;
 }
 
 .stepper .MuiStepLabel-label {
@@ -73,13 +74,13 @@
 }
 
 .stepper .MuiStepLabel-label.Mui-active {
-  color: #8b5df2 !important;
+  color: #ff9800 !important;
   opacity: 1;
   font-weight: bold;
 }
 
 .stepper .MuiStepLabel-label.Mui-completed {
-  color: #00e5ff !important;
+  color: #ffb74d !important;
   opacity: 1;
 }
 
@@ -104,7 +105,7 @@
 }
 
 .custom-input .MuiInputLabel-root.Mui-focused {
-  color: #8b5df2 !important;
+  color: #ff9800 !important;
 }
 
 .custom-input .MuiOutlinedInput-notchedOutline {
@@ -114,7 +115,7 @@
 .custom-input
   .MuiOutlinedInput-root.Mui-focused
   .MuiOutlinedInput-notchedOutline {
-  border-color: #8b5df2 !important;
+  border-color: #ff9800 !important;
 }
 
 .custom-input .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline {
@@ -123,7 +124,7 @@
 
 /* Chips (Skills) */
 .custom-chip {
-  background-color: #2a2e3a !important;
+  background-color: #2a2a2a !important;
   color: white !important;
   border: 1px solid #555 !important;
   font-weight: 500;
@@ -140,7 +141,7 @@
 
 /* Buttons Modern */
 .MuiButton-containedPrimary {
-  background-color: #8b5df2 !important;
+  background-color: #ff9800 !important;
   color: white !important;
   font-weight: bold;
   border-radius: 8px;
@@ -149,7 +150,7 @@
 }
 
 .MuiButton-containedPrimary:hover {
-  background-color: #a78bfa !important;
+  background-color: #ffa726 !important;
 }
 
 /* ===== Responsive Design ===== */

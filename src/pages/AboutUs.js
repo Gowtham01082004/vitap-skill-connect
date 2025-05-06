@@ -1,24 +1,24 @@
 import React from "react";
 import "./AboutUs.css";
-import founder1 from "../assets/images/Abhilash.jpg";
-import founder2 from "../assets/images/palla.jpg";
-import founder3 from "../assets/images/sam.jpg";
+import founder1 from "../assets/images/Gowtham.jpg";
+import founder2 from "../assets/images/rohith.jpg";
+import founder3 from "../assets/images/vyshnav.jpg";
 // Add the actual image path for Samhitha
 
 const AboutUs = () => {
   const founders = [
     {
-      name: "Palla Suhaas",
+      name: "G Sri Sai Rohith",
       image: founder2,
       role: "Co-Founder & CEO",
     },
     {
-      name: "Samhitha Revanur",
+      name: "J Sai Vyshnav",
       image: founder3,
       role: "Co-Founder & CEO",
     },
     {
-      name: "Kaleru Abhilash",
+      name: "V Gowtham",
       image: founder1,
       role: "Co-Founder & CEO",
     },
@@ -77,7 +77,7 @@ const AboutUs = () => {
               <img src={founder.image} alt={founder.name} />
               <h4>{founder.name}</h4>
               <p>{founder.role}</p>
-              <p>Software Engineer | AI Enthusiast | Community Builder</p>
+              <p>Software Engineer  | Community Builder</p>
             </div>
           ))}
         </div>

@@ -30,11 +30,9 @@ const Navbar = () => {
     <nav className={`navbar ${isScrolled ? "scrolled" : ""}`}>
       <div className="navbar-container">
         <div className="navbar-logo-container" onClick={() => navigate("/")}>
-          <span className="logo-icon" role="img" aria-label="logo">
-            🎓
-          </span>
+         
           <h1 className="logo-text">
-            VIT<span className="highlight">Assist</span>
+            VIT-AP<span className="highlight" > SkillConnect</span>
           </h1>
         </div>
 
