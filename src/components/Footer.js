@@ -16,7 +16,7 @@ const Footer = () => {
           </div>
           <p>
             SkillConnect is a comprehensive platform designed to support VIT-AP
-            students and faculty with AI-powered assistance, project
+            studentswith AI-powered assistance, project
             collaboration opportunities, and academic resources.
           </p>
           <div className="social-links-v2">
@@ -70,7 +70,7 @@ const Footer = () => {
       </div>
 
       <div className="footer-copyright-v2">
-        <p>VITAssist © 2025. All Rights Reserved.</p>
+        <p>VITAP-SkillConnect © 2025. All Rights Reserved.</p>
       </div>
     </footer>
   );
