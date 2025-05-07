@@ -80,7 +80,7 @@ const ChatbotPage = () => {
   return (
     <div className="chatbot-full-container">
       <div className="chatbot-welcome">
-        <h3>Welcome to VITAssist AI!</h3>
+        <h3>Welcome to VITAP SkillConnect AI!</h3>
         <p>
           I'm here to help with your academic questions, schedule planning,
           project information, and more. How can I assist you today?
