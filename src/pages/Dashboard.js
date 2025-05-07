@@ -89,7 +89,7 @@ const Dashboard = () => {
       <main className="main-content">
         <div className="dashboard-header">
           <h2>Welcome Back, {profile?.name} 👋</h2>
-          <p>Connect, collaborate, and create with VITAssist tools.</p>
+          <p>Connect, collaborate, and create with VITAP SkillConnect tools.</p>
         </div>
 
         <div className="stats-row">
@@ -144,7 +144,7 @@ const Dashboard = () => {
           {/* Chatbot */}
           <div className="card chatbot-card">
             <div className="card-header">
-              <div className="card-title">VITAssist Chatbot</div>
+              <div className="card-title">VITAP SkillConnect Chatbot</div>
             </div>
             <div className="chatbot-body">
               {messages.map((msg, idx) => (
